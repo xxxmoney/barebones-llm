@@ -1,0 +1,25 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "xxxmoney",email = "xxxmoney111@gmail.com"}
+]
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastapi (>=0.136.1,<0.137.0)",
+    "uvicorn (>=0.46.0,<0.47.0)",
+    "pywebview (>=6.2.1,<7.0.0)",
+    "requests (>=2.33.1,<3.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "src"}]
+
+[project.scripts]
+dev = "src.main:main"
+
