@@ -1,23 +1,34 @@
-import { useState } from 'react'
-import './App.css'
+import {useEffect,} from 'react';
+import './App.css';
+import {TestApi} from './api/test.api.ts';
 
 function App() {
-  const [count, setCount] = useState(0)
+  async function getSampleData() {
+    const response = await TestApi.getSampleData();
+    console.log(response.data);
+  }
+  
+  useEffect(() => {
+    console.log('Loaded');
+
+    return () => {
+      console.log('Unloaded');
+    };
+  });
 
   return (
     <>
       <header></header>
-
+        
       <main>
-          <h1>Self Learning App</h1>
+        <h1>Self Learning App</h1>
 
-          <button onClick={() => setCount(count + 1)}>CLICK</button>
-          <p>Count: {count}</p>
+        <button onClick={() => getSampleData()}>GET DATA</button>
       </main>
 
       <footer></footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

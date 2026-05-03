@@ -18,5 +18,16 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+    rules: {
+      'indent': ['error', 2],
+      'quotes': ['error', 'single'],
+      'semi': ['error', 'always'],
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }
+      ]
+    }
   },
 ])
