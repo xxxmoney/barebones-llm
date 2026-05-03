@@ -45,7 +45,7 @@ def main():
         print("Starting desktop app...")
 
         # TODO: change url, this is just for development
-        url = "http://localhost:5173" if IS_DEBUG else "http://localhost:5000"
+        url = "http://localhost:5173" if IS_DEBUG else None
         webview.create_window(
             "Self Learning App",
             url,
