@@ -5,7 +5,7 @@
 - Set up [Poetry](https://python-poetry.org) on your machine
 - There is already an included `poetry.toml` to set up local .venv in the project
 - Run `poetry install` - sets up .venv and downloads dependencies
-- Start backend with `poetry run dev`
+- Start with `poetry run dev`
 
 ## Solving issues with .venv
 - Check the current .venv `poetry env info --path`

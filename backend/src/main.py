@@ -1,4 +1,3 @@
-from http.cookiejar import debug
 import webview
 import threading
 import uvicorn
@@ -6,6 +5,7 @@ import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.constants import IS_DEBUG
+from src.routes.test import test_router
 
 app = FastAPI()
 app.add_middleware(
@@ -15,20 +15,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/test/")
-def test_connection():
-    return {
-        "message": "Backend is running, baby!"
-    }
+app.include_router(test_router)
 
-@app.get("/api/test/sample")
-def get_sample_data():
-    return {
-        "id": 67,
-        "guid": "123e4567-e89b-12d3-a456-426614174000",
-        "name": "Sample Data",
-        "description": "This is a sample data response from the backend"
-    }
 
 def start_fastapi():
     uvicorn.run(app, host="127.0.0.1", port=5000, log_level="info")
