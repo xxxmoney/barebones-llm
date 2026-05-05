@@ -3,13 +3,13 @@ from fastapi import APIRouter
 
 test_router = APIRouter(prefix="/api/test")
 
-@test_router.get("/api/test/")
+@test_router.get("/")
 def test_connection():
     return {
         "message": "Backend is running, baby!"
     }
 
-@test_router.get("/api/test/sample")
+@test_router.get("/sample")
 def get_sample_data():
     return {
         "id": 67,

@@ -44,6 +44,18 @@ typing_extensions = {version = ">=4.5", markers = "python_version < \"3.13\""}
 trio = ["trio (>=0.32.0)"]
 
 [[package]]
+name = "argparse"
+version = "1.4.0"
+description = "Python command-line parsing library"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "argparse-1.4.0-py2.py3-none-any.whl", hash = "sha256:c31647edb69fd3d465a847ea3157d37bed1f95f19760b11a47aa91c04b666314"},
+    {file = "argparse-1.4.0.tar.gz", hash = "sha256:62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4"},
+]
+
+[[package]]
 name = "bottle"
 version = "0.13.4"
 description = "Fast and simple WSGI-framework for small web-applications."
@@ -898,4 +910,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = "3.12"
-content-hash = "e21f592224193dcd2dc3385c800486896d723f725777ee8a88a2400c8e3d8e70"
+content-hash = "9b637c4598a8f91e4f1ccb83b079f8801abed5e2b8752fe1bd06ac7d2705df63"
