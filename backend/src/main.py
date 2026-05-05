@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 print(args)
 
-def start_fastapi(use_thread: bool) -> Thread | None:
+def start_api(use_thread: bool) -> Thread | None:
     app = FastAPI()
 
     app.add_middleware(
@@ -55,14 +55,14 @@ def start_webview() -> None:
     webview.start(debug=IS_DEBUG)
 
 def main() -> None:
-    start_fastapi(True)
+    start_api(True)
 
     time.sleep(1)
 
     start_webview()
 
 def main_backend_only() -> None:
-    start_fastapi(False)
+    start_api(False)
 
 if __name__ == "__main__":
     if args.backend_only:
