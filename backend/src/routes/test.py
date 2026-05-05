@@ -3,7 +3,7 @@ from fastapi import APIRouter
 
 test_router = APIRouter(prefix="/api/test")
 
-@test_router.get("/")
+@test_router.get("")
 def test_connection():
     return {
         "message": "Backend is running, baby!"
