@@ -1,14 +1,14 @@
 import argparse
 from threading import Thread
-
 import webview
 import threading
 import uvicorn
 import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.constants import IS_DEBUG
-from src.routes.test import test_router
+from src.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
+from src.routes.test import test_route
+from src.routes.llm import llm_route
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
@@ -26,10 +26,11 @@ def start_api(use_thread: bool) -> Thread | None:
         allow_headers=["*"],
     )
 
-    app.include_router(test_router)
+    app.include_router(test_route)
+    app.include_router(llm_route)
 
     def run():
-        uvicorn.run(app, host="127.0.0.1", port=5000, log_level="info")
+        uvicorn.run(app, host="127.0.0.1", port=BACKEND_PORT, log_level="info")
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)
@@ -43,8 +44,7 @@ def start_api(use_thread: bool) -> Thread | None:
 def start_webview() -> None:
     print("Starting desktop app...")
 
-    # TODO: change url, this is just for development
-    url = "http://localhost:5173" if IS_DEBUG else None
+    url = "http://127.0.0.1:{}".format(WEBVIEW_PORT)
     webview.create_window(
         "Self Learning App",
         url,

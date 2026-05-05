@@ -1,15 +1,15 @@
 
 from fastapi import APIRouter
 
-test_router = APIRouter(prefix="/api/test")
+test_route = APIRouter(prefix="/api/test")
 
-@test_router.get("")
+@test_route.get("")
 def test_connection():
     return {
         "message": "Backend is running, baby!"
     }
 
-@test_router.get("/sample")
+@test_route.get("/sample")
 def get_sample_data():
     return {
         "id": 67,
