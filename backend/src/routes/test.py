@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter
 
-test_route = APIRouter(prefix="/api/test")
+test_route = APIRouter(prefix="/api/test", tags=["Test"])
 
 @test_route.get("")
 def test_connection():

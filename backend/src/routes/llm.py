@@ -2,7 +2,7 @@
 from fastapi import APIRouter
 from openai import OpenAI
 
-llm_route = APIRouter(prefix="/api/llm")
+llm_route = APIRouter(prefix="/api/llm", tags=["LLM"])
 
 client = OpenAI(
     base_url="http://localhost:1234/v1", # TODO: move to some configuration - used based?

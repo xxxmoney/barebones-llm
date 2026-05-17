@@ -14,23 +14,19 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
 args = parser.parse_args()
 
-print(args)
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(test_route)
+app.include_router(llm_route)
 
 def start_api(use_thread: bool) -> Thread | None:
-    app = FastAPI()
-
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-    app.include_router(test_route)
-    app.include_router(llm_route)
-
     def run():
-        uvicorn.run(app, host="127.0.0.1", port=BACKEND_PORT, log_level="info")
+        uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=True)
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)
