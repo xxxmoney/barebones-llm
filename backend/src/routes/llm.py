@@ -1,16 +1,14 @@
 
 from fastapi import APIRouter
-from openai import OpenAI
+import src.services.llm_provider as llm_provider
+from src.dtos.llm.completion import CompletionRequest
 
 llm_route = APIRouter(prefix="/api/llm", tags=["LLM"])
 
-client = OpenAI(
-    base_url="http://localhost:1234/v1", # TODO: move to some configuration - used based?
-    api_key="lm-studio", # TODO: move to some configuration - used based?
-)
-
-@llm_route.get("")
+@llm_route.get("/models")
 def get_models():
-    models = client.models.list()
+    return llm_provider.get_models()
 
-    return models
+@llm_route.post("/chat-completion")
+def get_chat_completion(completion: CompletionRequest):
+    return llm_provider.get_chat_completion(completion)
