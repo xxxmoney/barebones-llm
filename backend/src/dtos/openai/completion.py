@@ -9,4 +9,4 @@ class CompletionRequest(BaseModel):
     model: str
     messages: List[ChatCompletionDeveloperMessageParam | ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam | ChatCompletionToolMessageParam | ChatCompletionFunctionMessageParam]
     temperature: float
-    max_tokens: int | None
+    max_tokens: int
