@@ -1,11 +1,19 @@
-from http.cookiejar import debug
+import argparse
+from threading import Thread
 import webview
 import threading
 import uvicorn
 import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.constants import IS_DEBUG
+from src.constants.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
+from src.routes.llm import llm_route
+from src.routes.test import test_route
+from src.routes.openai import openai_route
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--backend-only", type=bool, default=False)
+args = parser.parse_args()
 
 app = FastAPI()
 app.add_middleware(
@@ -14,46 +22,49 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(test_route)
+app.include_router(openai_route)
+app.include_router(llm_route)
 
-@app.get("/api/test/")
-def test_connection():
-    return {
-        "message": "Backend is running, baby!"
-    }
+def start_api(use_thread: bool) -> Thread | None:
+    def run():
+        # Switch to reload=True for live realod - from my experience kinda buggy - caused hanging process for port, etc
+        uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=False)
 
-@app.get("/api/test/sample")
-def get_sample_data():
-    return {
-        "id": 67,
-        "guid": "123e4567-e89b-12d3-a456-426614174000",
-        "name": "Sample Data",
-        "description": "This is a sample data response from the backend"
-    }
+    if use_thread:
+        api_thread = threading.Thread(target=run, daemon=True)
+        api_thread.start()
 
-def start_fastapi():
-    uvicorn.run(app, host="127.0.0.1", port=5000, log_level="info")
+        return api_thread
+    else:
+        run()
+        return None
 
-def main():
-    # Run the FastAPI server in a separate thread
-    server_thread = threading.Thread(target=start_fastapi, daemon=True)
-    server_thread.start()
+def start_webview() -> None:
+    print("Starting desktop app...")
 
-    # To make sure webview boots up correctly with frontend running
+    webview.create_window(
+        "Self Learning App",
+        f"http://127.0.0.1:{WEBVIEW_PORT}",
+        width=1000,
+        height=700,
+        min_size=(600, 400)
+    )
+    webview.start(debug=IS_DEBUG)
+
+def main() -> None:
+    start_api(True)
+
     time.sleep(1)
 
-    try:
-        print("Starting desktop app...")
+    start_webview()
 
-        # TODO: change url, this is just for development
-        url = "http://localhost:5173" if IS_DEBUG else None
-        webview.create_window(
-            "Self Learning App",
-            url,
-            width=1000,
-            height=700,
-            min_size=(600, 400)
-        )
-        webview.start(debug=IS_DEBUG)
-    except Exception as e:
-        print(f"Error while starting web view: {e}")
-        #server_thread.join()
+def main_backend_only() -> None:
+    start_api(False)
+
+if __name__ == "__main__":
+    if args.backend_only:
+        main_backend_only()
+    else:
+        main()
+

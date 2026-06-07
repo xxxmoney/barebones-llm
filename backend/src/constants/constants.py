@@ -1,0 +1,7 @@
+
+APP_NAME = "Self Learning App"
+
+IS_DEBUG = True
+
+WEBVIEW_PORT = 5173
+BACKEND_PORT = 5000
