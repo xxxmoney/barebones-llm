@@ -16,7 +16,7 @@
   - If you experience that the app's code is not updated even after restart, the process is probably stuck
   - Try using these scripts:
     - `kill_process.ps1` - tries to kill the process it can find by port 5000
-    - `kill_processes.ps1` - broader version of the above
+    - `list_processes.ps1` - get to know which processes may be used by port 5000 (listening)
     - `restart_winnat.ps1` if neither of them works, try using this one
     - finally, if none works, restart the system
 

@@ -28,7 +28,8 @@ app.include_router(llm_route)
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():
-        uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=True)
+        # Switch to reload=True for live realod - from my experience kinda buggy - caused hanging process for port, etc
+        uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=False)
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)

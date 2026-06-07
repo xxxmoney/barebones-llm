@@ -631,6 +631,18 @@ files = [
 ]
 
 [[package]]
+name = "platformdirs"
+version = "4.10.0"
+description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "platformdirs-4.10.0-py3-none-any.whl", hash = "sha256:fb516cdb12eb0d857d0cd85a7c57cea4d060bee4578d6cf5a14dfdf8cbf8784a"},
+    {file = "platformdirs-4.10.0.tar.gz", hash = "sha256:31e761a6a0ca04faf7353ea759bdba55652be214725111e5aac52dfa29d4bef7"},
+]
+
+[[package]]
 name = "proxy-tools"
 version = "0.1.0"
 description = "Proxy Implementation"
@@ -1150,4 +1162,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = "3.12"
-content-hash = "cc66c2f879b5fedc54d0b561e64c0648d6d960598c0d4600665d8f341ea9ff2d"
+content-hash = "056af2b7a19417b8eacf3a6c8ba4b77ca96a8768d1075ef473461d4f6f216f1d"
