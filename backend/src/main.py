@@ -6,7 +6,7 @@ import uvicorn
 import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
+from src.constants.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
 from src.routes.test import test_route
 from src.routes.llm import llm_route
 
@@ -40,10 +40,9 @@ def start_api(use_thread: bool) -> Thread | None:
 def start_webview() -> None:
     print("Starting desktop app...")
 
-    url = "http://127.0.0.1:{}".format(WEBVIEW_PORT)
     webview.create_window(
         "Self Learning App",
-        url,
+        f"http://127.0.0.1:{WEBVIEW_PORT}",
         width=1000,
         height=700,
         min_size=(600, 400)
