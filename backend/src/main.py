@@ -7,6 +7,7 @@ import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.constants.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
+from src.routes.llm import llm_route
 from src.routes.test import test_route
 from src.routes.openai import openai_route
 
@@ -23,6 +24,7 @@ app.add_middleware(
 )
 app.include_router(test_route)
 app.include_router(openai_route)
+app.include_router(llm_route)
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():
