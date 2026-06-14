@@ -1,8 +1,4 @@
-from dataclasses import asdict
-
 from fastapi import APIRouter
-
-from src.services import persistence_manager
 
 test_route = APIRouter(prefix="/api/test", tags=["Test"])
 
