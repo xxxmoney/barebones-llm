@@ -8,7 +8,7 @@ def test_connection():
         "message": "Backend is running, baby!"
     }
 
-@test_route.get("/api/sample")
+@test_route.get("/sample")
 def get_sample_data():
     return {
         "id": 67,
