@@ -1,9 +1,18 @@
+import {Link} from 'react-router';
 
 function HomeRoute() {
 
   return (
     <>
-      <h1>Home</h1>
+      <div className="hero">
+        <div className="hero-content text-center">
+          <div className="">
+            <h1 className="text-heading">Self Learning App</h1>
+            <p className="py-lg">Do you want to learn, but don't know how? <br/> Try me now! <br/> Simple as it can get.</p>
+            <Link to="/chat" className="btn btn-primary">LET'S DO IT</Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
