@@ -1,32 +1,27 @@
-import {useEffect,} from 'react';
-import './App.css';
-import {TestApi} from './api/test.api.ts';
+import {BrowserRouter, Routes, Route} from 'react-router';
+import HomeRoute from './routes/home/HomeRoute.tsx';
+import ChatRoute from './routes/chat/ChatRoute.tsx';
 
 function App() {
-  async function getSampleData() {
-    const response = await TestApi.getSampleData();
-    console.log(response.data);
-  }
-  
-  useEffect(() => {
-    console.log('Loaded');
-
-    return () => {
-      console.log('Unloaded');
-    };
-  });
 
   return (
     <>
-      <header></header>
-        
-      <main>
-        <h1>Self Learning App</h1>
+      <div>
+        <header>
+          {/* TODO: navigation */}
+        </header>
 
-        <button onClick={() => getSampleData()}>GET DATA</button>
-      </main>
+        <main>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomeRoute />} />
+              <Route path="/chat" element={<ChatRoute />} />
+            </Routes>
+          </BrowserRouter>
+        </main>
 
-      <footer></footer>
+        <footer></footer>
+      </div>
     </>
   );
 }

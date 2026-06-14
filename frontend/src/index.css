@@ -1,18 +1,4 @@
-
-:root {
-    --primary-color: #4CAF50;
-    --secondary-color: #f44336;
-    --background-color: #302929;
-    --text-color: #333;
-}
-
-*, *:before, *:after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    font-family: "Comic Sans MS", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
 }
