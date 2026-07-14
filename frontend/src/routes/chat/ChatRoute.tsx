@@ -3,7 +3,7 @@ function ChatRoute() {
 
   return (
     <>
-      <h2>Chat</h2>
+      <h2 className="text-heading text-center">Chat</h2>
     </>
   );
 }
