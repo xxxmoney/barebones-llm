@@ -22,7 +22,7 @@ function AppLayout() {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-sm">
         <header className="pb-md">
           <nav className="navbar p-0">
             <div className="flex-1">

@@ -13,13 +13,13 @@ export interface Message {
 function Messages({ messages }: MessagesProps) {
   return (
     <>
-      <div className="w-full">
-        {messages.map(message =>
-          <span className={`chat chat-${message.position}`}>
+      <div>
+        {messages.map((message, index) =>
+          <div key={index} className={`chat chat-${message.position}`}>
             <p className="chat-bubble">
               {message.text}
             </p>
-          </span>
+          </div>
         )}
       </div>
     </>
