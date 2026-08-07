@@ -10,8 +10,8 @@ interface ChatProps {
 function Chat({ name, messages, submit }: ChatProps) {
   return (
     <>
-      <section className="mx-auto max-w-[40rem]">
-        <h2>{name}</h2>
+      <section className="mx-auto flex flex-col gap-lg max-w-[40rem]">
+        <h2 className="text-heading text-center">{name}</h2>
 
         <Messages messages={messages} />
         <TextSubmit submit={submit} />

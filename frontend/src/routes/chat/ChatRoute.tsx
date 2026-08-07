@@ -16,8 +16,6 @@ function ChatRoute() {
 
   return (
     <>
-      <h2 className="text-heading text-center">Chat</h2>
-
       <Chat name={name} messages={mappedMessages} submit={submitMessage} />
     </>
   );

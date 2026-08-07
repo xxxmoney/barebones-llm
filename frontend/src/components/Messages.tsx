@@ -10,6 +10,7 @@ export interface Message {
     date: DateTime
 }
 
+// Tailwind No-Purge: chat-start chat-end
 function Messages({ messages }: MessagesProps) {
   return (
     <>
