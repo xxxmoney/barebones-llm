@@ -1,22 +1,21 @@
-import type {MessageDto} from '../dtos/chat/message.dto.ts';
+import Messages, {type Message} from './Messages.tsx';
+import TextSubmit from './TextSubmit.tsx';
 
-interface Props {
-  messages: MessageDto[];
+interface ChatProps {
+    name: string;
+    messages: Message[];
+    submit: (message: string) => Promise<void>;
 }
 
-function Chat({ messages }: Props) {
-
+function Chat({ name, messages, submit }: ChatProps) {
   return (
     <>
-      <div className="w-full mx-auto max-w-[40rem]">
-        {messages.map(message =>
-          <div className={`chat chat-${message.position}`}>
-            <div className="chat-bubble">
-              {message.text}
-            </div>
-          </div>
-        )}
-      </div>
+      <section className="mx-auto max-w-[40rem]">
+        <h2>{name}</h2>
+
+        <Messages messages={messages} />
+        <TextSubmit submit={submit} />
+      </section>
     </>
   );
 }

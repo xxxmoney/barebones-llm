@@ -1,5 +1,8 @@
-﻿
+﻿import type {DateTime} from 'ts-luxon';
+
 export interface MessageDto {
+  id: string;
   text: string;
-  position: 'start' | 'end';
+  role: string;
+  date: DateTime;
 }

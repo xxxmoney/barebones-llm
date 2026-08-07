@@ -1,6 +1,24 @@
 import {Link, Outlet} from 'react-router';
+import {useEffect} from 'react';
+import {useChatStore} from '../../stores/chat.store.ts';
 
 function AppLayout() {
+  const getChats = useChatStore(state => state.getChats);
+
+  // Single load on app start
+  async function load() {
+    console.log('Loading chats...');
+
+    try {
+      await getChats();
+    } catch (error) {
+      console.error('Error loading chats:', error);
+    }
+  }
+
+  useEffect(() => {
+    load().then();
+  }, []);
 
   return (
     <>
