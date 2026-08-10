@@ -8,17 +8,15 @@ import {DateTime} from 'ts-luxon';
 interface ChatStore {
     loading: boolean;
     chats: ChatDto[]
-    currentChatId?: string
 
     getChats: () => Promise<void>
-    submitMessage: (message: string) => Promise<void>
+    submitMessage: (chatId: string, message: string) => Promise<void>
 }
 
-export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
+export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
   loading: false,
   chats: [],
-  currentChatId: undefined,
-    
+
   getChats: async () => {
     try {
       set(state => {
@@ -50,7 +48,6 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       ];
 
       set(state => {
-        state.currentChatId = chats[0].id;
         state.chats = chats;
       });
 
@@ -60,10 +57,9 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       });
     }
   },
-  submitMessage: async (message: string) => {
-    const { currentChatId } = get();
-    if (!currentChatId) {
-      throw new Error('No current chat selected');
+  submitMessage: async (chatId: string, message: string) => {
+    if (!chatId) {
+      throw new Error('Invalid chat id');
     }
 
     try {
@@ -90,9 +86,9 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       ];
 
       set(state => {
-        const currentChat = state.chats.find(chat => chat.id === currentChatId);
+        const currentChat = state.chats.find(chat => chat.id === chatId);
         if (!currentChat) {
-          throw new Error(`Chat with id ${currentChatId} not found`);
+          throw new Error(`Chat with id ${chatId} not found`);
         }
 
         currentChat.messages.push(...newMessages);

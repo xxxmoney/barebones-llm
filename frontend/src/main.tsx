@@ -4,6 +4,7 @@ import './index.css';
 import AppLayout from './routes/layout/AppLayout.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router';
 import HomeRoute from './routes/home/HomeRoute.tsx';
+import ChatListRoute from './routes/chat/ChatListRoute.tsx';
 import ChatRoute from './routes/chat/ChatRoute.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -12,7 +13,8 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomeRoute />} />
-          <Route path="/chat" element={<ChatRoute />} />
+          <Route path="/chats" element={<ChatListRoute />} />
+          <Route path="/chat/:id" element={<ChatRoute />} />
         </Route>
       </Routes>
     </BrowserRouter>

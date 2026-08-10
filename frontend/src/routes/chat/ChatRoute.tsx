@@ -3,22 +3,31 @@ import Chat from '../../components/Chat.tsx';
 import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
 import type {Message} from '../../components/Messages.tsx';
+import {useParams} from 'react-router';
 
 function ChatRoute() {
-  const name: string = useChatStore(state => state.chats.find(chat => chat.id === state.currentChatId)!.name ?? 'New Chat');
-  const messages: MessageDto[] = useChatStore(state => state.chats.find(chat => chat.id === state.currentChatId)!.messages);
-  const mappedMessages: Message[] = useMemo(() => messages.map((message) => ({
+  const { id } = useParams();
+
+  const name: string | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.name);
+  const messages: MessageDto[] | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.messages);
+  const mappedMessages: Message[] | undefined = useMemo(() => messages?.map((message) => ({
     text: message.text,
     position: message.role === 'user' ? 'start' : 'end',
     date: message.date
   })), [messages]);
   const submitMessage = useChatStore(state => state.submitMessage);
 
-  return (
-    <>
-      <Chat name={name} messages={mappedMessages} submit={submitMessage} />
-    </>
-  );
+  if (name && mappedMessages) {
+    return (
+      <Chat name={name} messages={mappedMessages} submit={(message) => submitMessage(id!, message)} />
+    );
+  } else {
+    return (
+      <>
+        <h2 className="text-heading text-center">Chat not found :/</h2>
+      </>
+    );
+  }
 }
 
 export default ChatRoute;
