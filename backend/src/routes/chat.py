@@ -1,4 +1,4 @@
-import uuid
+from uuid import UUID
 from fastapi import APIRouter
 from src.dtos.chat.chat_upsert import ChatUpsert
 from src.dtos.chat.message_list_upsert import MessageListUpsert
@@ -17,7 +17,7 @@ def upsert_chat(chat_upsert: ChatUpsert):
     return chat
 
 @chat_route.get("/{chat_id}/message")
-def get_messages(chat_id: uuid):
+def get_messages(chat_id: UUID):
     messages = chat_service.get_messages(chat_id)
     return messages
 

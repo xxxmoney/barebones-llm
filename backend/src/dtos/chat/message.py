@@ -1,6 +1,5 @@
 from datetime import datetime
 from uuid import UUID
-
 from pydantic import BaseModel
 
 class Message(BaseModel):
@@ -8,5 +7,5 @@ class Message(BaseModel):
     text: str
     role: str
     creation_date: datetime
-    update_date: datetime | None
+    update_date: datetime | None = None
 

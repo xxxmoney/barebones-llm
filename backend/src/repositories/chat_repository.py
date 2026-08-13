@@ -23,7 +23,9 @@ def get_chat(chat_id: uuid) -> ChatModel | None:
 
 def insert_chat(insert: ChatModel) -> ChatModel:
     with Persistence() as persistence:
-        persistence.db[chats_key].append(insert)
+        chats: List[ChatModel] = persistence.db[chats_key]
+        chats.append(insert)
+        persistence.db[chats_key] = chats
 
     return insert
 
@@ -37,6 +39,8 @@ def insert_chat_messages(chat_id: uuid, inserts: List[MessageModel]) -> List[Mes
 
         chat.messages.extend(inserts)
 
+        persistence.db[chats_key] = chats
+
     return inserts
 
 def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> ChatModel:
@@ -48,6 +52,8 @@ def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> 
             raise Exception("Chat not found")
 
         update_function(chat)
+
+        persistence.db[chats_key] = chats
 
     return chat
 
@@ -66,6 +72,8 @@ def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callab
 
         update_function(message)
 
+        persistence.db[chats_key] = chats
+
     return message
 
 def delete_chat(chat_id: uuid) -> None:
@@ -77,6 +85,8 @@ def delete_chat(chat_id: uuid) -> None:
             raise Exception("Chat not found")
 
         chats.remove(chat)
+
+        persistence.db[chats_key] = chats
 
 def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
     with Persistence() as persistence:
@@ -93,5 +103,7 @@ def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
                 chat.messages.remove(message)
 
                 deleted.append(message.id)
+
+        persistence.db[chats_key] = chats
 
     return deleted

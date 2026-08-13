@@ -6,4 +6,4 @@ class Chat(BaseModel):
     id: UUID
     name: str
     creation_date: datetime
-    update_date: datetime | None
+    update_date: datetime | None = None
