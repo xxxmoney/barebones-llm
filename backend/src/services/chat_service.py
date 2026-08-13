@@ -50,6 +50,7 @@ def upsert_messages(upsert: MessageListUpsert) -> List[Message]:
         [MessageModel(id=uuid4(), text=insert.text, role=insert.role, creation_date=now, update_date=None) for insert in inserts]
     )
 
+    # TODO: should be more properly implemented, without the loop
     inserted: List[MessageModel] = []
     for update in updates:
         def update_function(message: MessageModel):
