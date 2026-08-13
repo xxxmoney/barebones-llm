@@ -38,7 +38,7 @@ def upsert_messages(upsert: MessageListUpsert) -> List[Message]:
     inserts: List[MessageUpsert] = []
     updates: List[MessageUpsert] = []
     for message_upsert in upsert.messages:
-        if upsert.id is None:
+        if message_upsert.id is None:
             inserts.append(message_upsert)
         else:
             updates.append(message_upsert)
