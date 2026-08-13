@@ -11,6 +11,7 @@ from src.routes.llm import llm_route
 from src.routes.test import test_route
 from src.routes.openai import openai_route
 from src.routes.configuration import configuration_route
+from src.routes.chat import chat_route
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
@@ -27,6 +28,7 @@ app.include_router(test_route)
 app.include_router(openai_route)
 app.include_router(llm_route)
 app.include_router(configuration_route)
+app.include_router(chat_route)
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():
