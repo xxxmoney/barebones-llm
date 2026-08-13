@@ -1,25 +1,24 @@
+import uuid
 from uuid import UUID
-from typing import List
-from src.models.chat.chat import Chat
-from src.dtos.chat.chat_upsert import ChatUpsert
-from src.models.chat.message import Message
-from src.dtos.chat.message_upsert import MessageUpsert
-from src.models.configuration.configuration import Configuration
+from typing import List, Callable
+from src.models.chat.chat_model import ChatModel
+from src.models.chat.message_model import MessageModel
+from src.models.configuration.configuration_model import ConfigurationModel
 from src.services.persistence import Persistence
 
 configuration_key = "configuration"
 chats_key = "chats"
 
-def get_configuration() -> Configuration:
+def get_configuration() -> ConfigurationModel:
     with Persistence() as persistence:
         if configuration_key not in persistence.db.keys():
-            persistence.db[configuration_key] = Configuration.default()
+            persistence.db[configuration_key] = ConfigurationModel.default()
 
         config = persistence.db[configuration_key]
 
     return config
 
-def update_configuration(configuration: Configuration) -> None:
+def update_configuration(configuration: ConfigurationModel) -> None:
     with Persistence() as persistence:
         persistence.db[configuration_key] = configuration
 
@@ -27,8 +26,7 @@ def delete_configuration() -> None:
     with Persistence() as persistence:
         persistence.db.pop(configuration_key)
 
-
-def get_chats() -> List[Chat]:
+def get_chats() -> List[ChatModel]:
     with Persistence() as persistence:
         if chats_key not in persistence.db.keys():
             persistence.db[chats_key] = []
@@ -37,71 +35,71 @@ def get_chats() -> List[Chat]:
 
     return chats
 
-def upsert_chat(chat_update: ChatUpsert) -> ChatUpsert:
+def get_chat(chat_id: uuid) -> ChatModel | None:
+    chats = get_chats()
+
+    return next((chat for chat in chats if chat.id == chat_id), None)
+
+def insert_chat(insert: ChatModel) -> ChatModel:
     with Persistence() as persistence:
-        chats: List[Chat] = persistence.db[chats_key]
+        persistence.db[chats_key].append(insert)
 
-        upserted: Chat
+    return insert
 
-        if chat_update.id is None:
-            insert = Chat(id=UUID(), name=chat_update.name, messages=[], creation_date=chat_update.date, update_date=None)
-            chats.append(insert)
-
-            upserted = insert
-        else:
-            chat = next((chat for chat in chats if chat.id == chat_update.id), None)
-
-            if chat is None:
-                raise Exception("Chat not found")
-
-            chat.name = chat_update.chat_name
-            chat.update_date = chat_update.date
-
-            upserted = chat
-
-        persistence.db[chats_key] = chats
-
-    return ChatUpsert(id=upserted.id, name=upserted.name, date=upserted.update_date if upserted.update_date else upserted.creation_date)
-
-def upsert_chat_messages(chat_id: UUID, message_upserts: List[MessageUpsert]) -> List[MessageUpsert]:
+def insert_chat_messages(chat_id: uuid, inserts: List[MessageModel]) -> List[MessageModel]:
     with Persistence() as persistence:
-        chats: List[Chat] = persistence.db[chats_key]
-
+        chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
         if chat is None:
             raise Exception("Chat not found")
 
-        upserted: List[Message] = []
+        chat.messages.extend(inserts)
 
-        updates: dict[UUID, MessageUpsert] = {}
-        for message_upsert in message_upserts:
-            # Handle insert
-            if message_upsert.chat_id is None:
-                insert = Message(id=UUID(), text=message_upsert.text, role=message_upsert.role, creation_date=message_upsert.date, update_date=None)
-                chat.messages.append(insert)
+    return inserts
 
-                upserted.append(insert)
-            else:
-                updates[message_upsert.id] = message_upsert
+def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> ChatModel:
+    with Persistence() as persistence:
+        chats: List[ChatModel] = persistence.db[chats_key]
+        chat = next((chat for chat in chats if chat.id == chat_id), None)
 
-        # Handle update
-        for message in chat.messages:
-            update = updates.get(message.id, None)
+        if chat is None:
+            raise Exception("Chat not found")
 
-            if update is not None:
-                message.text = update.text
-                message.role = update.role
-                message.update_date = update.date
+        update_function(chat)
 
-                upserted.append(message)
+    return chat
 
-    return [MessageUpsert(id=upsert.id, text=upsert.text, role=upsert.role, date=upsert.update_date if upsert.update_date else upsert.creation_date) for upsert in upserted]
+def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callable[[MessageModel], None]):
+    with Persistence() as persistence:
+        chats: List[ChatModel] = persistence.db[chats_key]
+        chat = next((chat for chat in chats if chat.id == chat_id), None)
+
+        if chat is None:
+            raise Exception("Chat not found")
+
+        message = next((message for message in chat.messages if message.id == message_id), None)
+
+        if message is None:
+            raise Exception("Message not found")
+
+        update_function(message)
+
+    return message
+
+def delete_chat(chat_id: uuid) -> None:
+    with Persistence() as persistence:
+        chats: List[ChatModel] = persistence.db[chats_key]
+        chat = next((chat for chat in chats if chat.id == chat_id), None)
+
+        if chat is None:
+            raise Exception("Chat not found")
+
+        chats.remove(chat)
 
 def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
     with Persistence() as persistence:
-        chats: List[Chat] = persistence.db[chats_key]
-
+        chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
         if chat is None:

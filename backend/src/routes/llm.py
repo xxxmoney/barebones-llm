@@ -4,7 +4,7 @@ from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUs
     ChatCompletionAssistantMessageParam
 
 from src.dtos.llm.completion import CompletionRequest
-from src.services import llm_provider
+from src.services import llm_service
 
 llm_route = APIRouter(prefix="/api/llm", tags=["LLM"])
 
@@ -27,7 +27,7 @@ def create_completion(request: CompletionRequest = Body(
         )
     }
 )):
-    return llm_provider.create_completion(request)
+    return llm_service.create_completion(request)
 
 
 

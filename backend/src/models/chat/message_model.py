@@ -1,12 +1,12 @@
 from datetime import datetime
 from uuid import UUID
-from src.models.chat.message import Message
 from dataclasses import dataclass
 
 @dataclass
-class Chat:
+class MessageModel:
     id: UUID
-    name: str
-    messages: list[Message]
+    text: str
+    role: str
     creation_date: datetime
     update_date: datetime | None
+
