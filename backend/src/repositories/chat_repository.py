@@ -51,7 +51,7 @@ def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> 
 
     return chat
 
-def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callable[[MessageModel], None]):
+def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callable[[MessageModel], None]) -> MessageModel:
     with Persistence() as persistence:
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
