@@ -1,9 +1,12 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
+from dataclasses import dataclass
 
-class Chat(BaseModel):
+@dataclass
+class Message:
     id: UUID
-    name: str
+    text: str
+    role: str
     creation_date: datetime
     update_date: datetime | None
+

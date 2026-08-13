@@ -1,6 +1,6 @@
 from src.dtos.llm.completion import CompletionRequest, CompletionResponse
 from src.dtos.openai.completion import CompletionRequest as ClientCompletionRequest
-from src.services import persistence_manager
+from src.services import repository
 from src.services.openai_client import OpenAIClient
 
 def create_completion(request: CompletionRequest) -> CompletionResponse:

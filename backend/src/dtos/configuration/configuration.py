@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from src.constants.llm_constants import DEFAULT_OPEN_AI_URL, DEFAULT_AI_TOKEN, DEFAULT_MODEL, DEFAULT_MAX_TOKENS, \
-    DEFAULT_TEMPERATURE
 
 class Configuration(BaseModel):
     open_ai_url: str
@@ -8,14 +6,3 @@ class Configuration(BaseModel):
     model: str
     max_tokens: int
     temperature: float
-
-    @staticmethod
-    def default() -> "Configuration":
-        return Configuration(
-            open_ai_url=DEFAULT_OPEN_AI_URL,
-            open_ai_token=DEFAULT_AI_TOKEN,
-            model=DEFAULT_MODEL,
-            max_tokens=DEFAULT_MAX_TOKENS,
-            temperature=DEFAULT_TEMPERATURE
-        )
-

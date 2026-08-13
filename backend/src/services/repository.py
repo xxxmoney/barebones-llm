@@ -1,10 +1,10 @@
 from uuid import UUID
 from typing import List
-from src.dtos.chat.chat import Chat
+from src.models.chat.chat import Chat
 from src.dtos.chat.chat_upsert import ChatUpsert
-from src.dtos.chat.message import Message
+from src.models.chat.message import Message
 from src.dtos.chat.message_upsert import MessageUpsert
-from src.dtos.configuration.configuration import Configuration
+from src.models.configuration.configuration import Configuration
 from src.services.persistence import Persistence
 
 configuration_key = "configuration"
