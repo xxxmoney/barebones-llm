@@ -1,11 +1,8 @@
 from typing import List
 from uuid import UUID
 from fastapi import APIRouter
-
 from src.dtos.chat.chat import Chat
 from src.dtos.chat.chat_update import ChatUpdate
-from src.dtos.chat.message_list_upsert import MessageListUpsert
-
 from src.dtos.chat.message import Message
 from src.dtos.chat.message_update import MessageUpdate
 from src.services import chat_service
