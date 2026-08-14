@@ -4,7 +4,7 @@ function AppLayout() {
   return (
     <>
       <div className="container mx-auto px-sm">
-        <header className="pb-md">
+        <header>
           <nav className="navbar p-0">
             <div className="flex-1">
               <Link to="/">LOGO</Link>
@@ -19,7 +19,7 @@ function AppLayout() {
           </nav>
         </header>
 
-        <main>
+        <main className="py-md">
           <Outlet />
         </main>
 
