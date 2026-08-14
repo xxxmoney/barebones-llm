@@ -36,6 +36,11 @@ def insert_chat(update: ChatUpdate):
 
     return Chat(id=model.id, name=model.name, creation_date=model.creation_date, update_date=model.update_date)
 
+def delete_chat(chat_id: UUID):
+    id = chat_repository.delete_chat(chat_id)
+
+    return id
+
 
 def submit_message(chat_id: UUID, message: MessageUpdate) -> List[Message]:
     chat = chat_repository.get_chat(chat_id)
@@ -75,3 +80,7 @@ def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdate) -> M
 
     return Message(id=model.id, text=model.text, role=model.role, creation_date=model.creation_date, update_date=model.update_date)
 
+def delete_message(chat_id: UUID, message_id: UUID):
+    ids = chat_repository.delete_chat_messages(chat_id, [message_id])
+
+    return ids[0]

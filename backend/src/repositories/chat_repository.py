@@ -76,7 +76,7 @@ def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callab
 
     return message
 
-def delete_chat(chat_id: uuid) -> None:
+def delete_chat(chat_id: uuid) -> UUID:
     with Persistence() as persistence:
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
@@ -87,6 +87,8 @@ def delete_chat(chat_id: uuid) -> None:
         chats.remove(chat)
 
         persistence.db[chats_key] = chats
+
+    return chat.id
 
 def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
     with Persistence() as persistence:
