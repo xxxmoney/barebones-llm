@@ -6,17 +6,20 @@ import {ChatApi} from '../api/chat.api.ts';
 import type {MessageUpdateDto} from '../dtos/chat/message.dto.ts';
 
 interface ChatStore {
+    hasLoaded: boolean;
     loading: boolean;
     chats: ChatDto[];
 
     getChats: () => Promise<void>;
     insertChat: (chat: ChatUpdateDto) => Promise<ChatDto>;
     updateChat: (chatId: string, chat: ChatUpdateDto) => Promise<ChatDto>;
+    getMessages: (chatId: string) => Promise<void>;
     submitMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
     updateMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
 }
 
-export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
+export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
+  hasLoaded: false,
   loading: false,
   chats: [],
 
@@ -33,6 +36,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
 
       set(state => {
         state.chats = response.data;
+        state.hasLoaded = true;
       });
 
     } finally {
@@ -95,9 +99,37 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
     }
   },
 
+  deleteChat: async (chatId: string) => {
+    try {
+      set(state => {
+        state.loading = true;
+      });
+
+      const response = await ChatApi.deleteChat(chatId);
+      if (response.status !== 200) {
+        throw new Error(`Failed to delete chat: '${response.statusText}'`);
+      }
+
+      set(state => {
+        state.chats = state.chats.filter(chat => chat.id !== chatId);
+      });
+
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  },
+
   getMessages: async (chatId: string) => {
     if (!chatId) {
       throw new Error('Invalid chat id');
+    }
+
+    const state = get();
+
+    if(!state.hasLoaded) {
+      await state.getChats();
     }
 
     try {
@@ -166,6 +198,32 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
       if (response.status !== 200) {
         throw new Error(`Failed to submit message: '${response.statusText}'`);
       }
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  },
+
+  deleteMessage: async (chatId: string, messageId: string) => {
+    try {
+      set(state => {
+        state.loading = true;
+      });
+
+      const response = await ChatApi.deleteMessage(chatId, messageId);
+      if (response.status !== 200) {
+        throw new Error(`Failed to delete message: '${response.statusText}'`);
+      }
+
+      set(state => {
+        const chat = state.chats.find(chat => chat.id === chatId);
+        if (!chat) {
+          throw new Error(`Chat with id ${chatId} not found`);
+        }
+
+        chat.messages = chat.messages.filter(message => message.id !== messageId);
+      });
     } finally {
       set(state => {
         state.loading = false;

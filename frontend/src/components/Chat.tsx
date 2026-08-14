@@ -4,7 +4,7 @@ import TextSubmit from './TextSubmit.tsx';
 interface ChatProps {
     name: string;
     messages: Message[];
-    submit: (message: string) => Promise<void>;
+    submit: (text: string) => Promise<void>;
 }
 
 function Chat({ name, messages, submit }: ChatProps) {

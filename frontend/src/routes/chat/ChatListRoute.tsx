@@ -7,8 +7,6 @@ function ChatListRoute() {
   const getChats = useChatStore(state => state.getChats);
 
   async function load() {
-    console.log('Loading chats...');
-
     try {
       await getChats();
     } catch (error) {

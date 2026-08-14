@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import Chat from '../../components/Chat.tsx';
 import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
@@ -16,10 +16,17 @@ function ChatRoute() {
     date: message.date
   })), [messages]);
   const submitMessage = useChatStore(state => state.submitMessage);
+  const getMessages = useChatStore(state => state.getMessages);
+
+  useEffect(() => {
+    if (id) {
+      getMessages(id).then();
+    }
+  }, [id]);
 
   if (name && mappedMessages) {
     return (
-      <Chat name={name} messages={mappedMessages} submit={(message) => submitMessage(id!, message)} />
+      <Chat name={name} messages={mappedMessages} submit={(text) => submitMessage(id!, { text: text, role: 'user' })} />
     );
   } else {
     return (

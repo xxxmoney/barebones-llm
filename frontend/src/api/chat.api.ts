@@ -16,6 +16,9 @@ export const ChatApi = {
   updateChat(chatId: string, chat: ChatUpdateDto): Promise<AxiosResponse<ChatDto>> {
     return api.put(`${URL_PREFIX}/${chatId}`, chat);
   },
+  deleteChat(chatId: string): Promise<AxiosResponse<ChatDto>> {
+    return api.delete(`${URL_PREFIX}/${chatId}`);
+  },
   getMessages(chatId: string): Promise<AxiosResponse<MessageDto[]>> {
     return api.get(`${URL_PREFIX}/${chatId}/message`);
   },
@@ -24,5 +27,8 @@ export const ChatApi = {
   },
   updateMessage(chatId: string, messageId: string, message: MessageUpdateDto): Promise<AxiosResponse<MessageDto>> {
     return api.put(`${URL_PREFIX}/${chatId}/messages/${messageId}`, message);
+  },
+  deleteMessage(chatId: string, messageId: string): Promise<AxiosResponse<MessageDto>> {
+    return api.delete(`${URL_PREFIX}/${chatId}/message/${messageId}`);
   }
 };
