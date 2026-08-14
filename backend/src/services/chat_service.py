@@ -1,9 +1,6 @@
 from datetime import datetime, UTC
 from typing import List
 from uuid import UUID, uuid4
-
-from openai.types.chat import ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam
-
 from src.constants.llm_constants import ROLE_USER, ROLE_ASSISTANT
 from src.dtos.chat.chat import Chat
 from src.dtos.chat.chat_update import ChatUpdate
@@ -43,12 +40,13 @@ def insert_chat(update: ChatUpdate):
 def submit_message(chat_id: UUID, message: MessageUpdate) -> List[Message]:
     chat = chat_repository.get_chat(chat_id)
 
-    current_messages = [ChatCompletionUserMessageParam(content=message.text, role=ROLE_USER) for message in chat.messages]
-    user_message = ChatCompletionUserMessageParam(content=message.text, role=ROLE_USER)
+    current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
+    user_message = {"content": message.text, "role": message.role}
+
     completion = llm_service.create_completion(CompletionRequest(messages=[*current_messages, user_message]))
 
     messages = insert_messages(chat_id, [
-        MessageUpdate(text=message.text, role=ROLE_USER),
+        MessageUpdate(text=message.text, role=message.role),
         MessageUpdate(text=completion.text, role=ROLE_ASSISTANT),
     ])
 
