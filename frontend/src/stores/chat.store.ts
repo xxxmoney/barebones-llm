@@ -1,16 +1,19 @@
 import { create } from 'zustand';
 import {immer} from 'zustand/middleware/immer';
 import {devtools} from 'zustand/middleware';
-import type {ChatDto} from '../dtos/chat/chat.dto.ts';
-import type {MessageDto} from '../dtos/chat/message.dto.ts';
-import {DateTime} from 'ts-luxon';
+import type {ChatDto, ChatUpdateDto} from '../dtos/chat/chat.dto.ts';
+import {ChatApi} from '../api/chat.api.ts';
+import type {MessageUpdateDto} from '../dtos/chat/message.dto.ts';
 
 interface ChatStore {
     loading: boolean;
-    chats: ChatDto[]
+    chats: ChatDto[];
 
-    getChats: () => Promise<void>
-    submitMessage: (chatId: string, message: string) => Promise<void>
+    getChats: () => Promise<void>;
+    insertChat: (chat: ChatUpdateDto) => Promise<ChatDto>;
+    updateChat: (chatId: string, chat: ChatUpdateDto) => Promise<ChatDto>;
+    submitMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
+    updateMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
 }
 
 export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
@@ -23,32 +26,13 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
         state.loading = true;
       });
 
-      // TODO: fetch
-
-      // TODO: remove later, mock
-      const chats: ChatDto[] = [
-        {
-          id: '47cc4c62-942c-4c1e-aee6-462c1012c22e',
-          name: 'Chat 1',
-          messages: [
-            {
-              id: '2c033242-e45d-4cd6-8fc1-587726b6b22c',
-              role: 'user',
-              text: 'Hello, how are you?',
-              date: DateTime.now().minus({ day: 2 }),
-            },
-            {
-              id: '3787e3ee-1c9c-47ce-8968-c2cf08b954b7',
-              role: 'assistant',
-              text: 'As a Large Language Model, I do not have feelings. Maybe. Possible. Surely. Sorry. >]',
-              date: DateTime.now().minus({ day: 1 }),
-            },
-          ],
-        }
-      ];
+      const response = await ChatApi.getChats();
+      if (response.status !== 200) {
+        throw new Error(`Failed to fetch chats: '${response.statusText}'`);
+      }
 
       set(state => {
-        state.chats = chats;
+        state.chats = response.data;
       });
 
     } finally {
@@ -57,7 +41,61 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
       });
     }
   },
-  submitMessage: async (chatId: string, message: string) => {
+
+  insertChat: async (chat: ChatUpdateDto) => {
+    try {
+      set(state => {
+        state.loading = true;
+      });
+
+      const response = await ChatApi.insertChat(chat);
+      if (response.status !== 200) {
+        throw new Error(`Failed to insert chat: '${response.statusText}'`);
+      }
+
+      set(state => {
+        state.chats.push(response.data);
+      });
+
+      return response.data;
+
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  },
+
+  updateChat: async (chatId: string, chat: ChatUpdateDto) => {
+    try {
+      set(state => {
+        state.loading = true;
+      });
+
+      const response = await ChatApi.updateChat(chatId, chat);
+      if (response.status !== 200) {
+        throw new Error(`Failed to update chat: '${response.statusText}'`);
+      }
+
+      set(state => {
+        const index = state.chats.findIndex(chat => chat.id === chatId);
+        if (index === -1) {
+          throw new Error(`Chat with id '${chatId}' not found`);
+        }
+
+        state.chats[index] = response.data;
+      });
+
+      return response.data;
+
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  },
+
+  getMessages: async (chatId: string) => {
     if (!chatId) {
       throw new Error('Invalid chat id');
     }
@@ -67,31 +105,49 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
         state.loading = true;
       });
 
-      // TODO: fetch
-
-      // TODO: remove later, mock
-      const newMessages: MessageDto[] = [
-        {
-          id: 'dcfdcef7-1b54-488a-83b6-07fdbde7841c',
-          role: 'user',
-          text: message,
-          date: DateTime.now(),
-        },
-        {
-          id: 'be01ba4c-b4f8-4b5b-b3f3-35550455af9a',
-          role: 'assistant',
-          text: 'There will be a proper response from LLM here. >]',
-          date: DateTime.now(),
-        },
-      ];
+      const response = await ChatApi.getMessages(chatId);
+      if (response.status !== 200) {
+        throw new Error(`Failed to fetch messages: '${response.statusText}'`);
+      }
 
       set(state => {
-        const currentChat = state.chats.find(chat => chat.id === chatId);
-        if (!currentChat) {
+        const chat = state.chats.find(chat => chat.id === chatId);
+        if (!chat) {
           throw new Error(`Chat with id ${chatId} not found`);
         }
 
-        currentChat.messages.push(...newMessages);
+        chat.messages = response.data;
+      });
+
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  },
+
+  submitMessage: async (chatId: string, message: MessageUpdateDto) => {
+    if (!chatId) {
+      throw new Error('Invalid chat id');
+    }
+
+    try {
+      set(state => {
+        state.loading = true;
+      });
+
+      const response = await ChatApi.submitMessage(chatId, message);
+      if (response.status !== 200) {
+        throw new Error(`Failed to submit message: '${response.statusText}'`);
+      }
+
+      set(state => {
+        const chat = state.chats.find(chat => chat.id === chatId);
+        if (!chat) {
+          throw new Error(`Chat with id ${chatId} not found`);
+        }
+
+        chat.messages.push(...response.data);
       });
     } finally {
       set(state => {
@@ -99,4 +155,21 @@ export const useChatStore = create(devtools(immer<ChatStore>((set) => ({
       });
     }
   },
+
+  updateMessage: async (chatId: string, message: MessageUpdateDto) => {
+    try {
+      set(state => {
+        state.loading = false;
+      });
+
+      const response = await ChatApi.submitMessage(chatId, message);
+      if (response.status !== 200) {
+        throw new Error(`Failed to submit message: '${response.statusText}'`);
+      }
+    } finally {
+      set(state => {
+        state.loading = false;
+      });
+    }
+  }
 }))));

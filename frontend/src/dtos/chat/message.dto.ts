@@ -6,3 +6,8 @@ export interface MessageDto {
   role: string;
   date: DateTime;
 }
+
+export interface MessageUpdateDto {
+  text: string;
+  role: string;
+}

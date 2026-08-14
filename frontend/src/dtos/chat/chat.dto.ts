@@ -5,3 +5,7 @@ export interface ChatDto {
     name: string;
     messages: MessageDto[];
 }
+
+export interface ChatUpdateDto {
+    name: string;
+}
