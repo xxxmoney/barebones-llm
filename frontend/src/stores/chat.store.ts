@@ -9,7 +9,7 @@ interface ChatStore {
     hasLoaded: boolean;
     loading: boolean;
     chats: ChatDto[];
-
+    
     getChats: () => Promise<void>;
     insertChat: (chat: ChatUpdateDto) => Promise<ChatDto>;
     updateChat: (chatId: string, chat: ChatUpdateDto) => Promise<ChatDto>;
@@ -20,7 +20,7 @@ interface ChatStore {
 
 export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
   hasLoaded: false,
-  loading: false,
+  loading: true,
   chats: [],
 
   getChats: async () => {

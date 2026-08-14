@@ -4,10 +4,13 @@ import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
 import type {Message} from '../../components/Messages.tsx';
 import {useParams} from 'react-router';
+import {ROLE_USER} from '../../constants/chat.constants.ts';
+import Loading from '../../components/Loading.tsx';
 
 function ChatRoute() {
   const { id } = useParams();
 
+  const loading: boolean = useChatStore(state => state.loading);
   const name: string | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.name);
   const messages: MessageDto[] | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.messages);
   const mappedMessages: Message[] | undefined = useMemo(() => messages?.map((message) => ({
@@ -24,9 +27,12 @@ function ChatRoute() {
     }
   }, [id]);
 
-  if (name && mappedMessages) {
+  if (loading) {
+    return <Loading />;
+  }
+  else if (name && mappedMessages) {
     return (
-      <Chat name={name} messages={mappedMessages} submit={(text) => submitMessage(id!, { text: text, role: 'user' })} />
+      <Chat name={name} messages={mappedMessages} submit={(text) => submitMessage(id!, { text: text, role: ROLE_USER })} />
     );
   } else {
     return (
