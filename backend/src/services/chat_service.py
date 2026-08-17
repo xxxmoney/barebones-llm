@@ -22,7 +22,7 @@ def get_messages(chat_id: UUID) -> List[Message]:
 
     return [Message(id=message.id, text=message.text, role=message.role, creation_date=message.creation_date, update_date=message.update_date) for message in model.messages]
 
-def update_chat(chat_id: UUID, update: ChatUpdate):
+def update_chat(chat_id: UUID, update: ChatUpdate) -> Chat:
     def update_function(chat: ChatModel):
         chat.name = update.name
         chat.update_date = datetime.now(UTC)
@@ -31,12 +31,12 @@ def update_chat(chat_id: UUID, update: ChatUpdate):
 
     return Chat(id=model.id, name=model.name, creation_date=model.creation_date, update_date=model.update_date)
 
-def insert_chat(update: ChatUpdate):
+def insert_chat(update: ChatUpdate) -> Chat:
     model: ChatModel = chat_repository.insert_chat(ChatModel(id=uuid4(), name=update.name, messages=[], creation_date=datetime.now(UTC), update_date=None))
 
     return Chat(id=model.id, name=model.name, creation_date=model.creation_date, update_date=model.update_date)
 
-def delete_chat(chat_id: UUID):
+def delete_chat(chat_id: UUID) -> UUID:
     id = chat_repository.delete_chat(chat_id)
 
     return id

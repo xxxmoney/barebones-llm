@@ -13,9 +13,11 @@ interface ChatStore {
     getChats: () => Promise<void>;
     insertChat: (chat: ChatUpdateDto) => Promise<ChatDto>;
     updateChat: (chatId: string, chat: ChatUpdateDto) => Promise<ChatDto>;
+    deleteChat: (chatId: string) => Promise<void>;
     getMessages: (chatId: string) => Promise<void>;
     submitMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
     updateMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
+    deleteMessage: (chatId: string, messageId: string) => Promise<void>;
 }
 
 export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({

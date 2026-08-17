@@ -2,12 +2,14 @@
 import {useChatStore} from '../../stores/chat.store.ts';
 import {Link, useNavigate} from 'react-router';
 import {DEFAULT_NAME} from '../../constants/chat.constants.ts';
+import { Trash } from 'lucide-react';
 
 function ChatListRoute() {
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
   const getChats = useChatStore(state => state.getChats);
   const insertChat = useChatStore(state => state.insertChat);
+  const deleteChat = useChatStore(state => state.deleteChat);
 
   async function load() {
     try {
@@ -26,6 +28,14 @@ function ChatListRoute() {
     }
   }
 
+  async function remove(chatId: string) {
+    try {
+      await deleteChat(chatId);
+    } catch(error) {
+      console.error('Error deleting chat:', error);
+    }
+  }
+
   useEffect(() => {
     load().then();
   }, []);
@@ -38,7 +48,10 @@ function ChatListRoute() {
         <h2 className="text-lg text-center">Chats:</h2>
         <ul className="flex max-w-80 flex-col items-center gap-md">
           {chats.map(chat =>
-            <li key={chat.id} className="btn btn-secondary"><Link to={`/chat/${chat.id}`}>{chat.name}</Link></li>
+            <li key={chat.id} className="relative">
+              <Link className="btn btn-secondary" to={`/chat/${chat.id}`}>{chat.name}</Link>
+              <Trash onClick={() => remove(chat.id)} className="absolute top-0 right-0 translate-x-2 -translate-y-2 cursor-pointer hover:animate-bounce" />
+            </li>
           )}
         </ul>
       </section>

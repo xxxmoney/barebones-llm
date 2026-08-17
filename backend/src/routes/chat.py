@@ -25,7 +25,7 @@ def update_chat(chat_id: UUID, chat: ChatUpdate) -> Chat:
     return chat
 
 @chat_route.delete("/{chat_id}")
-def delete_chat(chat_id: UUID) -> Chat:
+def delete_chat(chat_id: UUID) -> UUID:
     id = chat_service.delete_chat(chat_id)
     return id
 
