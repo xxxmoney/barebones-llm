@@ -5,7 +5,6 @@ import type {MessageDto} from '../../dtos/chat/message.dto.ts';
 import type {Message} from '../../components/Messages.tsx';
 import {useParams} from 'react-router';
 import {ROLE_USER} from '../../constants/chat.constants.ts';
-import Loading from '../../components/Loading.tsx';
 
 function ChatRoute() {
   const { id } = useParams();
@@ -27,12 +26,9 @@ function ChatRoute() {
     }
   }, [id]);
 
-  if (loading) {
-    return <Loading />;
-  }
-  else if (name && mappedMessages) {
+  if (name && mappedMessages) {
     return (
-      <Chat name={name} messages={mappedMessages} submit={(text) => submitMessage(id!, { text: text, role: ROLE_USER })} />
+      <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading} submit={(text) => submitMessage(id!, { text: text, role: ROLE_USER })} />
     );
   } else {
     return (
