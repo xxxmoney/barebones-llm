@@ -1,5 +1,5 @@
 
-# Frontend for Self Learning App
+# Frontend for Self Learning AppLayout
 
 ## Getting started
 - Set up [npm and Node](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)

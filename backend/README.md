@@ -2,11 +2,13 @@
 # Backend for Self Learning App
 
 ## Getting started
+- Set up python correctly - recommended usage of [pyenv](https://github.com/pyenv-win/pyenv-win)
+  - version `3.12.0`
 - Set up [Poetry](https://python-poetry.org) on your machine
 - There is already an included `poetry.toml` to set up local .venv in the project
 - Run `poetry install` - sets up .venv and downloads dependencies
 - Start with `poetry run dev`
-- By default, the backend should run at `http://localhost:5000` 
+- By default, the backend should run at `http://localhost:5000`
 
 ## Resolving issue
 - .venv
@@ -24,4 +26,4 @@
 - Endpoints can be tested at `/docs`
 
 
- 
+

@@ -1,8 +1,4 @@
-from dataclasses import asdict
-
 from fastapi import APIRouter
-
-from src.services import persistence_manager
 
 test_route = APIRouter(prefix="/api/test", tags=["Test"])
 
@@ -12,7 +8,7 @@ def test_connection():
         "message": "Backend is running, baby!"
     }
 
-@test_route.get("/api/sample")
+@test_route.get("/sample")
 def get_sample_data():
     return {
         "id": 67,
