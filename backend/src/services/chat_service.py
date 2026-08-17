@@ -46,12 +46,12 @@ def submit_message(chat_id: UUID, message: MessageUpdate) -> List[Message]:
     chat = chat_repository.get_chat(chat_id)
 
     current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
-    user_message = {"content": message.text, "role": message.role}
+    user_message = {"content": message.text, "role": ROLE_USER}
 
     completion = llm_service.create_completion(CompletionRequest(messages=[*current_messages, user_message]))
 
     messages = insert_messages(chat_id, [
-        MessageUpdate(text=message.text, role=message.role),
+        MessageUpdate(text=message.text, role=ROLE_USER),
         MessageUpdate(text=completion.text, role=ROLE_ASSISTANT),
     ])
 
@@ -59,6 +59,9 @@ def submit_message(chat_id: UUID, message: MessageUpdate) -> List[Message]:
 
 def insert_messages(chat_id: UUID, messages: List[MessageUpdate]):
     now = datetime.now(UTC)
+
+    if None in [message.role for message in messages]:
+        raise Exception("No role specified")
 
     inserted: List[MessageModel] = chat_repository.insert_chat_messages(
         chat_id,
@@ -74,7 +77,8 @@ def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdate) -> M
 
     def update_function(model: MessageModel):
         model.text = message.text
-        model.role = message.role
+        if message.role is not None:
+            model.role = message.role
         model.update_date = now
     model = chat_repository.update_chat_message(chat_id, message_id, update_function)
 

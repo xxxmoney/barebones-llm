@@ -16,7 +16,7 @@ interface ChatStore {
     deleteChat: (chatId: string) => Promise<void>;
     getMessages: (chatId: string) => Promise<void>;
     submitMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
-    updateMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
+    updateMessage: (chatId: string, messageId: string, message: MessageUpdateDto) => Promise<void>;
     deleteMessage: (chatId: string, messageId: string) => Promise<void>;
 }
 
@@ -189,13 +189,28 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
     }
   },
 
-  updateMessage: async (chatId: string, message: MessageUpdateDto) => {
+  updateMessage: async (chatId: string, messageId: string, message: MessageUpdateDto) => {
     try {
+      const state = get();
+      const chat = state.chats.find(chat => chat.id === chatId);
+      if (!chat) {
+        throw new Error(`Chat with id ${chatId} not found`);
+      }
+
+      const chatMessage = chat.messages.find(message => message.id === messageId);
+      if (!chatMessage) {
+        throw new Error(`Message with id ${messageId} not found`);
+      }
+
+      if (chatMessage.text.trim() === message.text.trim()) {
+        return; // Not modified
+      }
+
       set(state => {
         state.loading = false;
       });
 
-      const response = await ChatApi.submitMessage(chatId, message);
+      const response = await ChatApi.updateMessage(chatId, messageId, message);
       if (response.status !== 200) {
         throw new Error(`Failed to submit message: '${response.statusText}'`);
       }

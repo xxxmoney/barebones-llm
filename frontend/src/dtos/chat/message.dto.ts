@@ -9,5 +9,4 @@ export interface MessageDto {
 
 export interface MessageUpdateDto {
   text: string;
-  role: string;
 }

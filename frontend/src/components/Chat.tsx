@@ -8,15 +8,16 @@ interface ChatProps {
     disabled?: boolean;
     loading?: boolean;
     submit: (text: string) => Promise<void>;
+    update: (messageId: string, text: string) => Promise<void>;
 }
 
-function Chat({ name, messages, disabled = false, loading = false, submit }: ChatProps) {
+function Chat({ name, messages, disabled = false, loading = false, submit, update }: ChatProps) {
   return (
     <>
       <section className="mx-auto flex flex-col gap-lg max-w-[40rem]">
         <h2 className="text-heading text-center">{name}</h2>
 
-        <Messages messages={messages} />
+        <Messages messages={messages} update={update} />
 
         {loading && <Loading />}
 

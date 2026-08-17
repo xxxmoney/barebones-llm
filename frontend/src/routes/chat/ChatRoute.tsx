@@ -4,7 +4,6 @@ import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
 import type {Message} from '../../components/Messages.tsx';
 import {useParams} from 'react-router';
-import {ROLE_USER} from '../../constants/chat.constants.ts';
 
 function ChatRoute() {
   const { id } = useParams();
@@ -13,12 +12,14 @@ function ChatRoute() {
   const name: string | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.name);
   const messages: MessageDto[] | undefined = useChatStore(state => state.chats.find(chat => chat.id === id)?.messages);
   const mappedMessages: Message[] | undefined = useMemo(() => messages?.map((message) => ({
+    id: message.id,
     text: message.text,
     position: message.role === 'user' ? 'start' : 'end',
     date: message.date
   })), [messages]);
   const submitMessage = useChatStore(state => state.submitMessage);
   const getMessages = useChatStore(state => state.getMessages);
+  const updateMessage = useChatStore(state => state.updateMessage);
 
   useEffect(() => {
     if (id) {
@@ -26,9 +27,12 @@ function ChatRoute() {
     }
   }, [id]);
 
-  if (name && mappedMessages) {
+  if (id && name && mappedMessages) {
     return (
-      <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading} submit={(text) => submitMessage(id!, { text: text, role: ROLE_USER })} />
+      <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
+        submit={(text) => submitMessage(id!, { text: text })}
+        update={(messageId, text) => updateMessage(id, messageId, { text: text })}
+      />
     );
   } else {
     return (

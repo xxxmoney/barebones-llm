@@ -26,7 +26,7 @@ export const ChatApi = {
     return api.post(`${URL_PREFIX}/${chatId}/message`, message);
   },
   updateMessage(chatId: string, messageId: string, message: MessageUpdateDto): Promise<AxiosResponse<MessageDto>> {
-    return api.put(`${URL_PREFIX}/${chatId}/messages/${messageId}`, message);
+    return api.put(`${URL_PREFIX}/${chatId}/message/${messageId}`, message);
   },
   deleteMessage(chatId: string, messageId: string): Promise<AxiosResponse<MessageDto>> {
     return api.delete(`${URL_PREFIX}/${chatId}/message/${messageId}`);
