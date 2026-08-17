@@ -62,7 +62,6 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       });
 
       return response.data;
-
     } finally {
       set(state => {
         state.loading = false;

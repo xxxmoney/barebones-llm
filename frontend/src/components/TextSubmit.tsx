@@ -23,8 +23,8 @@ function TextSubmit({ submit, disabled = false }: MessageSubmitProps) {
 
   return (
     <>
-      <form className="w-full flex flex-row justify-center items-center gap-sm" onSubmit={onSubmit}>
-        <input type="text" disabled={disabled} value={text} onChange={(event) => setText(event.target.value)} className="input input-primary" />
+      <form onSubmit={onSubmit} className="w-full flex flex-row justify-center items-center gap-sm">
+        <input type="text" onChange={(event) => setText(event.target.value)} disabled={disabled} value={text} className="input input-primary" />
 
         <button type="submit" disabled={disabled} className="btn btn-primary">Send</button>
       </form>
