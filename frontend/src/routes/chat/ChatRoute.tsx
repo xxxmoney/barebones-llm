@@ -50,6 +50,13 @@ function ChatRoute() {
     },
     [id, updateMessage]
   );
+  const deleteMessage = useChatStore(state => state.deleteMessage);
+  const handleDeleteMessage = useCallback(
+    async (messageId: string) => {
+      await deleteMessage(id!, messageId);
+    },
+    [id, deleteMessage]
+  );
 
   useEffect(() => {
     if (id) {
@@ -60,9 +67,11 @@ function ChatRoute() {
   return (
     <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
       chatUpdate={handleUpdateChat}
+      chatDelete={handleDeleteChat}
       messageSubmit={handleSubmitMessage}
       messageUpdate={handleUpdateMessage}
-      chatDelete={handleDeleteChat}
+      messageDelete={handleDeleteMessage}
+
     />
   );
 }

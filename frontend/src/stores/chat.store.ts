@@ -76,7 +76,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       const state = get();
       const chat = state.chats.find(chat => chat.id === chatId);
       if (!chat) {
-        throw new Error(`Chat with id ${chatId} not found`);
+        throw new Error(`Chat with id '${chatId}' not found`);
       }
 
       if (chatUpdate.name.trim() === chat.name.trim()) {
@@ -146,7 +146,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       set(state => {
         const chat = state.chats.find(chat => chat.id === chatId);
         if (!chat) {
-          throw new Error(`Chat with id ${chatId} not found`);
+          throw new Error(`Chat with id '${chatId}' not found`);
         }
 
         chat.messages = response.data;
@@ -177,7 +177,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       set(state => {
         const chat = state.chats.find(chat => chat.id === chatId);
         if (!chat) {
-          throw new Error(`Chat with id ${chatId} not found`);
+          throw new Error(`Chat with id '${chatId}' not found`);
         }
 
         chat.messages.push(...response.data);
@@ -196,12 +196,12 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       const state = get();
       const chat = state.chats.find(chat => chat.id === chatId);
       if (!chat) {
-        throw new Error(`Chat with id ${chatId} not found`);
+        throw new Error(`Chat with id '${chatId}' not found`);
       }
 
       const message = chat.messages.find(message => message.id === messageId);
       if (!message) {
-        throw new Error(`Message with id ${messageId} not found`);
+        throw new Error(`Message with id '${messageId}' not found`);
       }
 
       if (message.text.trim() === messageUpdate.text.trim()) {
@@ -239,7 +239,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
       set(state => {
         const chat = state.chats.find(chat => chat.id === chatId);
         if (!chat) {
-          throw new Error(`Chat with id ${chatId} not found`);
+          throw new Error(`Chat with id '${chatId}' not found`);
         }
 
         chat.messages = chat.messages.filter(message => message.id !== messageId);
