@@ -3,7 +3,7 @@ import {immer} from 'zustand/middleware/immer';
 import {devtools} from 'zustand/middleware';
 import type {ChatDto, ChatUpdateDto} from '../dtos/chat/chat.dto.ts';
 import {ChatApi} from '../api/chat.api.ts';
-import type {MessageUpdateDto} from '../dtos/chat/message.dto.ts';
+import type {MessageDto, MessageUpdateDto} from '../dtos/chat/message.dto.ts';
 
 interface ChatStore {
     hasLoaded: boolean;
@@ -11,12 +11,12 @@ interface ChatStore {
     chats: ChatDto[];
     
     getChats: () => Promise<void>;
-    insertChat: (chat: ChatUpdateDto) => Promise<ChatDto>;
-    updateChat: (chatId: string, chat: ChatUpdateDto) => Promise<ChatDto>;
+    insertChat: (chatUpdate: ChatUpdateDto) => Promise<ChatDto>;
+    updateChat: (chatId: string, chatUpdate: ChatUpdateDto) => Promise<ChatDto | undefined>;
     deleteChat: (chatId: string) => Promise<void>;
     getMessages: (chatId: string) => Promise<void>;
-    submitMessage: (chatId: string, message: MessageUpdateDto) => Promise<void>;
-    updateMessage: (chatId: string, messageId: string, message: MessageUpdateDto) => Promise<void>;
+    submitMessage: (chatId: string, messageUpdate: MessageUpdateDto) => Promise<MessageDto[]>;
+    updateMessage: (chatId: string, messageId: string, messageUpdate: MessageUpdateDto) => Promise<MessageDto | undefined>;
     deleteMessage: (chatId: string, messageId: string) => Promise<void>;
 }
 
@@ -48,13 +48,13 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
     }
   },
 
-  insertChat: async (chat: ChatUpdateDto) => {
+  insertChat: async (chatUpdate: ChatUpdateDto) => {
     try {
       set(state => {
         state.loading = true;
       });
 
-      const response = await ChatApi.insertChat(chat);
+      const response = await ChatApi.insertChat(chatUpdate);
       if (response.status !== 200) {
         throw new Error(`Failed to insert chat: '${response.statusText}'`);
       }
@@ -71,28 +71,28 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
     }
   },
 
-  updateChat: async (chatId: string, chat: ChatUpdateDto) => {
+  updateChat: async (chatId: string, chatUpdate: ChatUpdateDto) => {
     try {
+      const state = get();
+      const chat = state.chats.find(chat => chat.id === chatId);
+      if (!chat) {
+        throw new Error(`Chat with id ${chatId} not found`);
+      }
+
+      if (chatUpdate.name.trim() === chat.name.trim()) {
+        return undefined; // Not modified
+      }
+
       set(state => {
         state.loading = true;
       });
 
-      const response = await ChatApi.updateChat(chatId, chat);
+      const response = await ChatApi.updateChat(chatId, chatUpdate);
       if (response.status !== 200) {
         throw new Error(`Failed to update chat: '${response.statusText}'`);
       }
 
-      set(state => {
-        const index = state.chats.findIndex(chat => chat.id === chatId);
-        if (index === -1) {
-          throw new Error(`Chat with id '${chatId}' not found`);
-        }
-
-        state.chats[index] = response.data;
-      });
-
       return response.data;
-
     } finally {
       set(state => {
         state.loading = false;
@@ -159,7 +159,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
     }
   },
 
-  submitMessage: async (chatId: string, message: MessageUpdateDto) => {
+  submitMessage: async (chatId: string, messageUpdate: MessageUpdateDto) => {
     if (!chatId) {
       throw new Error('Invalid chat id');
     }
@@ -169,7 +169,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
         state.loading = true;
       });
 
-      const response = await ChatApi.submitMessage(chatId, message);
+      const response = await ChatApi.submitMessage(chatId, messageUpdate);
       if (response.status !== 200) {
         throw new Error(`Failed to submit message: '${response.statusText}'`);
       }
@@ -182,6 +182,8 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
 
         chat.messages.push(...response.data);
       });
+
+      return response.data;
     } finally {
       set(state => {
         state.loading = false;
@@ -189,7 +191,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
     }
   },
 
-  updateMessage: async (chatId: string, messageId: string, message: MessageUpdateDto) => {
+  updateMessage: async (chatId: string, messageId: string, messageUpdate: MessageUpdateDto) => {
     try {
       const state = get();
       const chat = state.chats.find(chat => chat.id === chatId);
@@ -197,23 +199,25 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
         throw new Error(`Chat with id ${chatId} not found`);
       }
 
-      const chatMessage = chat.messages.find(message => message.id === messageId);
-      if (!chatMessage) {
+      const message = chat.messages.find(message => message.id === messageId);
+      if (!message) {
         throw new Error(`Message with id ${messageId} not found`);
       }
 
-      if (chatMessage.text.trim() === message.text.trim()) {
-        return; // Not modified
+      if (message.text.trim() === messageUpdate.text.trim()) {
+        return undefined; // Not modified
       }
 
       set(state => {
         state.loading = false;
       });
 
-      const response = await ChatApi.updateMessage(chatId, messageId, message);
+      const response = await ChatApi.updateMessage(chatId, messageId, messageUpdate);
       if (response.status !== 200) {
         throw new Error(`Failed to submit message: '${response.statusText}'`);
       }
+
+      return response.data;
     } finally {
       set(state => {
         state.loading = false;

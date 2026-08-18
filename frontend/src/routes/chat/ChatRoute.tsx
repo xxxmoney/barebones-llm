@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import Chat from '../../components/Chat.tsx';
 import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
@@ -17,30 +17,28 @@ function ChatRoute() {
     position: message.role === 'user' ? 'start' : 'end',
     date: message.date
   })), [messages]);
+
+  const updateChat = useChatStore(state => state.updateChat);
+  const handleUpdateChat = useCallback(async (name: string) => { await updateChat(id!, { name: name }); }, [id, updateChat]);
   const submitMessage = useChatStore(state => state.submitMessage);
+  const handleSubmitMessage = useCallback(async (text: string) => { await submitMessage(id!, { text: text }); }, [id, submitMessage]);
   const getMessages = useChatStore(state => state.getMessages);
   const updateMessage = useChatStore(state => state.updateMessage);
+  const handleUpdateMessage = useCallback(async (messageId: string, text: string) => { await updateMessage(id!, messageId, { text: text }); }, [id, updateMessage]);
 
   useEffect(() => {
     if (id) {
       getMessages(id).then();
     }
-  }, [id]);
+  }, [id, getMessages]);
 
-  if (id && name && mappedMessages) {
-    return (
-      <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
-        submit={(text) => submitMessage(id!, { text: text })}
-        update={(messageId, text) => updateMessage(id, messageId, { text: text })}
-      />
-    );
-  } else {
-    return (
-      <>
-        <h2 className="text-heading text-center">Chat not found :/</h2>
-      </>
-    );
-  }
+  return (
+    <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
+      chatUpdate={handleUpdateChat}
+      messageSubmit={handleSubmitMessage}
+      messageUpdate={handleUpdateMessage}
+    />
+  );
 }
 
 export default ChatRoute;

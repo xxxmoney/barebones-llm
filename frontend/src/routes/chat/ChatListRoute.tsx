@@ -22,7 +22,7 @@ function ChatListRoute() {
   async function create() {
     try {
       const chat = await insertChat({ name: DEFAULT_NAME });
-      navigate(`/chat/${chat.id}`);
+      await navigate(`/chat/${chat.id}`);
     } catch (error) {
       console.error('Error creating chat:', error);
     }
@@ -50,7 +50,7 @@ function ChatListRoute() {
           {chats.map(chat =>
             <li key={chat.id} className="relative">
               <Link className="btn btn-secondary" to={`/chat/${chat.id}`}>{chat.name}</Link>
-              <Trash onClick={() => remove(chat.id)} className="absolute top-0 right-0 translate-x-2 -translate-y-2 cursor-pointer hover:animate-bounce" />
+              <Trash onClick={() => remove(chat.id)} className="absolute top-0 right-0 translate-x-2 -translate-y-2 cursor-pointer hover:animate-pulse" />
             </li>
           )}
         </ul>

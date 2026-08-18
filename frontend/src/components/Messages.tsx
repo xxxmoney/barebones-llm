@@ -1,7 +1,7 @@
 import {DateTime} from 'ts-luxon';
 
 export interface MessagesProps {
-  messages: Message[];
+  messages?: Message[];
   update: (messageId: string, text: string) => Promise<void>;
 }
 
@@ -17,7 +17,7 @@ function Messages({ messages, update }: MessagesProps) {
   return (
     <>
       <div>
-        {messages.map((message, index) =>
+        {messages?.map((message, index) =>
           <div key={index} className={`chat chat-${message.position}`}>
             <p className="chat-bubble" contentEditable={true} suppressContentEditableWarning onBlur={(event) => update(message.id, event.currentTarget.textContent)}>
               {message.text}

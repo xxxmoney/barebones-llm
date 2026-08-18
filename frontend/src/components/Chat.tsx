@@ -1,27 +1,34 @@
 import Messages, {type Message} from './Messages.tsx';
 import TextSubmit from './TextSubmit.tsx';
 import Loading from './Loading.tsx';
+import EditableHeading from './EditableHeading.tsx';
+import {memo} from 'react';
 
 interface ChatProps {
-    name: string;
-    messages: Message[];
+    name?: string;
+    messages?: Message[];
     disabled?: boolean;
     loading?: boolean;
-    submit: (text: string) => Promise<void>;
-    update: (messageId: string, text: string) => Promise<void>;
+    messageSubmit: (text: string) => Promise<void>;
+    messageUpdate: (messageId: string, text: string) => Promise<void>;
+    chatUpdate: (name: string) => Promise<void>;
 }
 
-function Chat({ name, messages, disabled = false, loading = false, submit, update }: ChatProps) {
+const MemoEditableHeading = memo(EditableHeading);
+const MemoMessages = memo(Messages);
+const MemoTextSubmit = memo(TextSubmit);
+
+function Chat({ name, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate }: ChatProps) {
   return (
     <>
       <section className="mx-auto flex flex-col gap-lg max-w-[40rem]">
-        <h2 className="text-heading text-center">{name}</h2>
+        <MemoEditableHeading text={name} update={chatUpdate} />
 
-        <Messages messages={messages} update={update} />
+        <MemoMessages messages={messages} update={messageUpdate} />
 
         {loading && <Loading />}
 
-        <TextSubmit submit={submit} disabled={disabled} />
+        <MemoTextSubmit submit={messageSubmit} disabled={disabled} />
       </section>
     </>
   );
