@@ -2,7 +2,7 @@
 import {useChatStore} from '../../stores/chat.store.ts';
 import {Link, useNavigate} from 'react-router';
 import {DEFAULT_NAME} from '../../constants/chat.constants.ts';
-import { Trash } from 'lucide-react';
+import Delete from '../../components/Delete.tsx';
 
 function ChatListRoute() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ function ChatListRoute() {
           {chats.map(chat =>
             <li key={chat.id} className="relative">
               <Link className="btn btn-secondary" to={`/chat/${chat.id}`}>{chat.name}</Link>
-              <Trash onClick={() => remove(chat.id)} className="absolute top-0 right-0 translate-x-2 -translate-y-2 cursor-pointer hover:animate-pulse" />
+              <Delete click={() => remove(chat.id)} absolute />
             </li>
           )}
         </ul>

@@ -12,17 +12,18 @@ interface ChatProps {
     messageSubmit: (text: string) => Promise<void>;
     messageUpdate: (messageId: string, text: string) => Promise<void>;
     chatUpdate: (name: string) => Promise<void>;
+    chatDelete: () => Promise<void>;
 }
 
 const MemoEditableHeading = memo(EditableHeading);
 const MemoMessages = memo(Messages);
 const MemoTextSubmit = memo(TextSubmit);
 
-function Chat({ name, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate }: ChatProps) {
+function Chat({ name, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate, chatDelete }: ChatProps) {
   return (
     <>
       <section className="mx-auto flex flex-col gap-lg max-w-[40rem]">
-        <MemoEditableHeading text={name} update={chatUpdate} />
+        <MemoEditableHeading text={name} update={chatUpdate} clear={chatDelete} />
 
         <MemoMessages messages={messages} update={messageUpdate} />
 
