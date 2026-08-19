@@ -10,7 +10,7 @@ def get_configuration():
 
     return config
 
-@configuration_route.post("/")
+@configuration_route.put("/")
 def update_configuration(configuration: ConfigurationModel):
     configuration_repository.update_configuration(configuration)
 
