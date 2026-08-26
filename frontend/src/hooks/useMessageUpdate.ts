@@ -8,8 +8,8 @@ export function useMessageUpdate(id?: string) {
     async (text: string) => {
       const submitMessagePromise = submitMessage(id!, { text: text });
       await toast.promise(submitMessagePromise, {
-        loading: 'Message submitted...',
-        success: 'Got response',
+        loading: 'Submitting message...',
+        success: 'Got response!',
         error: 'Failed to submit message'
       });
       console.log('Finished');
@@ -19,16 +19,24 @@ export function useMessageUpdate(id?: string) {
   const updateMessage = useChatStore(state => state.updateMessage);
   const handleUpdateMessage = useCallback(
     async (messageId: string, text: string) => {
-      await updateMessage(id!, messageId, { text: text });
-      toast.success('Message updated successfully');
+      const updateMessagePromise = updateMessage(id!, messageId, { text: text });
+      await toast.promise(updateMessagePromise, {
+        loading: 'Updating message...',
+        success: 'Message updated!',
+        error: 'Failed to update message'
+      });
     },
     [id, updateMessage]
   );
   const deleteMessage = useChatStore(state => state.deleteMessage);
   const handleDeleteMessage = useCallback(
     async (messageId: string) => {
-      await deleteMessage(id!, messageId);
-      toast.success('Message deleted successfully');
+      const deleteMessagePromise = deleteMessage(id!, messageId);
+      await toast.promise(deleteMessagePromise, {
+        loading: 'Deleting message...',
+        success: 'Message deleted!',
+        error: 'Failed to delete message'
+      });
     },
     [id, deleteMessage]
   );

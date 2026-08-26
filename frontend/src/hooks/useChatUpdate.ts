@@ -9,17 +9,27 @@ export function useChatUpdate(id?: string) {
   const updateChat = useChatStore(state => state.updateChat);
   const handleUpdateChat = useCallback(
     async (name: string) => {
-      await updateChat(id!, { name: name });
-      toast.success('Chat updated successfully');
+      const updateChatPromise = updateChat(id!, { name: name });
+      await toast.promise(updateChatPromise, {
+        loading: 'Updating chat...',
+        success: 'Chat updated!',
+        error: 'Failed to update chat'
+      });
     },
     [id, updateChat]
   );
   const deleteChat = useChatStore(state => state.deleteChat);
   const handleDeleteChat = useCallback(
     async () => {
-      await deleteChat(id!);
-      toast.success('Chat deleted successfully');
-      await navigate('/chats');
+      const deleteChatPromise = deleteChat(id!);
+      await toast.promise(async () => {
+        await deleteChatPromise;
+        await navigate('/chats');
+      }, {
+        loading: 'Deleting chat...',
+        success: 'Chat deleted!',
+        error: 'Failed to delete chat'
+      });
     },
     [id, deleteChat, navigate]
   );
