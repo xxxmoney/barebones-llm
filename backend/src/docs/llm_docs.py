@@ -3,7 +3,7 @@ from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUs
     ChatCompletionAssistantMessageParam
 from src.dtos.llm.completion import CompletionRequest
 
-COMPLETION_REQUEST_EXAMPLES={
+CREATE_COMPLETION_EXAMPLES={
         "example": Example(
             summary="Request example",
             description="",
