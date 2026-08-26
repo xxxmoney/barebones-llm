@@ -1,5 +1,6 @@
 import {DateTime} from 'ts-luxon';
 import EditableText from './EditableText.tsx';
+import {useEffect, useRef} from 'react';
 
 export interface MessagesProps {
   messages?: Message[];
@@ -16,14 +17,24 @@ export interface Message {
 
 // Tailwind No-Purge: chat-start chat-end
 function Messages({ messages, update, clear }: MessagesProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
     <>
       <div>
         {messages?.map((message, index) =>
-          <div key={index} className={`relative chat chat-${message.position}`}>
+          <div key={index} id={message.id} className={`relative chat chat-${message.position}`}>
             <EditableText text={message.text} allowEnter update={text => update(message.id, text)} clear={() => clear(message.id)} className="chat-bubble" />
           </div>
         )}
+
+        <div ref={scrollRef}></div>
       </div>
     </>
   );
