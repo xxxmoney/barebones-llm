@@ -13,5 +13,5 @@
 - TODO
 
 ## How to local develop?
-- Check `/frontend` and `/backend` for instructions
+- Check `/frontend` and `/backend` READMEs
 
