@@ -1,5 +1,6 @@
 import {DateTime} from 'ts-luxon';
 import Delete from './Delete.tsx';
+import EditableText from './EditableText.tsx';
 
 export interface MessagesProps {
   messages?: Message[];
@@ -21,9 +22,7 @@ function Messages({ messages, update, clear }: MessagesProps) {
       <div>
         {messages?.map((message, index) =>
           <div key={index} className={`relative chat chat-${message.position}`}>
-            <p className="chat-bubble" contentEditable suppressContentEditableWarning onBlur={(event) => update(message.id, event.currentTarget.textContent)}>
-              {message.text}
-            </p>
+            <EditableText text={message.text} update={text => update(message.id, text)} className="chat-bubble" />
 
             <Delete click={() => clear(message.id)} />
           </div>
