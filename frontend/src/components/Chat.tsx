@@ -33,7 +33,7 @@ function Chat({ name, nameMaxLength, messages, disabled = false, loading = false
 
         {loading && <Loading />}
 
-        <MemoTextSubmit disabled={disabled} submit={messageSubmit} />
+        <MemoTextSubmit disabled={disabled} submit={messageSubmit} autoFocus />
       </section>
     </>
   );
