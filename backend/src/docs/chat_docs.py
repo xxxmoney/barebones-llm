@@ -1,5 +1,4 @@
 from fastapi.openapi.models import Example
-
 from src.dtos.chat.chat_update import ChatUpdate
 from src.dtos.chat.message_update import MessageUpdate
 

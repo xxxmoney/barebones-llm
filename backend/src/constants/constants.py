@@ -1,7 +1,5 @@
 
-APP_NAME = "Self Learning App"
-
-IS_DEBUG = True
+APP_NAME = "BarebonesLLM"
 
 WEBVIEW_PORT = 5173
 BACKEND_PORT = 5000

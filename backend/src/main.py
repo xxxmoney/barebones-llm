@@ -6,12 +6,15 @@ import uvicorn
 import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.constants.constants import IS_DEBUG, WEBVIEW_PORT, BACKEND_PORT
+from src.constants.constants import WEBVIEW_PORT, BACKEND_PORT
+from src.models.settings.settings_model import Settings
 from src.routes.llm import llm_route
 from src.routes.test import test_route
 from src.routes.openai import openai_route
 from src.routes.configuration import configuration_route
 from src.routes.chat import chat_route
+
+settings = Settings() # dotenv
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
@@ -33,7 +36,7 @@ app.include_router(chat_route)
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         # Switch to reload=True for live reload - from my experience caused hanging process on port
-        uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=False)
+        uvicorn.run("src.main:app", host="localhost", port=BACKEND_PORT, log_level="info", reload=False)
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)
@@ -47,12 +50,12 @@ def start_api(use_thread: bool) -> Thread | None:
 def start_webview() -> None:
     webview.create_window(
         "barebones-llm",
-        f"http://127.0.0.1:{WEBVIEW_PORT}",
+        f"http://localhost:{WEBVIEW_PORT}",
         width=1000,
         height=700,
         min_size=(600, 400)
     )
-    webview.start(debug=IS_DEBUG)
+    webview.start(debug=settings.is_debug)
 
 def main() -> None:
     start_api(True)
