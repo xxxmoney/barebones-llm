@@ -6,8 +6,13 @@ export function useMessageUpdate(id?: string) {
   const submitMessage = useChatStore(state => state.submitMessage);
   const handleSubmitMessage = useCallback(
     async (text: string) => {
-      await submitMessage(id!, { text: text });
-      toast.success('Message submitted successfully');
+      const submitMessagePromise = submitMessage(id!, { text: text });
+      await toast.promise(submitMessagePromise, {
+        loading: 'Message submitted...',
+        success: 'Got response',
+        error: 'Failed to submit message'
+      });
+      console.log('Finished');
     },
     [id, submitMessage]
   );
