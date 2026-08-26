@@ -1,8 +1,5 @@
 from fastapi import APIRouter, Body
-from fastapi.openapi.models import Example
-from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, \
-    ChatCompletionAssistantMessageParam
-from src.constants.llm_constants import DEFAULT_MODEL, DEFAULT_MAX_TOKENS
+from src.docs.openai_docs import COMPLETION_REQUEST_EXAMPLES
 from src.dtos.openai.completion import CompletionRequest
 from src.repositories import configuration_repository
 from src.services.openai_client import OpenAIClient
@@ -20,23 +17,7 @@ def get_models():
 
 @openai_route.post("/chat-completion")
 def create_chat_completion(completion: CompletionRequest = Body(
-    openapi_examples={
-        "example": Example(
-            summary="Sample request example",
-            description="",
-            value=CompletionRequest(
-                model=DEFAULT_MODEL,
-                messages=[
-                    ChatCompletionSystemMessageParam(role="system", content="You are an assistant, do as the user says."),
-                    ChatCompletionUserMessageParam(role="user", content="Hey there."),
-                    ChatCompletionAssistantMessageParam(role="assistant", content="Hello there, happy to help, ask away."),
-                    ChatCompletionUserMessageParam(role="user", content="Tell me one interesting fact.")
-                ],
-                temperature=0.7,
-                max_tokens=DEFAULT_MAX_TOKENS
-            ).model_dump()
-        )
-    }
+    openapi_examples=COMPLETION_REQUEST_EXAMPLES
 )):
     config = configuration_repository.get_configuration()
 
