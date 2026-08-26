@@ -12,7 +12,6 @@ export function useMessageUpdate(id?: string) {
         success: 'Got response!',
         error: 'Failed to submit message'
       });
-      console.log('Finished');
     },
     [id, submitMessage]
   );
