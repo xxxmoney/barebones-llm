@@ -1,4 +1,5 @@
 import {Link, Outlet} from 'react-router';
+import { Toaster } from 'react-hot-toast';
 
 function AppLayout() {
   return (
@@ -24,6 +25,8 @@ function AppLayout() {
         </main>
 
         <footer></footer>
+
+        <Toaster position="bottom-right" />
       </div>
     </>
   );

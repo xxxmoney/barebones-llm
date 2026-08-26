@@ -193,23 +193,18 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
 
   updateMessage: async (chatId: string, messageId: string, messageUpdate: MessageUpdateDto) => {
     try {
-      const state = get();
-      const chat = state.chats.find(chat => chat.id === chatId);
-      if (!chat) {
-        throw new Error(`Chat with id '${chatId}' not found`);
-      }
-
-      const message = chat.messages.find(message => message.id === messageId);
-      if (!message) {
-        throw new Error(`Message with id '${messageId}' not found`);
-      }
-
-      if (message.text.trim() === messageUpdate.text.trim()) {
-        return undefined; // Not modified
-      }
-
       set(state => {
-        state.loading = false;
+        const chat = state.chats.find(chat => chat.id === chatId);
+        if (!chat) {
+          throw new Error(`Chat with id '${chatId}' not found`);
+        }
+
+        const message = chat.messages.find(message => message.id === messageId);
+        if (!message) {
+          throw new Error(`Message with id '${messageId}' not found`);
+        }
+
+        message.text = messageUpdate.text;
       });
 
       const response = await ChatApi.updateMessage(chatId, messageId, messageUpdate);

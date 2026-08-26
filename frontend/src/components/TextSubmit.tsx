@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import type { SubmitEvent } from 'react';
+import type { SubmitEvent, ChangeEvent } from 'react';
 
 export interface MessageSubmitProps {
     disabled?: boolean;
@@ -10,7 +10,7 @@ export interface MessageSubmitProps {
 function TextSubmit({ disabled, maxLength, submit }: MessageSubmitProps) {
   const [text, setText] = useState('');
 
-  async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
 
@@ -22,10 +22,14 @@ function TextSubmit({ disabled, maxLength, submit }: MessageSubmitProps) {
     }
   }
 
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    setText(event.target.value);
+  }
+
   return (
     <>
-      <form onSubmit={onSubmit} className="w-full flex flex-row justify-center items-center gap-sm">
-        <input type="text" maxLength={maxLength} onChange={(event) => setText(event.target.value)} disabled={disabled} value={text} className="input input-primary" />
+      <form onSubmit={handleSubmit} className="w-full flex flex-row justify-center items-center gap-sm">
+        <input type="text" maxLength={maxLength} onChange={handleChange} disabled={disabled} value={text} className="input input-primary" />
 
         <button type="submit" disabled={disabled} className="btn btn-primary">Send</button>
       </form>
