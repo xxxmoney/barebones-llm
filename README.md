@@ -3,7 +3,7 @@
 
 ## Why another LLM Client?
 - Because this one is *dead* simple
-- Get the app, run it and just chat with local LLM
+- Get the app, run it, set [OpenAI API](https://lightning.ai/docs/litserve/features/open-ai-spec) url and just chat with LLM
 - No need for long setup
 
 ## How to start?
