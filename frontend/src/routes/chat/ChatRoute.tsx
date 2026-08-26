@@ -65,13 +65,13 @@ function ChatRoute() {
   }, [id, getMessages]);
 
   return (
-    <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
-      chatUpdate={handleUpdateChat}
-      chatDelete={handleDeleteChat}
-      messageSubmit={handleSubmitMessage}
-      messageUpdate={handleUpdateMessage}
-      messageDelete={handleDeleteMessage}
-
+    <Chat
+      name={name} nameMaxLength={10}
+      messages={mappedMessages}
+      disabled={loading}
+      loading={loading}
+      chatUpdate={handleUpdateChat} chatDelete={handleDeleteChat}
+      messageSubmit={handleSubmitMessage} messageUpdate={handleUpdateMessage} messageDelete={handleDeleteMessage}
     />
   );
 }

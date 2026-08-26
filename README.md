@@ -1,11 +1,17 @@
 
-# Self Learning App
+# Barebones LLM
 
-## Overview
-- App to help you learn efficiently
-- Interactivity and customization
-- Adjustable per specific user preferences
-- Backed up by the power of LLM (supports local and API)
+## Why another LLM Client?
+- Because this one is *dead* simple
+- Get the app, run it and just chat with local LLM
+- No need for 30 minute setup
 
-## Getting started
+## How to start?
 - TODO
+
+## How to use?
+- TODO
+
+## How to local develop?
+- Check `/frontend` and `/backend` for instructions
+

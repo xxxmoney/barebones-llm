@@ -32,7 +32,7 @@ app.include_router(chat_route)
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():
-        # Switch to reload=True for live realod - from my experience kinda buggy - caused hanging process for port, etc
+        # Switch to reload=True for live reload - from my experience caused hanging process on port
         uvicorn.run("src.main:app", host="127.0.0.1", port=BACKEND_PORT, log_level="info", reload=False)
 
     if use_thread:
@@ -45,10 +45,8 @@ def start_api(use_thread: bool) -> Thread | None:
         return None
 
 def start_webview() -> None:
-    print("Starting desktop app...")
-
     webview.create_window(
-        "Self Learning App",
+        "barebones-llm",
         f"http://127.0.0.1:{WEBVIEW_PORT}",
         width=1000,
         height=700,
