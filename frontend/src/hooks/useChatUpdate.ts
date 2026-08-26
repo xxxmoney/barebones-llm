@@ -2,7 +2,7 @@ import {useChatStore} from '../stores/chat.store.ts';
 import {useCallback} from 'react';
 import {useNavigate} from 'react-router';
 
-export function useChatUpdate(id: string) {
+export function useChatUpdate(id?: string) {
   const navigate = useNavigate();
 
   const updateChat = useChatStore(state => state.updateChat);

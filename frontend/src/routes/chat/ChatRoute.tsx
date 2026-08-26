@@ -22,7 +22,7 @@ function ChatRoute() {
   })), [messages]);
 
   const { handleUpdateChat, handleDeleteChat } = useChatUpdate(id);
-  const { handleSubmitMessage, handleUpdateMessage, handleDeleteMessage } = useMessageUpdate();
+  const { handleSubmitMessage, handleUpdateMessage, handleDeleteMessage } = useMessageUpdate(id);
   const getMessages = useChatStore(state => state.getMessages);
 
   useEffect(() => {

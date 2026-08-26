@@ -1,7 +1,7 @@
 import {useChatStore} from '../stores/chat.store.ts';
 import {useCallback} from 'react';
 
-export function useMessageUpdate(id: string) {
+export function useMessageUpdate(id?: string) {
   const submitMessage = useChatStore(state => state.submitMessage);
   const handleSubmitMessage = useCallback(
     async (text: string) => {
