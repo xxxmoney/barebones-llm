@@ -17,6 +17,10 @@
     --spacing-7xl: 5rem;
 }
 
+html {
+    font-size: 20px;
+}
+
 .text-heading {
     @apply text-5xl font-bold;
 }

@@ -2,7 +2,7 @@
 import {useChatStore} from '../../stores/chat.store.ts';
 import {Link, useNavigate} from 'react-router';
 import {DEFAULT_NAME} from '../../constants/chat.constants.ts';
-import { Trash } from 'lucide-react';
+import Delete from '../../components/Delete.tsx';
 
 function ChatListRoute() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function ChatListRoute() {
   async function create() {
     try {
       const chat = await insertChat({ name: DEFAULT_NAME });
-      navigate(`/chat/${chat.id}`);
+      await navigate(`/chat/${chat.id}`);
     } catch (error) {
       console.error('Error creating chat:', error);
     }
@@ -43,14 +43,14 @@ function ChatListRoute() {
   return (
     <>
       <section className="flex flex-col gap-xl items-center">
-        <button onClick={create} className="btn btn-primary">Create</button>
+        <button onClick={create} className="btn btn-primary tooltip" data-tip="New">+</button>
 
         <h2 className="text-lg text-center">Chats:</h2>
         <ul className="flex max-w-80 flex-col items-center gap-md">
           {chats.map(chat =>
-            <li key={chat.id} className="relative">
-              <Link className="btn btn-secondary" to={`/chat/${chat.id}`}>{chat.name}</Link>
-              <Trash onClick={() => remove(chat.id)} className="absolute top-0 right-0 translate-x-2 -translate-y-2 cursor-pointer hover:animate-bounce" />
+            <li key={chat.id} className="relative group">
+              <Link className="btn btn-secondary tooltip" data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
+              <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
             </li>
           )}
         </ul>

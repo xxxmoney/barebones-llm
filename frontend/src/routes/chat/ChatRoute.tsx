@@ -4,6 +4,9 @@ import {useChatStore} from '../../stores/chat.store.ts';
 import type {MessageDto} from '../../dtos/chat/message.dto.ts';
 import type {Message} from '../../components/Messages.tsx';
 import {useParams} from 'react-router';
+import {useChatUpdate} from '../../hooks/useChatUpdate.ts';
+import {useMessageUpdate} from '../../hooks/useMessageUpdate.ts';
+import {NAME_MAX_LENGTH} from '../../constants/chat.constants.ts';
 
 function ChatRoute() {
   const { id } = useParams();
@@ -17,30 +20,27 @@ function ChatRoute() {
     position: message.role === 'user' ? 'start' : 'end',
     date: message.date
   })), [messages]);
-  const submitMessage = useChatStore(state => state.submitMessage);
+
+  const { handleUpdateChat, handleDeleteChat } = useChatUpdate(id);
+  const { handleSubmitMessage, handleUpdateMessage, handleDeleteMessage } = useMessageUpdate(id);
   const getMessages = useChatStore(state => state.getMessages);
-  const updateMessage = useChatStore(state => state.updateMessage);
 
   useEffect(() => {
     if (id) {
       getMessages(id).then();
     }
-  }, [id]);
+  }, [id, getMessages]);
 
-  if (id && name && mappedMessages) {
-    return (
-      <Chat name={name} messages={mappedMessages} disabled={loading} loading={loading}
-        submit={(text) => submitMessage(id!, { text: text })}
-        update={(messageId, text) => updateMessage(id, messageId, { text: text })}
-      />
-    );
-  } else {
-    return (
-      <>
-        <h2 className="text-heading text-center">Chat not found :/</h2>
-      </>
-    );
-  }
+  return (
+    <Chat
+      name={name} nameMaxLength={NAME_MAX_LENGTH}
+      messages={mappedMessages}
+      disabled={loading}
+      loading={loading}
+      chatUpdate={handleUpdateChat} chatDelete={handleDeleteChat}
+      messageSubmit={handleSubmitMessage} messageUpdate={handleUpdateMessage} messageDelete={handleDeleteMessage}
+    />
+  );
 }
 
 export default ChatRoute;

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.constants.llm_constants import DEFAULT_OPEN_AI_URL, DEFAULT_AI_TOKEN, DEFAULT_MODEL, DEFAULT_MAX_TOKENS, \
+from src.constants.llm_constants import DEFAULT_OPEN_AI_URL, DEFAULT_OPEN_AI_TOKEN, DEFAULT_MODEL, DEFAULT_MAX_TOKENS, \
     DEFAULT_TEMPERATURE
 
 @dataclass
@@ -15,7 +15,7 @@ class ConfigurationModel:
     def default() -> "ConfigurationModel":
         return ConfigurationModel(
             open_ai_url=DEFAULT_OPEN_AI_URL,
-            open_ai_token=DEFAULT_AI_TOKEN,
+            open_ai_token=DEFAULT_OPEN_AI_TOKEN,
             model=DEFAULT_MODEL,
             max_tokens=DEFAULT_MAX_TOKENS,
             temperature=DEFAULT_TEMPERATURE

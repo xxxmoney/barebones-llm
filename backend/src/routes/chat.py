@@ -1,6 +1,8 @@
 from typing import List
 from uuid import UUID
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
+from src.docs.chat_docs import INSERT_CHAT_EXAMPLES, UPDATE_CHAT_EXAMPLES, SUBMIT_MESSAGE_EXAMPLES, \
+    UPDATE_MESSAGE_EXAMPLES
 from src.dtos.chat.chat import Chat
 from src.dtos.chat.chat_update import ChatUpdate
 from src.dtos.chat.message import Message
@@ -15,12 +17,12 @@ def get_chats() -> List[Chat]:
     return chats
 
 @chat_route.post("/")
-def insert_chat(chat: ChatUpdate) -> Chat:
+def insert_chat(chat: ChatUpdate = Body(openapi_examples=INSERT_CHAT_EXAMPLES)) -> Chat:
     chat = chat_service.insert_chat(chat)
     return chat
 
 @chat_route.put("/{chat_id}")
-def update_chat(chat_id: UUID, chat: ChatUpdate) -> Chat:
+def update_chat(chat_id: UUID, chat: ChatUpdate = Body(openapi_examples=UPDATE_CHAT_EXAMPLES)) -> Chat:
     chat = chat_service.update_chat(chat_id, chat)
     return chat
 
@@ -36,12 +38,12 @@ def get_messages(chat_id: UUID) -> List[Message]:
     return messages
 
 @chat_route.post("/{chat_id}/message")
-def submit_message(chat_id: UUID, message: MessageUpdate) -> List[Message]:
+def submit_message(chat_id: UUID, message: MessageUpdate = Body(openapi_examples=SUBMIT_MESSAGE_EXAMPLES)) -> List[Message]:
     messages = chat_service.submit_message(chat_id, message)
     return messages
 
 @chat_route.put("/{chat_id}/message/{message_id}")
-def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdate) -> Message:
+def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdate = Body(openapi_examples=UPDATE_MESSAGE_EXAMPLES)) -> Message:
     messages = chat_service.update_message(chat_id, message_id, message)
     return messages
 
