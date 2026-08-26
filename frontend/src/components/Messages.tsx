@@ -21,7 +21,7 @@ function Messages({ messages, update, clear }: MessagesProps) {
       <div>
         {messages?.map((message, index) =>
           <div key={index} className={`relative chat chat-${message.position}`}>
-            <p className="chat-bubble" contentEditable={true} suppressContentEditableWarning onBlur={(event) => update(message.id, event.currentTarget.textContent)}>
+            <p className="chat-bubble" contentEditable suppressContentEditableWarning onBlur={(event) => update(message.id, event.currentTarget.textContent)}>
               {message.text}
             </p>
 

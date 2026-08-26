@@ -6,6 +6,7 @@ import type {Message} from '../../components/Messages.tsx';
 import {useParams} from 'react-router';
 import {useChatUpdate} from '../../hooks/useChatUpdate.ts';
 import {useMessageUpdate} from '../../hooks/useMessageUpdate.ts';
+import {NAME_MAX_LENGTH} from '../../constants/chat.constants.ts';
 
 function ChatRoute() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ function ChatRoute() {
 
   return (
     <Chat
-      name={name} nameMaxLength={10}
+      name={name} nameMaxLength={NAME_MAX_LENGTH}
       messages={mappedMessages}
       disabled={loading}
       loading={loading}

@@ -10,9 +10,18 @@ interface EditableTextProps {
 
 function EditableText({text, maxLength, update, clear}: EditableTextProps) {
   function handleKeyDown(event: KeyboardEvent<HTMLSpanElement>) {
-    if (maxLength && event.currentTarget.textContent.length > maxLength && event.key !== 'Backspace' && event.key !== 'Delete') {
-      event.preventDefault();
+    const isWithinMaxLength = !maxLength || event.currentTarget.textContent.length <= maxLength;
+    const isDelete = event.key === 'Backspace' || event.key === 'Delete';
+    const isSelectAll = (event.ctrlKey || event.metaKey) && event.key === 'a';
+
+    if (isWithinMaxLength || isDelete || isSelectAll) {
+      return;
     }
+
+    event.preventDefault();
+  }
+  function handlePaste(event: ClipboardEvent<HTMLSpanElement>) {
+    event.preventDefault();
   }
   async function handleBlur(event: FocusEvent<HTMLSpanElement>) {
     if (event.currentTarget.textContent !== text) {
@@ -22,7 +31,7 @@ function EditableText({text, maxLength, update, clear}: EditableTextProps) {
 
   return (
     <>
-      <span onKeyDown={handleKeyDown} onBlur={handleBlur} className="relative" contentEditable suppressContentEditableWarning >
+      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className="relative" contentEditable suppressContentEditableWarning>
         {text}
         {clear && <Delete click={clear} absolute />}
       </span>
