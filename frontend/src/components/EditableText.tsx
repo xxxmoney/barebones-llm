@@ -33,9 +33,9 @@ function EditableText({text, maxLength, allowEnter, className, update, clear}: E
 
   return (
     <>
-      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`relative ${className}`} contentEditable suppressContentEditableWarning>
+      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`relative group ${className}`} contentEditable suppressContentEditableWarning>
         {text}
-        {clear && <Delete click={clear} absolute />}
+        {clear && <Delete click={clear} absolute className="opacity-0 group-hover:opacity-100" />}
       </span>
     </>
   );

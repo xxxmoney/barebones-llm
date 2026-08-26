@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import type { SubmitEvent, ChangeEvent } from 'react';
+import {SendHorizontal} from 'lucide-react';
 
 export interface MessageSubmitProps {
     disabled?: boolean;
@@ -31,7 +32,9 @@ function TextSubmit({ disabled, maxLength, submit }: MessageSubmitProps) {
       <form onSubmit={handleSubmit} className="w-full flex flex-row justify-center items-center gap-sm">
         <input type="text" maxLength={maxLength} onChange={handleChange} disabled={disabled} value={text} className="input input-primary" />
 
-        <button type="submit" disabled={disabled} className="btn btn-primary">Send</button>
+        <button type="submit" disabled={disabled} data-tip="Send" className="btn btn-primary tooltip">
+          <SendHorizontal />
+        </button>
       </form>
     </>
   );
