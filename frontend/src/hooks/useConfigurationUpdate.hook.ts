@@ -4,8 +4,10 @@ import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { ValidationError } from '../errors/ValidationError.ts';
 import { useLlmStore } from '../stores/openAiStore.store.ts';
+import { useNavigate } from 'react-router';
 
 export function useConfigurationUpdate() {
+  const navigate = useNavigate();
   const getModels = useLlmStore(state => state.getModels);
   const isModelsLoaded = useLlmStore(state => state.hasLoaded);
 
@@ -15,6 +17,8 @@ export function useConfigurationUpdate() {
     toast.promise(async () => {
       try {
         await updateConfiguration(value);
+
+        await navigate('/chats');
       } catch (error) {
         // Fetch models if connection info is valid
         if (!isModelsLoaded && error instanceof ValidationError && error.detail.fields['open_ai_url'] && error.detail.fields['open_ai_token']) {
