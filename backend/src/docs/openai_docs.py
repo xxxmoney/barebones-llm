@@ -4,6 +4,17 @@ from src.constants.llm_constants import SAMPLE_DEFAULT_MODEL, DEFAULT_MAX_TOKENS
 from src.dtos.openai.completion import FullCompletionRequestDto, CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 
+GET_MODELS_EXAMPLES = {
+        "example": Example(
+            summary="Request example",
+            description="",
+            value=ConnectionDto(
+                open_ai_url=SAMPLE_DEFAULT_OPEN_AI_URL,
+                open_ai_token=SAMPLE_DEFAULT_OPEN_AI_TOKEN
+            ).model_dump()
+        )
+    }
+
 CREATE_CHAT_COMPLETION_EXAMPLES = {
         "example": Example(
             summary="Request example",

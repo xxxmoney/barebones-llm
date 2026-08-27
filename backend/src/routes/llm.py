@@ -9,5 +9,3 @@ llm_route = APIRouter(prefix="/api/llm", tags=["LLM"])
 def create_completion(request: CompletionRequestDto = Body(openapi_examples=CREATE_COMPLETION_EXAMPLES)):
     return llm_service.create_completion(request)
 
-
-
