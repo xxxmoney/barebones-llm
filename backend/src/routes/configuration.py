@@ -16,7 +16,7 @@ def update_configuration(configuration: ConfigurationUpdateDto = Body(openapi_ex
     validation = configuration_service.validate_configuration_update(configuration)
     configuration = configuration_service.update_configuration(configuration, validation.is_valid)
     if not validation.is_valid:
-        raise HTTPException(status_code=400, detail=validation)
+        raise HTTPException(status_code=400, detail=validation.model_dump())
 
     return configuration
 
