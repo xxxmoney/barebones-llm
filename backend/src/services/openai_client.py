@@ -1,6 +1,7 @@
 from openai import OpenAI, APIConnectionError, AuthenticationError, NotFoundError, BadRequestError
 from src.constants.llm_constants import ROLE_USER, TEST_PROMPT
 from src.dtos.openai.completion import CompletionRequestDto
+from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto
 
 
@@ -9,9 +10,9 @@ class OpenAIClient:
     _open_ai_token: str
     _client: OpenAI
 
-    def __init__(self, open_ai_url: str, open_ai_token: str):
-        self._open_ai_url = open_ai_url
-        self._open_ai_token = open_ai_token
+    def __init__(self, connection: ConnectionDto):
+        self._open_ai_url = connection.open_ai_url
+        self._open_ai_token = connection.open_ai_token
 
     def __enter__(self) -> "OpenAIClient":
         self._client = OpenAI(
@@ -39,16 +40,11 @@ class OpenAIClient:
 
         return response.choices[0].message.content
 
-    def validate(self, model: str, max_tokens: int, temperature: float) -> ValidationDto:
+    def validate(self, completion: CompletionRequestDto) -> ValidationDto:
         try:
             self.get_models()
 
-            self.get_chat_completion(CompletionRequestDto(
-                model=model,
-                messages=[{"content": TEST_PROMPT, "role": ROLE_USER}],
-                max_tokens=max_tokens,
-                temperature=temperature
-            ))
+            self.get_chat_completion(completion)
         except APIConnectionError:
             return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
         except AuthenticationError:
