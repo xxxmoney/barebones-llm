@@ -10,7 +10,7 @@ interface ChatStore {
     loading: boolean;
     chats: ChatDto[];
     
-    getChats: () => Promise<void>;
+    getChats: () => Promise<ChatDto[]>;
     insertChat: (chatUpdate: ChatUpdateDto) => Promise<ChatDto>;
     updateChat: (chatId: string, chatUpdate: ChatUpdateDto) => Promise<ChatDto | undefined>;
     deleteChat: (chatId: string) => Promise<void>;
@@ -41,6 +41,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
         state.hasLoaded = true;
       });
 
+      return response.data;
     } finally {
       set(state => {
         state.loading = false;

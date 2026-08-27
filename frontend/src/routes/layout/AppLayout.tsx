@@ -4,21 +4,25 @@ import { useChatStore } from '../../stores/chat.store.ts';
 import { useConfigurationStore } from '../../stores/configuration.store.ts';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading.tsx';
+import { useOpenAiStore } from '../../stores/openAiStore.store.ts';
 
 function AppLayout() {
   const getChats = useChatStore(state => state.getChats);
   const isChatsLoaded = useChatStore(state => state.hasLoaded);
   const getConfiguration = useConfigurationStore(state => state.getConfiguration);
   const isConfigurationLoaded = useConfigurationStore(state => state.hasLoaded);
+  const getModels = useOpenAiStore(state => state.getModels);
+  const isModelsLoaded = useOpenAiStore(state => state.hasLoaded);
 
   useEffect(() => {
     Promise.all([
       getChats(),
-      getConfiguration()
+      getConfiguration(),
+      getModels()
     ]).then();
   }, []);
 
-  if (!isChatsLoaded || !isConfigurationLoaded) {
+  if (!isChatsLoaded || !isConfigurationLoaded || !isModelsLoaded) {
     return (
       <>
         <div className="w-screen h-screen">
