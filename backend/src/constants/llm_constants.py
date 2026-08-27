@@ -6,3 +6,5 @@ DEFAULT_TEMPERATURE = 0.7
 
 ROLE_USER = "user"
 ROLE_ASSISTANT = "assistant"
+
+TEST_PROMPT = "Strictly respond only with text 'OK'"

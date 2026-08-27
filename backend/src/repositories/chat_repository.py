@@ -1,8 +1,8 @@
 import uuid
 from uuid import UUID
 from typing import List, Callable
-from src.models.chat.chat_model import ChatModel
-from src.models.chat.message_model import MessageModel
+from src.models.chat.chat import ChatModel
+from src.models.chat.message import MessageModel
 from src.services.persistence import Persistence
 
 chats_key = "chats"

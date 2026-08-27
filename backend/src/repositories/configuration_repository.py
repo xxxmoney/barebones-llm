@@ -1,4 +1,4 @@
-from src.models.configuration.configuration_model import ConfigurationModel
+from src.models.configuration.configuration import ConfigurationModel
 from src.services.persistence import Persistence
 from src.constants.llm_constants import DEFAULT_MAX_TOKENS, DEFAULT_TEMPERATURE
 
@@ -8,6 +8,7 @@ def get_configuration() -> ConfigurationModel:
     with Persistence() as persistence:
         if configuration_key not in persistence.db.keys():
             persistence.db[configuration_key] = ConfigurationModel(
+                is_configured=False,
                 open_ai_url=None,
                 open_ai_token=None,
                 model=None,

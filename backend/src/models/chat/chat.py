@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 from src.models.base import BaseModel
-from src.models.chat.message_model import MessageModel
+from src.models.chat.message import MessageModel
 
 class ChatModel(BaseModel):
     id: UUID

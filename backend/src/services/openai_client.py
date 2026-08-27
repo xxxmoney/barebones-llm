@@ -1,5 +1,8 @@
-from openai import OpenAI
+from openai import OpenAI, APIConnectionError, AuthenticationError, NotFoundError, BadRequestError
+from src.constants.llm_constants import ROLE_USER, TEST_PROMPT
 from src.dtos.openai.completion import CompletionRequestDto
+from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto
+
 
 class OpenAIClient:
     _open_ai_url: str
@@ -30,9 +33,29 @@ class OpenAIClient:
         response = self._client.chat.completions.create(
             model= completion.model,
             messages= completion.messages,
-            temperature= completion.temperature,
-            max_tokens= completion.max_tokens
+            max_tokens=completion.max_tokens,
+            temperature= completion.temperature
         )
 
         return response.choices[0].message.content
 
+    def validate(self, model: str, max_tokens: int, temperature: float) -> ValidationDto:
+        try:
+            self.get_models()
+
+            self.get_chat_completion(CompletionRequestDto(
+                model=model,
+                messages=[{"content": TEST_PROMPT, "role": ROLE_USER}],
+                max_tokens=max_tokens,
+                temperature=temperature
+            ))
+        except APIConnectionError:
+            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
+        except AuthenticationError:
+            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
+        except NotFoundError:
+            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(model=False))
+        except BadRequestError:
+            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(temperature=False, max_tokens=False))
+
+        return ValidationDto(is_valid=True)

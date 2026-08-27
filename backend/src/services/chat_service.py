@@ -7,8 +7,8 @@ from src.dtos.chat.chat_update import ChatUpdateDto
 from src.dtos.chat.message import MessageDto
 from src.dtos.chat.message_update import MessageUpdateDto
 from src.dtos.llm.completion import CompletionRequestDto
-from src.models.chat.chat_model import ChatModel
-from src.models.chat.message_model import MessageModel
+from src.models.chat.chat import ChatModel
+from src.models.chat.message import MessageModel
 from src.repositories import chat_repository
 from src.services import llm_service
 
