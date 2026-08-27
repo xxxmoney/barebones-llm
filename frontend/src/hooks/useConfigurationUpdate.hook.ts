@@ -11,12 +11,11 @@ export function useConfigurationUpdate() {
 
   const updateConfiguration = useConfigurationStore(state => state.updateConfiguration);
   const handleUpdateConfiguration = useCallback((value: ConfigurationUpdateDto) =>
+    // TODO: maybe separate waiting for update confiruation and then getting models
     toast.promise(async () => {
       try {
         await updateConfiguration(value);
       } catch (error) {
-        console.log(error);
-
         // Fetch models if connection info is valid
         if (!isModelsLoaded && error instanceof ValidationError && error.detail.fields['open_ai_url'] && error.detail.fields['open_ai_token']) {
           await getModels();
