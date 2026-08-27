@@ -26,9 +26,9 @@ function ConfigurationRoute() {
   return (
     <>
       <section className="flex flex-col gap-md items-center">
-        {(loading || !isModelsLoaded) && <Loading />}
+        {(loading) && <Loading />}
 
-        {hasLoaded && isModelsLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
+        {hasLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
       </section>
     </>
   );
