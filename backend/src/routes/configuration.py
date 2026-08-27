@@ -7,13 +7,19 @@ from src.repositories import configuration_repository
 configuration_route = APIRouter(prefix="/api/configuration", tags=["Configuration"])
 
 @configuration_route.get("/")
-def get_configuration():
+def get_configuration() -> Configuration:
     config = configuration_repository.get_configuration()
 
-    return config
+    return Configuration(
+        open_ai_url=config.open_ai_url,
+        open_ai_token=config.open_ai_token,
+        model=config.model,
+        max_tokens=config.max_tokens,
+        temperature=config.temperature
+    )
 
 @configuration_route.put("/")
-def update_configuration(configuration: Configuration = Body(openapi_examples=UPDATE_CONFIGURATION_EXAMPLES)):
+def update_configuration(configuration: Configuration = Body(openapi_examples=UPDATE_CONFIGURATION_EXAMPLES)) -> Configuration:
     configuration_repository.update_configuration(ConfigurationModel(
         open_ai_url=configuration.open_ai_url,
         open_ai_token=configuration.open_ai_token,
@@ -25,6 +31,6 @@ def update_configuration(configuration: Configuration = Body(openapi_examples=UP
     return configuration
 
 @configuration_route.delete("/")
-def delete_configuration():
+def delete_configuration() -> None:
     configuration_repository.delete_configuration()
 

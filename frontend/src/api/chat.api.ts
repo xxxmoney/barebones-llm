@@ -1,9 +1,9 @@
 import { api } from './index';
-import type {AxiosResponse} from 'axios';
-import type {ChatDto, ChatUpdateDto} from '../dtos/chat/chat.dto.ts';
-import type {MessageDto} from '../dtos/chat/message.dto.ts';
-import type {MessageUpdateDto} from '../dtos/chat/message.dto.ts';
-
+import type { AxiosResponse } from 'axios';
+import type { ChatDto, ChatUpdateDto } from '../dtos/chat/chat.dto.ts';
+import type { MessageDto } from '../dtos/chat/message.dto.ts';
+import type { MessageUpdateDto } from '../dtos/chat/message.dto.ts';
+ 
 const URL_PREFIX = '/api/chat';
 
 export const ChatApi = {
