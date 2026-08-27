@@ -1,3 +1,4 @@
+from src.constants.llm_constants import TEST_PROMPT, ROLE_USER
 from src.dtos.configuration.configuration import ConfigurationDto
 from src.dtos.configuration.configuration_update import ConfigurationUpdateDto
 from src.dtos.openai.completion import CompletionRequestDto
@@ -17,6 +18,7 @@ def validate_configuration_update(configuration: ConfigurationUpdateDto) -> Vali
         validation = client.validate(
             CompletionRequestDto(
                 model=configuration.model,
+                messages=[{"content": TEST_PROMPT, "role": ROLE_USER}],
                 max_tokens=configuration.max_tokens,
                 temperature=configuration.temperature
             )
