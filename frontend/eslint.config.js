@@ -27,7 +27,8 @@ export default defineConfig([
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }
-      ]
+      ],
+      'object-curly-spacing': ['error', 'always']
     }
   },
 ])
