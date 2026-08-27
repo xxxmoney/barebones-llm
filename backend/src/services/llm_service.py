@@ -1,9 +1,9 @@
-from src.dtos.llm.completion import CompletionRequest, CompletionResponse
-from src.dtos.openai.completion import CompletionRequest as ClientCompletionRequest
+from src.dtos.llm.completion import CompletionRequestDto, CompletionResponseDto
+from src.dtos.openai.completion import CompletionRequestDto as ClientCompletionRequest
 from src.repositories import configuration_repository
 from src.services.openai_client import OpenAIClient
 
-def create_completion(request: CompletionRequest) -> CompletionResponse:
+def create_completion(request: CompletionRequestDto) -> CompletionResponseDto:
     config = configuration_repository.get_configuration()
 
     with OpenAIClient(config.open_ai_url, config.open_ai_token) as client:
@@ -16,5 +16,5 @@ def create_completion(request: CompletionRequest) -> CompletionResponse:
             )
         )
 
-    return CompletionResponse(text=text)
+    return CompletionResponseDto(text=text)
 

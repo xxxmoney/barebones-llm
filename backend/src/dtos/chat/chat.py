@@ -1,9 +1,9 @@
 from datetime import datetime
 from uuid import UUID
-from src.dtos.base.camel import CamelBaseModel
+from src.dtos.base import BaseModel
 
 
-class Chat(CamelBaseModel):
+class ChatDto(BaseModel):
     id: UUID
     name: str
     creation_date: datetime

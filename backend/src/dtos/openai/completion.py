@@ -2,11 +2,11 @@ from typing import List
 from openai.types.chat import ChatCompletionDeveloperMessageParam, ChatCompletionSystemMessageParam, \
     ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam, ChatCompletionToolMessageParam, \
     ChatCompletionFunctionMessageParam
-from src.dtos.base.camel import CamelBaseModel
+from src.dtos.base import BaseModel
 
 Message = ChatCompletionDeveloperMessageParam | ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam | ChatCompletionToolMessageParam | ChatCompletionFunctionMessageParam
 
-class CompletionRequest(CamelBaseModel):
+class CompletionRequestDto(BaseModel):
     model: str
     messages: List[Message]
     temperature: float

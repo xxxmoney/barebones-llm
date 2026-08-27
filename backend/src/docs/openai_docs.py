@@ -1,15 +1,15 @@
 from fastapi.openapi.models import Example
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, \
     ChatCompletionAssistantMessageParam
-from src.constants.llm_constants import DEFAULT_MODEL, DEFAULT_MAX_TOKENS, DEFAULT_TEMPERATURE
-from src.dtos.openai.completion import CompletionRequest
+from src.constants.llm_constants import SAMPLE_DEFAULT_MODEL, DEFAULT_MAX_TOKENS, DEFAULT_TEMPERATURE
+from src.dtos.openai.completion import CompletionRequestDto
 
 CREATE_CHAT_COMPLETION_EXAMPLES = {
         "example": Example(
             summary="Request example",
             description="",
-            value=CompletionRequest(
-                model=DEFAULT_MODEL,
+            value=CompletionRequestDto(
+                model=SAMPLE_DEFAULT_MODEL,
                 messages=[
                     ChatCompletionSystemMessageParam(role="system", content="You are an assistant, do as the user says."),
                     ChatCompletionUserMessageParam(role="user", content="Hey there."),

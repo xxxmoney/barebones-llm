@@ -1,4 +1,4 @@
-from src.dtos.base.camel import CamelBaseModel
+from src.dtos.base import BaseModel
 
-class ChatUpdate(CamelBaseModel):
+class ChatUpdateDto(BaseModel):
     name: str

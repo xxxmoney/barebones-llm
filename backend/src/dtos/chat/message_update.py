@@ -1,5 +1,5 @@
-from src.dtos.base.camel import CamelBaseModel
+from src.dtos.base import BaseModel
 
-class MessageUpdate(CamelBaseModel):
+class MessageUpdateDto(BaseModel):
     text: str
     role: str | None = None

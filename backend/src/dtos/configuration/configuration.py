@@ -1,8 +1,8 @@
-from src.dtos.base.camel import CamelBaseModel
+from src.dtos.base import BaseModel
 
-class Configuration(CamelBaseModel):
-    open_ai_url: str
-    open_ai_token: str
-    model: str
+class ConfigurationDto(BaseModel):
+    open_ai_url: str | None
+    open_ai_token: str | None
+    model: str | None
     max_tokens: int
     temperature: float

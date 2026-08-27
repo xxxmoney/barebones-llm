@@ -1,5 +1,5 @@
 from openai import OpenAI
-from src.dtos.openai.completion import CompletionRequest
+from src.dtos.openai.completion import CompletionRequestDto
 
 class OpenAIClient:
     _open_ai_url: str
@@ -26,7 +26,7 @@ class OpenAIClient:
     def get_models(self):
         return self._client.models.list()
 
-    def get_chat_completion(self, completion: CompletionRequest):
+    def get_chat_completion(self, completion: CompletionRequestDto):
         response = self._client.chat.completions.create(
             model= completion.model,
             messages= completion.messages,
