@@ -42,7 +42,7 @@ function Configuration({ configuration, models, disabled, update }: Configuratio
             <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className="input"  />
 
             <label htmlFor="model" className="label">Model</label>
-            <Select name="model" options={models} defaultValue={configuration?.model} />
+            <Select name="model" options={models} defaultValue={configuration?.model} required />
           </fieldset>
         </details>
 
