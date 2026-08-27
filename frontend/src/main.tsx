@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import AppLayout from './routes/layout/AppLayout.tsx';
-import {BrowserRouter, Route, Routes} from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import HomeRoute from './routes/home/HomeRoute.tsx';
 import ChatListRoute from './routes/chat/ChatListRoute.tsx';
 import ChatRoute from './routes/chat/ChatRoute.tsx';

@@ -1,7 +1,7 @@
-﻿import {useEffect} from 'react';
-import {useChatStore} from '../../stores/chat.store.ts';
-import {Link, useNavigate} from 'react-router';
-import {DEFAULT_NAME} from '../../constants/chat.constants.ts';
+﻿import { useEffect } from 'react';
+import { useChatStore } from '../../stores/chat.store.ts';
+import { Link, useNavigate } from 'react-router';
+import { DEFAULT_NAME } from '../../constants/chat.constants.ts';
 import Delete from '../../components/Delete.tsx';
 
 function ChatListRoute() {

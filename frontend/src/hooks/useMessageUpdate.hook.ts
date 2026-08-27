@@ -1,5 +1,5 @@
-import {useChatStore} from '../stores/chat.store.ts';
-import {useCallback} from 'react';
+import { useChatStore } from '../stores/chat.store.ts';
+import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 export function useMessageUpdate(id?: string) {
@@ -40,5 +40,5 @@ export function useMessageUpdate(id?: string) {
     [id, deleteMessage]
   );
 
-  return {handleSubmitMessage, handleUpdateMessage, handleDeleteMessage};
+  return { handleSubmitMessage, handleUpdateMessage, handleDeleteMessage };
 }

@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import type { SubmitEvent, ChangeEvent } from 'react';
-import {SendHorizontal} from 'lucide-react';
+import { SendHorizontal } from 'lucide-react';
 
 export interface MessageSubmitProps {
     disabled?: boolean;
