@@ -15,19 +15,20 @@ function ConfigurationRoute() {
   const modelNames: string[] = useMemo(() => models.map(model => model.name), [models]);
   const { handleUpdateConfiguration } = useConfigurationUpdate();
   const getModels = useLlmStore(state => state.getModels);
+  const isModelsLoaded = useLlmStore(state => state.hasLoaded);
 
   useEffect(() => {
-    if (!hasLoaded && !configuration?.isConfigured) {
+    if (!isModelsLoaded && configuration?.isConfigured) {
       getModels().then();
     }
-  }, [hasLoaded, configuration]);
+  }, [isModelsLoaded, configuration]);
 
   return (
     <>
       <section className="flex flex-col gap-md items-center">
-        {loading && <Loading />}
+        {(loading || !isModelsLoaded) && <Loading />}
 
-        {hasLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
+        {hasLoaded && isModelsLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
       </section>
     </>
   );
