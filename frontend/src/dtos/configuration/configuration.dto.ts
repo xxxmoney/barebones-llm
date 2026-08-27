@@ -14,7 +14,7 @@ export interface ConfigurationDto {
 export interface ConfigurationUpdateDto {
     openAiUrl: string;
     openAiToken: string;
-    model: string;
+    model?: string;
     maxTokens: number;
     temperature: number;
 }
