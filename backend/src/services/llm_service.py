@@ -4,6 +4,14 @@ from src.dtos.openai.connection import ConnectionDto
 from src.repositories import configuration_repository
 from src.services.openai_client import OpenAIClient
 
+def get_models():
+    config = configuration_repository.get_configuration()
+
+    with OpenAIClient(ConnectionDto.model_validate(config)) as client:
+        models = client.get_models()
+
+    return models
+
 def create_completion(request: CompletionRequestDto) -> CompletionResponseDto:
     config = configuration_repository.get_configuration()
 

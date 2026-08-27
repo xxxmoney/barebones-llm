@@ -3,18 +3,18 @@ import { useConfigurationStore } from '../../stores/configuration.store.ts';
 import { useConfigurationUpdate } from '../../hooks/useConfigurationUpdate.hook.ts';
 import type { ConfigurationDto } from '../../dtos/configuration/configuration.dto.ts';
 import Loading from '../../components/Loading.tsx';
-import type { ModelDto } from '../../dtos/openAi/model.dto.ts';
-import { useOpenAiStore } from '../../stores/openAiStore.store.ts';
+import type { ModelDto } from '../../dtos/llm/model.dto.ts';
+import { useLlmStore } from '../../stores/openAiStore.store.ts';
 import { useEffect, useMemo } from 'react';
 
 function ConfigurationRoute() {
   const hasLoaded = useConfigurationStore(state => state.hasLoaded);
   const loading: boolean = useConfigurationStore(state => state.loading);
   const configuration: ConfigurationDto | undefined = useConfigurationStore(state => state.configuration);
-  const models: ModelDto[] = useOpenAiStore(state => state.models);
+  const models: ModelDto[] = useLlmStore(state => state.models);
   const modelNames: string[] = useMemo(() => models.map(model => model.name), [models]);
   const { handleUpdateConfiguration } = useConfigurationUpdate();
-  const getModels = useOpenAiStore(state => state.getModels);
+  const getModels = useLlmStore(state => state.getModels);
 
   useEffect(() => {
     if (!hasLoaded && !configuration?.isConfigured) {

@@ -1,4 +1,4 @@
-from openai import OpenAI, APIConnectionError, AuthenticationError, NotFoundError, BadRequestError
+from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto

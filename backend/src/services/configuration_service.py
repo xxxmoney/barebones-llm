@@ -26,9 +26,9 @@ def validate_configuration_update(configuration: ConfigurationUpdateDto) -> Vali
 
     return validation
 
-def update_configuration(configuration: ConfigurationUpdateDto) -> ConfigurationDto:
+def update_configuration(configuration: ConfigurationUpdateDto, is_configured: bool) -> ConfigurationDto:
     model = ConfigurationModel.model_validate(configuration)
-    model.is_configured = True # Any successful update makes it configured
+    model.is_configured = is_configured
 
     config = configuration_repository.update_configuration(model)
 

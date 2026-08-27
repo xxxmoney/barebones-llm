@@ -1,3 +1,4 @@
+import type { ValidationDetail } from '../ValidationDetailDto.ts';
 
 export interface ConfigurationDto {
     isConfigured: boolean;
@@ -6,6 +7,8 @@ export interface ConfigurationDto {
     model?: string;
     maxTokens: number;
     temperature: number;
+
+    detail?: ValidationDetail;
 }
 
 export interface ConfigurationUpdateDto {

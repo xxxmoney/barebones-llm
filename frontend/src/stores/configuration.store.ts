@@ -3,6 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { ConfigurationApi } from '../api/configuration.api.ts';
+import { ValidationError } from '../errors/ValidationError.ts';
 
 interface ConfigurationStore {
   loading: boolean;
@@ -56,9 +57,16 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
       });
 
       const response = await ConfigurationApi.updateConfiguration(configurationUpdate);
+      if (response.status === 400) {
+        throw new ValidationError('Invalid configuration', response.data.detail!);
+      }
       if (response.status !== 200) {
         throw new Error(`Failed to update configuration: '${response.statusText}'`);
       }
+
+      set(state => {
+        state.configuration = response.data;
+      });
 
       return response.data;
     } finally {

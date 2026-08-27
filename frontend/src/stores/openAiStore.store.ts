@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
-import type { ModelDto } from '../dtos/openAi/model.dto.ts';
-import { OpenAiApi } from '../api/openAi.api.ts';
+import type { ModelDto } from '../dtos/llm/model.dto.ts';
+import { LlmApi } from '../api/llmApi.ts';
 
-interface OpenAiStore {
+interface LlmStore {
     loading: boolean;
     hasLoaded: boolean;
     models: ModelDto[];
@@ -12,7 +12,7 @@ interface OpenAiStore {
     getModels: () => Promise<ModelDto[]>;
 }
 
-export const useOpenAiStore = create(devtools(immer<OpenAiStore>((set) => ({
+export const useLlmStore = create(devtools(immer<LlmStore>((set) => ({
   loading: false,
   hasLoaded: false,
   models: [],
@@ -23,7 +23,7 @@ export const useOpenAiStore = create(devtools(immer<OpenAiStore>((set) => ({
         state.loading = true;
       });
 
-      const response = await OpenAiApi.getModels();
+      const response = await LlmApi.getModels();
       if (response.status !== 200) {
         throw new Error(`Failed to fetch models: '${response.statusText}'`);
       }
