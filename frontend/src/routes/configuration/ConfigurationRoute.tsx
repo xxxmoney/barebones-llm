@@ -5,21 +5,29 @@ import type { ConfigurationDto } from '../../dtos/configuration/configuration.dt
 import Loading from '../../components/Loading.tsx';
 import type { ModelDto } from '../../dtos/openAi/model.dto.ts';
 import { useOpenAiStore } from '../../stores/openAiStore.store.ts';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 function ConfigurationRoute() {
+  const hasLoaded = useConfigurationStore(state => state.hasLoaded);
   const loading: boolean = useConfigurationStore(state => state.loading);
   const configuration: ConfigurationDto | undefined = useConfigurationStore(state => state.configuration);
   const models: ModelDto[] = useOpenAiStore(state => state.models);
   const modelNames: string[] = useMemo(() => models.map(model => model.name), [models]);
   const { handleUpdateConfiguration } = useConfigurationUpdate();
+  const getModels = useOpenAiStore(state => state.getModels);
+
+  useEffect(() => {
+    if (!hasLoaded && !configuration?.isConfigured) {
+      getModels().then();
+    }
+  }, [hasLoaded, configuration]);
 
   return (
     <>
       <section className="flex flex-col gap-md items-center">
         {loading && <Loading />}
 
-        <Configuration configuration={configuration} models={modelNames} update={handleUpdateConfiguration} />
+        {hasLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
       </section>
     </>
   );

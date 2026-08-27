@@ -7,6 +7,7 @@ import HomeRoute from './routes/home/HomeRoute.tsx';
 import ChatListRoute from './routes/chat/ChatListRoute.tsx';
 import ChatRoute from './routes/chat/ChatRoute.tsx';
 import ConfigurationRoute from './routes/configuration/ConfigurationRoute.tsx';
+import RequiredConfigurationLayout from './routes/layout/RequiredConfigurationLayout.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,9 +15,12 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomeRoute />} />
-          <Route path="/chats" element={<ChatListRoute />} />
-          <Route path="/chat/:id" element={<ChatRoute />} />
           <Route path="/configuration" element={<ConfigurationRoute />} />
+          
+          <Route element={<RequiredConfigurationLayout />}>
+            <Route path="/chats" element={<ChatListRoute />} />
+            <Route path="/chat/:id" element={<ChatRoute />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

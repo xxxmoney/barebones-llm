@@ -4,25 +4,22 @@ import { useChatStore } from '../../stores/chat.store.ts';
 import { useConfigurationStore } from '../../stores/configuration.store.ts';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading.tsx';
-import { useOpenAiStore } from '../../stores/openAiStore.store.ts';
 
 function AppLayout() {
   const getChats = useChatStore(state => state.getChats);
   const isChatsLoaded = useChatStore(state => state.hasLoaded);
   const getConfiguration = useConfigurationStore(state => state.getConfiguration);
   const isConfigurationLoaded = useConfigurationStore(state => state.hasLoaded);
-  const getModels = useOpenAiStore(state => state.getModels);
-  const isModelsLoaded = useOpenAiStore(state => state.hasLoaded);
+  const isConfigurationConfigured: boolean | undefined = useConfigurationStore(state => state.configuration?.isConfigured);
 
   useEffect(() => {
     Promise.all([
       getChats(),
-      getConfiguration(),
-      getModels()
+      getConfiguration()
     ]).then();
   }, []);
 
-  if (!isChatsLoaded || !isConfigurationLoaded || !isModelsLoaded) {
+  if (!isChatsLoaded || !isConfigurationLoaded) {
     return (
       <>
         <div className="w-screen h-screen">
@@ -42,7 +39,7 @@ function AppLayout() {
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">
-                <li className="text-xl"><Link to="/chats">Chats</Link></li>
+                {isConfigurationConfigured && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
                 <li className="text-xl"><Link to="/configuration">Configuration</Link></li>
               </ul>
             </div>

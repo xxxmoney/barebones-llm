@@ -1,5 +1,6 @@
 
 export interface ConfigurationDto {
+    isConfigured: boolean;
     openAiUrl?: string;
     openAiToken?: string;
     model?: string;
