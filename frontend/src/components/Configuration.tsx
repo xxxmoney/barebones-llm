@@ -1,15 +1,17 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { Save } from 'lucide-react';
 import type { SubmitEvent } from 'react';
+import Select from './Select.tsx';
 
 export interface ConfigurationProps {
     configuration?: ConfigurationDto;
+    models: string[]
     disabled?: boolean;
 
     update: (configuration: ConfigurationUpdateDto) => Promise<void>;
 }
 
-function Configuration({ configuration, disabled, update }: ConfigurationProps) {
+function Configuration({ configuration, models, disabled, update }: ConfigurationProps) {
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -39,9 +41,8 @@ function Configuration({ configuration, disabled, update }: ConfigurationProps) 
             <label htmlFor="openAiToken" className="label">OpenAI Token</label>
             <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className="input"  />
 
-            {/*TODO: use Select.tsx*/}
             <label htmlFor="model" className="label">Model</label>
-            <input defaultValue={configuration?.model} name="model" id="model" placeholder="Name" type="string" disabled={disabled} required className="input"  />
+            <Select name="model" options={models} defaultValue={configuration?.model} />
           </fieldset>
         </details>
 
