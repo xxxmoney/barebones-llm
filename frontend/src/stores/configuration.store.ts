@@ -6,6 +6,7 @@ import { ConfigurationApi } from '../api/configuration.api.ts';
 
 interface ConfigurationStore {
   loading: boolean;
+  hasLoaded: boolean;
   configuration?: ConfigurationDto;
 
   getConfiguration: () => Promise<ConfigurationDto>;
@@ -14,6 +15,7 @@ interface ConfigurationStore {
 
 export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((set) => ({
   loading: true,
+  hasLoaded: false,
   configuration: undefined,
 
   getConfiguration: async () => {
@@ -29,6 +31,7 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
 
       set(state => {
         state.configuration = response.data;
+        state.hasLoaded = true;
       });
 
       return response.data;

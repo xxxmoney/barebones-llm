@@ -1,5 +1,4 @@
-﻿import { useEffect } from 'react';
-import { useChatStore } from '../../stores/chat.store.ts';
+﻿import { useChatStore } from '../../stores/chat.store.ts';
 import { Link, useNavigate } from 'react-router';
 import { DEFAULT_NAME } from '../../constants/chat.constants.ts';
 import Delete from '../../components/Delete.tsx';
@@ -7,17 +6,8 @@ import Delete from '../../components/Delete.tsx';
 function ChatListRoute() {
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
-  const getChats = useChatStore(state => state.getChats);
   const insertChat = useChatStore(state => state.insertChat);
   const deleteChat = useChatStore(state => state.deleteChat);
-
-  async function load() {
-    try {
-      await getChats();
-    } catch (error) {
-      console.error('Error loading chats:', error);
-    }
-  }
 
   async function create() {
     try {
@@ -35,10 +25,6 @@ function ChatListRoute() {
       console.error('Error deleting chat:', error);
     }
   }
-
-  useEffect(() => {
-    load().then();
-  }, []);
 
   return (
     <>

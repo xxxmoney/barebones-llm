@@ -1,7 +1,33 @@
 import { Link, Outlet } from 'react-router';
 import { Toaster } from 'react-hot-toast';
+import { useChatStore } from '../../stores/chat.store.ts';
+import { useConfigurationStore } from '../../stores/configuration.store.ts';
+import { useEffect } from 'react';
+import Loading from '../../components/Loading.tsx';
 
 function AppLayout() {
+  const getChats = useChatStore(state => state.getChats);
+  const isChatsLoaded = useChatStore(state => state.hasLoaded);
+  const getConfiguration = useConfigurationStore(state => state.getConfiguration);
+  const isConfigurationLoaded = useConfigurationStore(state => state.hasLoaded);
+
+  useEffect(() => {
+    Promise.all([
+      getChats(),
+      getConfiguration()
+    ]).then();
+  }, []);
+
+  if (!isChatsLoaded || !isConfigurationLoaded) {
+    return (
+      <>
+        <div className="w-screen h-screen">
+          <Loading />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="container mx-auto px-sm">
