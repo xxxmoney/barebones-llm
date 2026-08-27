@@ -1,7 +1,6 @@
-from dataclasses import dataclass
+from src.models.base import BaseModel
 
-@dataclass
-class ConfigurationModel:
+class ConfigurationModel(BaseModel):
     open_ai_url: str | None
     open_ai_token: str | None
     model: str | None

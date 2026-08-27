@@ -1,9 +1,9 @@
 from typing import List
-from src.dtos.base import BaseModel
+from src.dtos.base import BaseDto
 from src.dtos.openai.completion import Message
 
-class CompletionRequestDto(BaseModel):
+class CompletionRequestDto(BaseDto):
     messages: List[Message]
 
-class CompletionResponseDto(BaseModel):
+class CompletionResponseDto(BaseDto):
     text: str

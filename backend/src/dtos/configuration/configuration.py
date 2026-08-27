@@ -1,6 +1,6 @@
-from src.dtos.base import BaseModel
+from src.dtos.base import BaseDto
 
-class ConfigurationDto(BaseModel):
+class ConfigurationDto(BaseDto):
     open_ai_url: str | None
     open_ai_token: str | None
     model: str | None

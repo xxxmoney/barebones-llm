@@ -1,5 +1,5 @@
-from src.dtos.base import BaseModel
+from src.dtos.base import BaseDto
 
-class MessageUpdateDto(BaseModel):
+class MessageUpdateDto(BaseDto):
     text: str
     role: str | None = None

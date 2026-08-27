@@ -1,10 +1,9 @@
 from datetime import datetime
 from uuid import UUID
+from src.models.base import BaseModel
 from src.models.chat.message_model import MessageModel
-from dataclasses import dataclass
 
-@dataclass
-class ChatModel:
+class ChatModel(BaseModel):
     id: UUID
     name: str
     messages: list[MessageModel]

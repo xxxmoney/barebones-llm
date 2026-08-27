@@ -1,4 +1,4 @@
-from src.dtos.base import BaseModel
+from src.dtos.base import BaseDto
 
-class ChatUpdateDto(BaseModel):
+class ChatUpdateDto(BaseDto):
     name: str

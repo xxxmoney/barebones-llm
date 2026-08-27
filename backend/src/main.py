@@ -7,7 +7,7 @@ import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.constants.constants import WEBVIEW_PORT, BACKEND_PORT
-from src.models.settings.settings_model import Settings
+from src.models.settings import Settings
 from src.routes.llm import llm_route
 from src.routes.test import test_route
 from src.routes.openai import openai_route

@@ -1,9 +1,9 @@
 from datetime import datetime
 from uuid import UUID
-from src.dtos.base import BaseModel
+from src.dtos.base import BaseDto
 
 
-class ChatDto(BaseModel):
+class ChatDto(BaseDto):
     id: UUID
     name: str
     creation_date: datetime
