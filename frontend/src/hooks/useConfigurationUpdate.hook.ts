@@ -15,6 +15,8 @@ export function useConfigurationUpdate() {
       try {
         await updateConfiguration(value);
       } catch (error) {
+        console.log(error);
+
         // Fetch models if connection info is valid
         if (!isModelsLoaded && error instanceof ValidationError && error.detail.fields['open_ai_url'] && error.detail.fields['open_ai_token']) {
           await getModels();

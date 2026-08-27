@@ -16,6 +16,7 @@ function ConfigurationRoute() {
   const { handleUpdateConfiguration } = useConfigurationUpdate();
   const getModels = useLlmStore(state => state.getModels);
   const isModelsLoaded = useLlmStore(state => state.hasLoaded);
+  const isModelsLoading = useLlmStore(state => state.loading);
 
   useEffect(() => {
     if (!isModelsLoaded && configuration?.isConfigured) {
@@ -26,7 +27,7 @@ function ConfigurationRoute() {
   return (
     <>
       <section className="flex flex-col gap-md items-center">
-        {(loading) && <Loading />}
+        {(loading || isModelsLoading) && <Loading />}
 
         {hasLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
       </section>
