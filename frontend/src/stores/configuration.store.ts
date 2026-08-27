@@ -58,6 +58,9 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
 
       const response = await ConfigurationApi.updateConfiguration(configurationUpdate);
       if (response.status === 400) {
+        set(state => {
+          state.configuration!.isConfigured = false;
+        });
         throw new ValidationError('Invalid configuration', response.data.detail!);
       }
       if (response.status !== 200) {

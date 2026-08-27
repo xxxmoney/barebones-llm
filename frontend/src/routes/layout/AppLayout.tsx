@@ -4,13 +4,14 @@ import { useChatStore } from '../../stores/chat.store.ts';
 import { useConfigurationStore } from '../../stores/configuration.store.ts';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading.tsx';
+import type { ConfigurationDto } from '../../dtos/configuration/configuration.dto.ts';
 
 function AppLayout() {
   const getChats = useChatStore(state => state.getChats);
   const isChatsLoaded = useChatStore(state => state.hasLoaded);
   const getConfiguration = useConfigurationStore(state => state.getConfiguration);
   const isConfigurationLoaded = useConfigurationStore(state => state.hasLoaded);
-  const isConfigurationConfigured: boolean | undefined = useConfigurationStore(state => state.configuration?.isConfigured);
+  const configuration: ConfigurationDto | undefined = useConfigurationStore(state => state.configuration);
 
   useEffect(() => {
     Promise.all([
@@ -39,7 +40,7 @@ function AppLayout() {
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">
-                {isConfigurationConfigured && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
+                {configuration?.isConfigured && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
                 <li className="text-xl"><Link to="/configuration">Configuration</Link></li>
               </ul>
             </div>
