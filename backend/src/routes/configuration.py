@@ -2,7 +2,6 @@ from fastapi import APIRouter, Body
 from src.docs.configuration_docx import UPDATE_CONFIGURATION_EXAMPLES
 from src.dtos.configuration.configuration import ConfigurationDto
 from src.dtos.configuration.configuration_update import ConfigurationUpdateDto
-from src.repositories import configuration_repository
 from src.services import configuration_service
 
 configuration_route = APIRouter(prefix="/api/configuration", tags=["Configuration"])
