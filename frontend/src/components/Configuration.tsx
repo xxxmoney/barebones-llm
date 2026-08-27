@@ -26,30 +26,42 @@ function Configuration({ configuration, disabled, update }: ConfigurationProps) 
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <fieldset className="fieldset gap-sm">
-          <legend className="fieldset-legend">Configuration</legend>
+      <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-80 gap-md">
+        <details className="collapse collapse-open" open>
+          <summary className="collapse-title p-0">Main Settings</summary>
+            
+          <fieldset className="fieldset collapse-content p-0">
+            <legend className="fieldset-legend hidden">Main Settings</legend>
 
-          <label className="label">OpenAI Url</label>
-          <input disabled={disabled} value={configuration?.openAiUrl} name="openAiUrl" placeholder="Url" type="url" required className="input"  />
+            <label htmlFor="openAiUrl" className="label">OpenAI Url</label>
+            <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="Url" type="url" disabled={disabled} required className="input"  />
 
-          <label className="label">OpenAI Token</label>
-          <input disabled={disabled} value={configuration?.openAiToken} name="openAiToken" placeholder="Token" type="string" required className="input"  />
+            <label htmlFor="openAiToken" className="label">OpenAI Token</label>
+            <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className="input"  />
 
-          {/*TODO: use Select.tsx*/}
-          <label className="label">Model</label>
-          <input disabled={disabled} value={configuration?.model} name="model" placeholder="Name" type="string" required className="input"  />
+            {/*TODO: use Select.tsx*/}
+            <label htmlFor="model" className="label">Model</label>
+            <input defaultValue={configuration?.model} name="model" id="model" placeholder="Name" type="string" disabled={disabled} required className="input"  />
+          </fieldset>
+        </details>
 
-          <label className="label">Max Tokens</label>
-          <input disabled={disabled} value={configuration?.maxTokens} name="model" placeholder="Max" type="number" required min="0" className="input"  />
+        <details className="collapse">
+          <summary className="collapse-title p-0">Advanced</summary>
 
-          <label className="label">Temperature</label>
-          <input disabled={disabled} value={configuration?.temperature} name="model" placeholder="Value" type="number" required min="0" max="1" step="0.1" className="input" />
+          <fieldset className="fieldset collapse-content p-0">
+            <legend className="fieldset-legend hidden">Advanced</legend>
 
-          <button type="submit" disabled={disabled} data-tip="Update" className="btn btn-primary tooltip">
-            <Save />
-          </button>
-        </fieldset>
+            <label htmlFor="maxTokens" className="label">Max Tokens</label>
+            <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="Max" type="number" disabled={disabled} required min="0" className="input"  />
+
+            <label htmlFor="temperature" className="label">Temperature</label>
+            <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="Value" type="number" disabled={disabled} required min="0" max="1" step="0.1" className="input" />
+          </fieldset>
+        </details>
+
+        <button type="submit" data-tip="Update" disabled={disabled} className="btn btn-primary w-full tooltip">
+          <Save />
+        </button>
       </form>
     </>
   );
