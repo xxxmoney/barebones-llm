@@ -1,4 +1,4 @@
-from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError
+from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError, NotFoundError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto
@@ -39,6 +39,9 @@ class OpenAIClient:
         return response.choices[0].message.content
 
     def validate(self, completion: CompletionRequestDto) -> ValidationDto:
+        if (completion.model is None):
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
+
         try:
             self.get_models()
 
