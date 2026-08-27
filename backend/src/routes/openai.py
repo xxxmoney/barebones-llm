@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Body
 from src.docs.openai_docs import CREATE_CHAT_COMPLETION_EXAMPLES
-from src.dtos.openai.completion import CompletionRequestDto, FullCompletionRequestDto
+from src.dtos.openai.completion import FullCompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.model import ModelDto
 from src.dtos.openai.validation import ValidationDto
