@@ -1,9 +1,7 @@
 from openai import OpenAI, APIConnectionError, AuthenticationError, NotFoundError, BadRequestError
-from src.constants.llm_constants import ROLE_USER, TEST_PROMPT
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto
-
 
 class OpenAIClient:
     _open_ai_url: str
@@ -48,10 +46,13 @@ class OpenAIClient:
         except APIConnectionError:
             return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
         except AuthenticationError:
-            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
-        except NotFoundError:
-            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(model=False))
-        except BadRequestError:
-            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(temperature=False, max_tokens=False))
+            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_token=False))
+        except BadRequestError as e:
+            if e.code == "model_not_found":
+                return ValidationDto(is_valid=False, fields = ValidationFieldsDto(model=False))
+            if "max_tokens" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False))
+            if "temperature" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False))
 
         return ValidationDto(is_valid=True)
