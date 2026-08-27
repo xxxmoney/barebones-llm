@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import HomeRoute from './routes/home/HomeRoute.tsx';
 import ChatListRoute from './routes/chat/ChatListRoute.tsx';
 import ChatRoute from './routes/chat/ChatRoute.tsx';
+import ConfigurationRoute from './routes/configuration/ConfigurationRoute.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<HomeRoute />} />
           <Route path="/chats" element={<ChatListRoute />} />
           <Route path="/chat/:id" element={<ChatRoute />} />
+          <Route path="/configuration" element={<ConfigurationRoute />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -30,27 +30,27 @@ function AppLayout() {
 
   return (
     <>
-      <div className="container mx-auto px-sm">
-        <header>
+      <div className="container mx-auto h-screen flex flex-col px-sm">
+        <header className="grow-0 shrink-0">
           <nav className="navbar p-0">
             <div className="flex-1">
               <Link to="/">LOGO</Link>
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">
-                <li className="text-xl"><Link to="/">Home</Link></li>
                 <li className="text-xl"><Link to="/chats">Chats</Link></li>
+                <li className="text-xl"><Link to="/configuration">Configuration</Link></li>
               </ul>
             </div>
             <div className="flex-1"></div>
           </nav>
         </header>
 
-        <main className="py-md">
+        <main className="grow-1 shrink-1 overflow-y-scroll py-md">
           <Outlet />
         </main>
 
-        <footer></footer>
+        <footer className="grow-0 shrink-0"></footer>
 
         <Toaster position="bottom-right" />
       </div>

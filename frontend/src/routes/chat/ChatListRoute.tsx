@@ -31,7 +31,7 @@ function ChatListRoute() {
       <section className="flex flex-col gap-xl items-center">
         <button onClick={create} className="btn btn-primary tooltip" data-tip="New">+</button>
 
-        <h2 className="text-lg text-center">Chats:</h2>
+        <h2 className="text-lg">Chats:</h2>
         <ul className="flex max-w-80 flex-col items-center gap-md">
           {chats.map(chat =>
             <li key={chat.id} className="relative group">
