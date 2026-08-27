@@ -1,5 +1,4 @@
-from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 
-class ChatUpdate(BaseModel):
+class ChatUpdate(CamelBaseModel):
     name: str

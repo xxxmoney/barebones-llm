@@ -1,8 +1,8 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 
-class Message(BaseModel):
+class Message(CamelBaseModel):
     id: UUID
     text: str
     role: str

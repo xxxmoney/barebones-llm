@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 
-class MessageUpdate(BaseModel):
+class MessageUpdate(CamelBaseModel):
     text: str
     role: str | None = None

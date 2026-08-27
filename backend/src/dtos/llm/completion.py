@@ -1,9 +1,9 @@
 from typing import List
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 from src.dtos.openai.completion import Message
 
-class CompletionRequest(BaseModel):
+class CompletionRequest(CamelBaseModel):
     messages: List[Message]
 
-class CompletionResponse(BaseModel):
+class CompletionResponse(CamelBaseModel):
     text: str

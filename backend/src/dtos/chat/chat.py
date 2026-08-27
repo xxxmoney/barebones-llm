@@ -1,8 +1,9 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 
-class Chat(BaseModel):
+
+class Chat(CamelBaseModel):
     id: UUID
     name: str
     creation_date: datetime

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from src.dtos.base.camel import CamelBaseModel
 
-class Configuration(BaseModel):
+class Configuration(CamelBaseModel):
     open_ai_url: str
     open_ai_token: str
     model: str
