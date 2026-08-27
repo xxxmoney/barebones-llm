@@ -8,7 +8,7 @@ from src.dtos.openai.connection import ConnectionDto
 Message = ChatCompletionDeveloperMessageParam | ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam | ChatCompletionToolMessageParam | ChatCompletionFunctionMessageParam
 
 class CompletionRequestDto(BaseDto):
-    model: str
+    model: str | None
     messages: List[Message]
     temperature: float
     max_tokens: int
