@@ -1320,6 +1320,18 @@ test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=
 type = ["importlib_metadata (>=7.0.2) ; python_version < \"3.10\"", "jaraco.develop (>=7.21) ; sys_platform != \"cygwin\"", "mypy (==1.18.*)", "pytest-mypy (>=1.0.1) ; platform_python_implementation != \"PyPy\""]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+groups = ["main"]
+files = [
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
+]
+
+[[package]]
 name = "sniffio"
 version = "1.3.1"
 description = "Sniff out which async library your code is running under"
@@ -1349,6 +1361,25 @@ typing-extensions = {version = ">=4.10.0", markers = "python_version < \"3.13\""
 
 [package.extras]
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
+
+[[package]]
+name = "tendo"
+version = "0.3.0"
+description = "A Python library that extends some core functionality"
+optional = false
+python-versions = ">=3.6"
+groups = ["main"]
+files = [
+    {file = "tendo-0.3.0-py3-none-any.whl", hash = "sha256:026b70b355ea4c9da7c2123fa2d5c280c8983c1b34e329ff49260e2e78b93be7"},
+    {file = "tendo-0.3.0.tar.gz", hash = "sha256:68392d686eb6ece71c14ff0fe24340e83c4362525c8b26f144c84f3122ae9e77"},
+]
+
+[package.dependencies]
+six = "*"
+
+[package.extras]
+docs = ["MarkupSafe (>=2.1.1,<2.2.0)", "Sphinx (>=5.2.1,<5.3.0)", "docutils (>=0.19,<1.0)"]
+test = ["coverage[toml] (>=6.5.0)", "coveralls (>=3.3.1,<3.4.0)", "pre-commit (>=2.20.0,<2.21.0)", "pytest (>=7.1.3,<7.2.0)", "pytest-cache (>=1.0,<2.0)", "pytest-cov (>=3.0.0,<3.1.0)", "pytest-html (>=3.1.1,<3.2.0)", "pytest-instafail (>=0.4.2,<0.5.0)", "pytest-xdist (>=2.5.0,<2.6.0)", "wheel (>=0.37.1,<0.38.0)"]
 
 [[package]]
 name = "tqdm"
@@ -1439,4 +1470,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = "3.12"
-content-hash = "637bc64b3e0c2f065f090b86baf166ad4bd378830961c059ca13298c95c7f4c6"
+content-hash = "c2fe12f35ee7ee8090e62215423e62379f2e2a32e43da5d6fe3f3514f5ad652d"

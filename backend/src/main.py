@@ -6,6 +6,7 @@ import webview
 import threading
 import uvicorn
 import time
+from tendo import singleton
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -17,6 +18,8 @@ from src.routes.openai import openai_route
 from src.routes.configuration import configuration_route
 from src.routes.chat import chat_route
 from src.services.persistence import Persistence
+
+me = singleton.SingleInstance() # Prevent multiple instances from running
 
 settings = Settings() # dotenv
 
