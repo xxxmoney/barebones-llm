@@ -10,7 +10,7 @@ from tendo import singleton
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from src.constants.constants import FRONTEND_PORT, BACKEND_PORT
+from src.constants.constants import FRONTEND_PORT, BACKEND_PORT, APP_NAME
 from src.models.settings import Settings
 from src.routes.llm import llm_route
 from src.routes.test import test_route
@@ -19,7 +19,10 @@ from src.routes.configuration import configuration_route
 from src.routes.chat import chat_route
 from src.services.persistence import Persistence
 
-me = singleton.SingleInstance() # Prevent multiple instances from running
+try:
+    me = singleton.SingleInstance()  # Prevent multiple instances from running
+except:
+    sys.exit(f"{APP_NAME} instance already running!")
 
 settings = Settings() # dotenv
 
