@@ -5,14 +5,15 @@ import type { ConfigurationDto } from '../../dtos/configuration/configuration.dt
 import Loading from '../../components/Loading.tsx';
 import type { ModelDto } from '../../dtos/llm/model.dto.ts';
 import { useModelsStore } from '../../stores/models.store.ts';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
+import type { ValidationDto } from '../../dtos/validation.dto.ts';
 
 function ConfigurationRoute() {
   const hasLoaded = useConfigurationStore(state => state.hasLoaded);
   const loading: boolean = useConfigurationStore(state => state.loading);
   const configuration: ConfigurationDto | undefined = useConfigurationStore(state => state.configuration);
+  const validation: ValidationDto | undefined = useConfigurationStore(state => state.validation);
   const models: ModelDto[] = useModelsStore(state => state.models);
-  const modelNames: string[] = useMemo(() => models.map(model => model.name), [models]);
   const { handleUpdateConfiguration } = useConfigurationUpdate();
   const getModels = useModelsStore(state => state.getModels);
   const isModelsLoaded = useModelsStore(state => state.hasLoaded);
@@ -29,7 +30,15 @@ function ConfigurationRoute() {
       <section className="flex flex-col gap-md items-center">
         {(loading || isModelsLoading) && <Loading />}
 
-        {hasLoaded && <Configuration configuration={configuration} models={modelNames} disabled={loading} update={handleUpdateConfiguration} />}
+        {hasLoaded &&
+            <Configuration
+              configuration={configuration}
+              models={models.map(model => model.name)}
+              invalidFields={Object.keys(validation?.fields ?? {}).filter(key => !validation!.fields[key])}
+              disabled={loading}
+              update={handleUpdateConfiguration}
+            />
+        }
       </section>
     </>
   );

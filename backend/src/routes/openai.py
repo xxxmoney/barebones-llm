@@ -25,7 +25,7 @@ def validate(response: Response, request: FullCompletionRequestDto = Body(openap
     if not validation.is_valid:
         response.status = status.HTTP_400_BAD_REQUEST
 
-    return ValidationDto(is_valid=True)
+    return validation
 
 @openai_route.post("/chat-completion")
 def create_chat_completion(request: FullCompletionRequestDto = Body(openapi_examples=CREATE_CHAT_COMPLETION_EXAMPLES)) -> str:
