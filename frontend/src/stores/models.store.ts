@@ -12,7 +12,7 @@ interface LlmStore {
     getModels: () => Promise<ModelDto[]>;
 }
 
-export const useLlmStore = create(devtools(immer<LlmStore>((set) => ({
+export const useModelsStore = create(devtools(immer<LlmStore>((set) => ({
   loading: false,
   hasLoaded: false,
   models: [],

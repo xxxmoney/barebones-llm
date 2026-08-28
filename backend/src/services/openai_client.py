@@ -1,7 +1,7 @@
-from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError, NotFoundError
+from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
-from src.dtos.openai.validation import ValidationDto, ValidationFieldsDto
+from src.dtos.validation import ValidationDto
 
 class OpenAIClient:
     _open_ai_url: str
@@ -39,23 +39,23 @@ class OpenAIClient:
         return response.choices[0].message.content
 
     def validate(self, completion: CompletionRequestDto) -> ValidationDto:
-        if (completion.model is None):
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
-
         try:
             self.get_models()
 
+            if (completion.model is None):
+                return ValidationDto(is_valid=False, fields={"model": False})
+
             self.get_chat_completion(completion)
         except APIConnectionError:
-            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_url=False))
+            return ValidationDto(is_valid=False, fields = {"open_ai_url": False})
         except AuthenticationError:
-            return ValidationDto(is_valid=False, fields = ValidationFieldsDto(open_ai_token=False))
+            return ValidationDto(is_valid=False, fields = {"open_ai_token": False})
         except BadRequestError as e:
             if e.code == "model_not_found":
-                return ValidationDto(is_valid=False, fields = ValidationFieldsDto(model=False))
+                return ValidationDto(is_valid=False, fields = {"model": False})
             if "max_tokens" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False))
+                return ValidationDto(is_valid=False, fields= {"max_tokens": False})
             if "temperature" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False))
+                return ValidationDto(is_valid=False, fields={"temperature": False})
 
         return ValidationDto(is_valid=True)

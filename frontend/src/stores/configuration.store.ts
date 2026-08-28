@@ -3,7 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { ConfigurationApi } from '../api/configuration.api.ts';
-import { ValidationError } from '../errors/ValidationError.ts';
+import type { ValidableDto } from '../dtos/validation.dto.ts';
 
 interface ConfigurationStore {
   loading: boolean;
@@ -11,7 +11,7 @@ interface ConfigurationStore {
   configuration?: ConfigurationDto;
 
   getConfiguration: () => Promise<ConfigurationDto>;
-  updateConfiguration: (configurationUpdate: ConfigurationUpdateDto) => Promise<ConfigurationDto>;
+  updateConfiguration: (configurationUpdate: ConfigurationUpdateDto) => Promise<ValidableDto<ConfigurationDto>>;
 }
 
 export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((set) => ({
@@ -55,20 +55,14 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
 
         state.loading = true;
       });
-
+ 
       const response = await ConfigurationApi.updateConfiguration(configurationUpdate);
-      if (response.status === 400) {
-        set(state => {
-          state.configuration!.isConfigured = false;
-        });
-        throw new ValidationError('Invalid configuration', response.data.detail!);
-      }
-      if (response.status !== 200) {
+      if (response.status !== 200 && response.status !== 400) {
         throw new Error(`Failed to update configuration: '${response.statusText}'`);
       }
 
       set(state => {
-        state.configuration = response.data;
+        state.configuration = response.data.value;
       });
 
       return response.data;

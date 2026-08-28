@@ -40,7 +40,7 @@ function AppLayout() {
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">
-                {configuration?.isConfigured && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
+                {configuration?.isValid && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
                 <li className="text-xl"><Link to="/configuration">Configuration</Link></li>
               </ul>
             </div>

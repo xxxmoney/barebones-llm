@@ -8,7 +8,7 @@ def get_configuration() -> ConfigurationModel:
     with Persistence() as persistence:
         if configuration_key not in persistence.db.keys():
             persistence.db[configuration_key] = ConfigurationModel(
-                is_configured=False,
+                is_valid=False,
                 open_ai_url=None,
                 open_ai_token=None,
                 model=None,

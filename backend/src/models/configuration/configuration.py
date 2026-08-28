@@ -1,7 +1,7 @@
 from src.models.base import BaseModel
 
 class ConfigurationModel(BaseModel):
-    is_configured: bool = False
+    is_valid: bool = False
     open_ai_url: str | None
     open_ai_token: str | None
     model: str | None

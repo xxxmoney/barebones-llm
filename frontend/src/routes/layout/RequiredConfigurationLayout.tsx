@@ -2,9 +2,9 @@ import { Navigate, Outlet } from 'react-router';
 import { useConfigurationStore } from '../../stores/configuration.store.ts';
 
 function RequiredConfigurationLayout() {
-  const isConfigured = useConfigurationStore(state => state.configuration?.isConfigured);
+  const isValid = useConfigurationStore(state => state.configuration?.isValid);
     
-  if (!isConfigured) {
+  if (!isValid) {
     return <Navigate to="/configuration" replace />;
   }
 

@@ -3,7 +3,7 @@ from src.dtos.configuration.configuration import ConfigurationDto
 from src.dtos.configuration.configuration_update import ConfigurationUpdateDto
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
-from src.dtos.openai.validation import ValidationDto
+from src.dtos.validation import ValidationDto
 from src.models.configuration.configuration import ConfigurationModel
 from src.repositories import configuration_repository
 from src.services.openai_client import OpenAIClient
@@ -26,9 +26,9 @@ def validate_configuration_update(configuration: ConfigurationUpdateDto) -> Vali
 
     return validation
 
-def update_configuration(configuration: ConfigurationUpdateDto, is_configured: bool) -> ConfigurationDto:
+def update_configuration(configuration: ConfigurationUpdateDto, is_valid: bool) -> ConfigurationDto:
     model = ConfigurationModel.model_validate(configuration)
-    model.is_configured = is_configured
+    model.is_valid = is_valid
 
     config = configuration_repository.update_configuration(model)
 
