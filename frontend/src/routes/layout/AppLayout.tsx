@@ -48,7 +48,7 @@ function AppLayout() {
           </nav>
         </header>
 
-        <main className="grow-1 shrink-1 overflow-y-scroll py-md">
+        <main className="grow-1 shrink-1 overflow-y-auto scrollbar-thin py-4xl">
           <Outlet />
         </main>
 
