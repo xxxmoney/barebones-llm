@@ -45,6 +45,10 @@ if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
 else:
     frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist")) # Debug, use the relative frontend project path
 
+# On prod mount built frontend to root path
+if not settings.is_debug:
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         # Switch to reload=True for live reload - from my experience caused hanging process on port
@@ -68,10 +72,6 @@ def start_webview() -> None:
         min_size=(600, 400)
     )
     webview.start(debug=settings.is_debug)
-
-    # On prod mount built frontend to root path
-    if not settings.is_debug:
-        app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
 def main() -> None:
     start_api(True)
