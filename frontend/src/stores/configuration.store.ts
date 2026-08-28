@@ -53,6 +53,7 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
         }
 
         Object.assign(configuration, configurationUpdate);
+        state.validation = undefined;
 
         state.loading = true;
       });

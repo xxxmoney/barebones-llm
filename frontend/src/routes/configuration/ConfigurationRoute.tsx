@@ -34,7 +34,7 @@ function ConfigurationRoute() {
             <Configuration
               configuration={configuration}
               models={models.map(model => model.name)}
-              invalidFields={Object.keys(validation?.fields ?? {}).filter(key => !validation!.fields[key])}
+              validationFields={validation?.fields ?? {}}
               disabled={loading}
               update={handleUpdateConfiguration}
             />

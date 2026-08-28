@@ -7,17 +7,17 @@ export interface ConfigurationProps {
     configuration?: ConfigurationDto;
     models: string[]
     disabled?: boolean;
-    invalidFields?: string[];
+    validationFields: Record<string, boolean>;
 
     update: (configuration: ConfigurationUpdateDto) => Promise<void>;
 }
 
-function Configuration({ configuration, models, disabled, invalidFields, update }: ConfigurationProps) {
-  const isOpenAiUrlInalid = invalidFields?.includes('openAiUrl');
-  const isOpenAiTokenInvalid = invalidFields?.includes('openAiToken');
-  const isModelInvalid = invalidFields?.includes('model');
-  const isMaxTokensInvalid = invalidFields?.includes('maxTokens');
-  const isTemperatureInvalid = invalidFields?.includes('temperature');
+function Configuration({ configuration, models, disabled, validationFields, update }: ConfigurationProps) {
+  const isOpenAiUrlValid = validationFields['openAiUrl'] ?? true;
+  const isOpenAiTokenValid = validationFields['openAiToken'] ?? true;
+  const isModelValid = validationFields['model'] ?? true;
+  const isMaxTokensValid = validationFields['maxTokens'] ?? true;
+  const isTemperatureValid = validationFields['temperature'] ?? true;
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,20 +42,24 @@ function Configuration({ configuration, models, disabled, invalidFields, update 
           <fieldset className="fieldset collapse-content p-0">
             <legend className="fieldset-legend hidden">Main Settings</legend>
 
-            <label htmlFor="openAiUrl" className="label">OpenAI Url</label>
-            <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="Url" type="url" disabled={disabled} required className={`input ${isOpenAiUrlInalid ? 'invalid-input' : 'validator'}`} />
-            <p className={`invalid-text ${!isOpenAiUrlInalid && 'hidden validator-hint'}`}>Invalid Url</p>
+            <fieldset className="fieldset">
+              <label htmlFor="openAiUrl" className="label">OpenAI Url</label>
+              <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="Url" type="url" disabled={disabled} required className={`input ${!isOpenAiUrlValid ? 'invalid-input' : 'validator'}`} />
+              <p className={`invalid-text ${isOpenAiUrlValid && 'hidden validator-hint'}`}>Invalid Url</p>
+            </fieldset>
 
-            <label htmlFor="openAiToken" className="label">OpenAI Token</label>
-            <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className={`input ${isOpenAiTokenInvalid ? 'invalid-input' : 'validator'}`}  />
-            <p className={`invalid-text ${!isOpenAiTokenInvalid && 'hidden validator-hint'}`}>Invalid Token</p>
+            <fieldset className="fieldset">
+              <label htmlFor="openAiToken" className="label">OpenAI Token</label>
+              <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className={`input ${!isOpenAiTokenValid ? 'invalid-input' : 'validator'}`}  />
+              <p className={`invalid-text ${isOpenAiTokenValid && 'hidden validator-hint'}`}>Invalid Token</p>
+            </fieldset>
 
             {models.length > 0 &&
-                <>
+                <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
-                  <Select defaultValue={configuration?.model} name="model" options={models} placeholder="Choose model" disabled={disabled} required className={`input ${isModelInvalid ? 'invalid-input' : 'validator'}`} />
-                  <p className={`invalid-text ${!isModelInvalid && 'hidden validator-hint'}`}>Invalid Model</p>
-                </>
+                  <Select defaultValue={configuration?.model} name="model" options={models} placeholder="Choose model" disabled={disabled} required className={`input ${!isModelValid ? 'invalid-input' : 'validator'}`} />
+                  <p className={`invalid-text ${isModelValid && 'hidden validator-hint'}`}>Invalid Model</p>
+                </fieldset>
             }
           </fieldset>
         </details>
@@ -66,13 +70,17 @@ function Configuration({ configuration, models, disabled, invalidFields, update 
           <fieldset className="fieldset collapse-content p-0">
             <legend className="fieldset-legend hidden">Advanced</legend>
 
-            <label htmlFor="maxTokens" className="label">Max Tokens</label>
-            <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="Max" type="number" disabled={disabled} required min="0" className={`input ${isMaxTokensInvalid ? 'invalid-input' : 'validator'}`} />
-            <p className={`invalid-text ${!isMaxTokensInvalid && 'hidden validator-hint'}`}>Invalid Max Tokens</p>
+            <fieldset className="fieldset">
+              <label htmlFor="maxTokens" className="label">Max Tokens</label>
+              <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="Max" type="number" disabled={disabled} required min="0" className={`input ${!isMaxTokensValid ? 'invalid-input' : 'validator'}`} />
+              <p className={`invalid-text ${isMaxTokensValid && 'hidden validator-hint'}`}>Invalid Max Tokens</p>
+            </fieldset>
 
-            <label htmlFor="temperature" className="label">Temperature</label>
-            <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="Value" type="number" disabled={disabled} required min="0" max="1" step="0.1" className={`input ${isTemperatureInvalid ? 'invalid-input' : 'validator'}`} />
-            <p className={`invalid-text ${!isTemperatureInvalid && 'hidden validator-hint'}`}>Invalid Temperature</p>
+            <fieldset className="fieldset">
+              <label htmlFor="temperature" className="label">Temperature</label>
+              <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="Value" type="number" disabled={disabled} required min="0" max="1" step="0.1" className={`input ${!isTemperatureValid ? 'invalid-input' : 'validator'}`} />
+              <p className={`invalid-text ${isTemperatureValid && 'hidden validator-hint'}`}>Invalid Temperature</p>
+            </fieldset>
           </fieldset>
         </details>
 
