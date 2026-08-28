@@ -23,7 +23,7 @@ function ConfigurationRoute() {
     if (!isModelsLoaded && configuration?.isValid) {
       getModels().then();
     }
-  }, [isModelsLoaded, configuration]);
+  }, [isModelsLoaded, configuration, getModels]);
 
   return (
     <>
