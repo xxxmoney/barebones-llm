@@ -32,4 +32,4 @@ dev = "src.main:main"
 dev-backend-only = "src.main:main_backend_only"
 
 [tool.poe.tasks]
-build = "pyinstaller --noconfirm --onefile --windowed --add-data \"../frontend/dist;dist/\" src/main.py"
+build = "pyinstaller --noconfirm --onefile --windowed --icon \"assets/logo.ico\" --add-data \"../frontend/dist;dist/\" src/main.py"
