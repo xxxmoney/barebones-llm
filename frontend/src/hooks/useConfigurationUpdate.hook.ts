@@ -16,10 +16,12 @@ export function useConfigurationUpdate() {
       const data = await updateConfiguration(value);
       const isConnectionValid = (data.validation.fields['open_ai_url'] ?? true) && (data.validation.fields['open_ai_token'] ?? true);
       if (!isModelsLoaded && !data.validation.isValid && isConnectionValid) {
-        await getModels();
+        await getModels(); // Load models if connection part of configuration is valid
       }
 
-      await navigate('/chats');
+      if (data.validation.isValid) {
+        await navigate('/chats');
+      }
     }, {
       loading: 'Updating configuration...',
       success: 'Configuration updated!',
