@@ -1,8 +1,8 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 
-class Chat(BaseModel):
+class ChatDto(BaseDto):
     id: UUID
     name: str
     creation_date: datetime

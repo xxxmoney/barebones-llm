@@ -24,3 +24,11 @@ html {
 .text-heading {
     @apply text-5xl font-bold;
 }
+
+.invalid-input {
+    --input-color: var(--color-error);
+}
+
+.invalid-text {
+    color: var(--color-error);
+}

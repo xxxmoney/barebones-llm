@@ -1,9 +1,9 @@
 from typing import List
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 from src.dtos.openai.completion import Message
 
-class CompletionRequest(BaseModel):
+class CompletionRequestDto(BaseDto):
     messages: List[Message]
 
-class CompletionResponse(BaseModel):
+class CompletionResponseDto(BaseDto):
     text: str

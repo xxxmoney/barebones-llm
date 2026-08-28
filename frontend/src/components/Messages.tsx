@@ -1,6 +1,6 @@
-import {DateTime} from 'ts-luxon';
+import { DateTime } from 'ts-luxon';
 import EditableText from './EditableText.tsx';
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
 export interface MessagesProps {
   messages?: Message[];
@@ -28,8 +28,8 @@ function Messages({ messages, update, clear }: MessagesProps) {
   return (
     <>
       <div>
-        {messages?.map((message, index) =>
-          <div key={index} id={message.id} className={`relative chat chat-${message.position}`}>
+        {messages?.map(message =>
+          <div key={message.id} id={message.id} className={`relative chat chat-${message.position}`}>
             <EditableText text={message.text} allowEnter update={text => update(message.id, text)} clear={() => clear(message.id)} className="chat-bubble" />
           </div>
         )}

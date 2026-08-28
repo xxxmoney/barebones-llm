@@ -1,23 +1,13 @@
-﻿import {useEffect} from 'react';
-import {useChatStore} from '../../stores/chat.store.ts';
-import {Link, useNavigate} from 'react-router';
-import {DEFAULT_NAME} from '../../constants/chat.constants.ts';
+﻿import { useChatStore } from '../../stores/chat.store.ts';
+import { Link, useNavigate } from 'react-router';
+import { DEFAULT_NAME } from '../../constants/chat.constants.ts';
 import Delete from '../../components/Delete.tsx';
 
 function ChatListRoute() {
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
-  const getChats = useChatStore(state => state.getChats);
   const insertChat = useChatStore(state => state.insertChat);
   const deleteChat = useChatStore(state => state.deleteChat);
-
-  async function load() {
-    try {
-      await getChats();
-    } catch (error) {
-      console.error('Error loading chats:', error);
-    }
-  }
 
   async function create() {
     try {
@@ -36,16 +26,12 @@ function ChatListRoute() {
     }
   }
 
-  useEffect(() => {
-    load().then();
-  }, []);
-
   return (
     <>
       <section className="flex flex-col gap-xl items-center">
         <button onClick={create} className="btn btn-primary tooltip" data-tip="New">+</button>
 
-        <h2 className="text-lg text-center">Chats:</h2>
+        <h2 className="text-lg">Chats:</h2>
         <ul className="flex max-w-80 flex-col items-center gap-md">
           {chats.map(chat =>
             <li key={chat.id} className="relative group">

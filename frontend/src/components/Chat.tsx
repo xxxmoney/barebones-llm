@@ -1,8 +1,8 @@
-import Messages, {type Message} from './Messages.tsx';
+import Messages, { type Message } from './Messages.tsx';
 import TextSubmit from './TextSubmit.tsx';
 import Loading from './Loading.tsx';
 import EditableText from './EditableText.tsx';
-import {memo} from 'react';
+import { memo } from 'react';
 
 interface ChatProps {
     name?: string;

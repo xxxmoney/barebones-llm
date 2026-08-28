@@ -1,30 +1,28 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Response, status
+
 from src.docs.configuration_docx import UPDATE_CONFIGURATION_EXAMPLES
-from src.dtos.configuration.configuration import Configuration
-from src.models.configuration.configuration_model import ConfigurationModel
-from src.repositories import configuration_repository
+from src.dtos.configuration.configuration import ConfigurationDto
+from src.dtos.configuration.configuration_update import ConfigurationUpdateDto
+from src.dtos.validation import ValidableDto
+from src.services import configuration_service
 
 configuration_route = APIRouter(prefix="/api/configuration", tags=["Configuration"])
 
 @configuration_route.get("/")
-def get_configuration():
-    config = configuration_repository.get_configuration()
-
-    return config
+def get_configuration() -> ConfigurationDto:
+    return configuration_service.get_configuration()
 
 @configuration_route.put("/")
-def update_configuration(configuration: Configuration = Body(openapi_examples=UPDATE_CONFIGURATION_EXAMPLES)):
-    configuration_repository.update_configuration(ConfigurationModel(
-        open_ai_url=configuration.open_ai_url,
-        open_ai_token=configuration.open_ai_token,
-        model=configuration.model,
-        max_tokens=configuration.max_tokens,
-        temperature=configuration.temperature
-    ))
+def update_configuration(response: Response, configuration: ConfigurationUpdateDto = Body(openapi_examples=UPDATE_CONFIGURATION_EXAMPLES)) -> ValidableDto[ConfigurationDto]:
+    validation = configuration_service.validate_configuration_update(configuration)
+    configuration = configuration_service.update_configuration(configuration, validation.is_valid)
 
-    return configuration
+    if not validation.is_valid:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+
+    return ValidableDto(value=configuration, validation=validation)
 
 @configuration_route.delete("/")
-def delete_configuration():
-    configuration_repository.delete_configuration()
+def delete_configuration() -> None:
+    configuration_service.delete_configuration()
 

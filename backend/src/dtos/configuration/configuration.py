@@ -1,8 +1,9 @@
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 
-class Configuration(BaseModel):
-    open_ai_url: str
-    open_ai_token: str
-    model: str
+class ConfigurationDto(BaseDto):
+    is_valid: bool
+    open_ai_url: str | None
+    open_ai_token: str | None
+    model: str | None
     max_tokens: int
     temperature: float

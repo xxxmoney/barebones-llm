@@ -1,10 +1,8 @@
 from datetime import datetime
-from typing import Literal
 from uuid import UUID
-from dataclasses import dataclass
+from src.models.base import BaseModel
 
-@dataclass
-class MessageModel:
+class MessageModel(BaseModel):
     id: UUID
     text: str
     role: str

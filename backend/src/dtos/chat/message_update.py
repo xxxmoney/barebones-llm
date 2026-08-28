@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 
-class MessageUpdate(BaseModel):
+class MessageUpdateDto(BaseDto):
     text: str
     role: str | None = None

@@ -1,5 +1,5 @@
 import { api } from './index';
-import type {AxiosResponse} from 'axios';
+import type { AxiosResponse } from 'axios';
 
 const URL_PREFIX = '/api/test';
 

@@ -1,12 +1,12 @@
-import {useEffect, useMemo} from 'react';
+import { useEffect, useMemo } from 'react';
 import Chat from '../../components/Chat.tsx';
-import {useChatStore} from '../../stores/chat.store.ts';
-import type {MessageDto} from '../../dtos/chat/message.dto.ts';
-import type {Message} from '../../components/Messages.tsx';
-import {useParams} from 'react-router';
-import {useChatUpdate} from '../../hooks/useChatUpdate.ts';
-import {useMessageUpdate} from '../../hooks/useMessageUpdate.ts';
-import {NAME_MAX_LENGTH} from '../../constants/chat.constants.ts';
+import { useChatStore } from '../../stores/chat.store.ts';
+import type { MessageDto } from '../../dtos/chat/message.dto.ts';
+import type { Message } from '../../components/Messages.tsx';
+import { useParams } from 'react-router';
+import { useChatUpdate } from '../../hooks/useChatUpdate.hook.ts';
+import { useMessageUpdate } from '../../hooks/useMessageUpdate.hook.ts';
+import { NAME_MAX_LENGTH } from '../../constants/chat.constants.ts';
 
 function ChatRoute() {
   const { id } = useParams();

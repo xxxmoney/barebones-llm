@@ -1,8 +1,8 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 
-class Message(BaseModel):
+class MessageDto(BaseDto):
     id: UUID
     text: str
     role: str

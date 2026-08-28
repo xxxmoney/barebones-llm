@@ -1,4 +1,4 @@
-﻿import type {DateTime} from 'ts-luxon';
+﻿import type { DateTime } from 'ts-luxon';
 
 export interface MessageDto {
   id: string;

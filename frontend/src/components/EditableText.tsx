@@ -10,7 +10,7 @@ interface EditableTextProps {
    clear?: () => Promise<void>;
 }
 
-function EditableText({text, maxLength, allowEnter, className, update, clear}: EditableTextProps) {
+function EditableText({ text, maxLength, allowEnter, className, update, clear }: EditableTextProps) {
   function handleKeyDown(event: KeyboardEvent<HTMLSpanElement>) {
     const isWithinMaxLength = !maxLength || event.currentTarget.textContent.length <= maxLength;
     const isDelete = event.key === 'Backspace' || event.key === 'Delete';

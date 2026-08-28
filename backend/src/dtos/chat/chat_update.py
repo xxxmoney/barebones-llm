@@ -1,5 +1,4 @@
-from uuid import UUID
-from pydantic import BaseModel
+from src.dtos.base import BaseDto
 
-class ChatUpdate(BaseModel):
+class ChatUpdateDto(BaseDto):
     name: str

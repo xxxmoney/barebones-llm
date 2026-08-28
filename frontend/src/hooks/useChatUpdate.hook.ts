@@ -1,6 +1,6 @@
-import {useChatStore} from '../stores/chat.store.ts';
-import {useCallback} from 'react';
-import {useNavigate} from 'react-router';
+import { useChatStore } from '../stores/chat.store.ts';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 
 export function useChatUpdate(id?: string) {
@@ -34,5 +34,5 @@ export function useChatUpdate(id?: string) {
     [id, deleteChat, navigate]
   );
 
-  return {handleUpdateChat, handleDeleteChat};
+  return { handleUpdateChat, handleDeleteChat };
 }

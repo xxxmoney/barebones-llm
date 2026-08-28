@@ -1,16 +1,16 @@
 import { create } from 'zustand';
-import {immer} from 'zustand/middleware/immer';
-import {devtools} from 'zustand/middleware';
-import type {ChatDto, ChatUpdateDto} from '../dtos/chat/chat.dto.ts';
-import {ChatApi} from '../api/chat.api.ts';
-import type {MessageDto, MessageUpdateDto} from '../dtos/chat/message.dto.ts';
+import { immer } from 'zustand/middleware/immer';
+import { devtools } from 'zustand/middleware';
+import type { ChatDto, ChatUpdateDto } from '../dtos/chat/chat.dto.ts';
+import { ChatApi } from '../api/chat.api.ts';
+import type { MessageDto, MessageUpdateDto } from '../dtos/chat/message.dto.ts';
 
 interface ChatStore {
     hasLoaded: boolean;
     loading: boolean;
     chats: ChatDto[];
     
-    getChats: () => Promise<void>;
+    getChats: () => Promise<ChatDto[]>;
     insertChat: (chatUpdate: ChatUpdateDto) => Promise<ChatDto>;
     updateChat: (chatId: string, chatUpdate: ChatUpdateDto) => Promise<ChatDto | undefined>;
     deleteChat: (chatId: string) => Promise<void>;
@@ -41,6 +41,7 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
         state.hasLoaded = true;
       });
 
+      return response.data;
     } finally {
       set(state => {
         state.loading = false;
@@ -73,17 +74,14 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
 
   updateChat: async (chatId: string, chatUpdate: ChatUpdateDto) => {
     try {
-      const state = get();
-      const chat = state.chats.find(chat => chat.id === chatId);
-      if (!chat) {
-        throw new Error(`Chat with id '${chatId}' not found`);
-      }
-
-      if (chatUpdate.name.trim() === chat.name.trim()) {
-        return undefined; // Not modified
-      }
-
       set(state => {
+        const chat = state.chats.find(chat => chat.id === chatId);
+        if (!chat) {
+          throw new Error(`Chat with id '${chatId}' not found`);
+        }
+
+        chat.name = chatUpdate.name;
+        
         state.loading = true;
       });
 
@@ -205,6 +203,8 @@ export const useChatStore = create(devtools(immer<ChatStore>((set, get) => ({
         }
 
         message.text = messageUpdate.text;
+
+        state.loading = true;
       });
 
       const response = await ChatApi.updateMessage(chatId, messageId, messageUpdate);

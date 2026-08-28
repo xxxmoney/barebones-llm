@@ -3,26 +3,26 @@ from uuid import UUID
 from fastapi import APIRouter, Body
 from src.docs.chat_docs import INSERT_CHAT_EXAMPLES, UPDATE_CHAT_EXAMPLES, SUBMIT_MESSAGE_EXAMPLES, \
     UPDATE_MESSAGE_EXAMPLES
-from src.dtos.chat.chat import Chat
-from src.dtos.chat.chat_update import ChatUpdate
-from src.dtos.chat.message import Message
-from src.dtos.chat.message_update import MessageUpdate
+from src.dtos.chat.chat import ChatDto
+from src.dtos.chat.chat_update import ChatUpdateDto
+from src.dtos.chat.message import MessageDto
+from src.dtos.chat.message_update import MessageUpdateDto
 from src.services import chat_service
 
 chat_route = APIRouter(prefix="/api/chat", tags=["Chat"])
 
 @chat_route.get("/")
-def get_chats() -> List[Chat]:
+def get_chats() -> List[ChatDto]:
     chats = chat_service.get_chats()
     return chats
 
 @chat_route.post("/")
-def insert_chat(chat: ChatUpdate = Body(openapi_examples=INSERT_CHAT_EXAMPLES)) -> Chat:
+def insert_chat(chat: ChatUpdateDto = Body(openapi_examples=INSERT_CHAT_EXAMPLES)) -> ChatDto:
     chat = chat_service.insert_chat(chat)
     return chat
 
 @chat_route.put("/{chat_id}")
-def update_chat(chat_id: UUID, chat: ChatUpdate = Body(openapi_examples=UPDATE_CHAT_EXAMPLES)) -> Chat:
+def update_chat(chat_id: UUID, chat: ChatUpdateDto = Body(openapi_examples=UPDATE_CHAT_EXAMPLES)) -> ChatDto:
     chat = chat_service.update_chat(chat_id, chat)
     return chat
 
@@ -33,17 +33,17 @@ def delete_chat(chat_id: UUID) -> UUID:
 
 
 @chat_route.get("/{chat_id}/message")
-def get_messages(chat_id: UUID) -> List[Message]:
+def get_messages(chat_id: UUID) -> List[MessageDto]:
     messages = chat_service.get_messages(chat_id)
     return messages
 
 @chat_route.post("/{chat_id}/message")
-def submit_message(chat_id: UUID, message: MessageUpdate = Body(openapi_examples=SUBMIT_MESSAGE_EXAMPLES)) -> List[Message]:
+def submit_message(chat_id: UUID, message: MessageUpdateDto = Body(openapi_examples=SUBMIT_MESSAGE_EXAMPLES)) -> List[MessageDto]:
     messages = chat_service.submit_message(chat_id, message)
     return messages
 
 @chat_route.put("/{chat_id}/message/{message_id}")
-def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdate = Body(openapi_examples=UPDATE_MESSAGE_EXAMPLES)) -> Message:
+def update_message(chat_id: UUID, message_id: UUID, message: MessageUpdateDto = Body(openapi_examples=UPDATE_MESSAGE_EXAMPLES)) -> MessageDto:
     messages = chat_service.update_message(chat_id, message_id, message)
     return messages
 
