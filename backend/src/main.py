@@ -41,7 +41,7 @@ app.include_router(configuration_route)
 app.include_router(chat_route)
 
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../dist")) # Running from exe, use the relative dist path
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "dist")) # Running from exe, use the relative dist path
 else:
     frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist")) # Debug, use the relative frontend project path
 
@@ -52,7 +52,7 @@ if not settings.is_debug:
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         # Switch to reload=True for live reload - from my experience caused hanging process on port
-        uvicorn.run("src.main:app", host="localhost", port=BACKEND_PORT, log_level="info", reload=False)
+        uvicorn.run(app, host="localhost", port=BACKEND_PORT, log_level="info", reload=False)
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)
