@@ -10,6 +10,9 @@
 - Start with `poetry run dev`
 - Should run at `http://localhost:5000`
 
+## Running poe tasks
+- Build: `poetry run poe build`
+
 ## Resolving issues
 - .venv
   - Check the current .venv `poetry env info --path`

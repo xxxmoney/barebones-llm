@@ -1,12 +1,16 @@
 import argparse
+import os
+import sys
 from threading import Thread
 import webview
 import threading
 import uvicorn
 import time
+from tendo import singleton
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.constants.constants import WEBVIEW_PORT, BACKEND_PORT
+from fastapi.staticfiles import StaticFiles
+from src.constants.constants import FRONTEND_PORT, BACKEND_PORT, APP_NAME
 from src.models.settings import Settings
 from src.routes.llm import llm_route
 from src.routes.test import test_route
@@ -14,6 +18,11 @@ from src.routes.openai import openai_route
 from src.routes.configuration import configuration_route
 from src.routes.chat import chat_route
 from src.services.persistence import Persistence
+
+try:
+    me = singleton.SingleInstance()  # Prevent multiple instances from running
+except:
+    sys.exit(f"{APP_NAME} instance already running!")
 
 settings = Settings() # dotenv
 
@@ -37,10 +46,19 @@ app.include_router(llm_route)
 app.include_router(configuration_route)
 app.include_router(chat_route)
 
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "dist")) # Running from exe, use the relative dist path
+else:
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist")) # Debug, use the relative frontend project path
+
+# On prod mount built frontend to root path
+if not settings.is_debug:
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         # Switch to reload=True for live reload - from my experience caused hanging process on port
-        uvicorn.run("src.main:app", host="localhost", port=BACKEND_PORT, log_level="info", reload=False)
+        uvicorn.run(app, host="localhost", port=BACKEND_PORT, log_level="info", reload=False)
 
     if use_thread:
         api_thread = threading.Thread(target=run, daemon=True)
@@ -54,7 +72,7 @@ def start_api(use_thread: bool) -> Thread | None:
 def start_webview() -> None:
     webview.create_window(
         "barebones-llm",
-        f"http://localhost:{WEBVIEW_PORT}",
+        f"http://localhost:{FRONTEND_PORT if settings.is_debug else BACKEND_PORT}/",
         width=1000,
         height=700,
         min_size=(600, 400)

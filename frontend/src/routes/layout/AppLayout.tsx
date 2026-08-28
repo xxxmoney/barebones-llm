@@ -36,7 +36,7 @@ function AppLayout() {
         <header className="grow-0 shrink-0">
           <nav className="navbar p-0">
             <div className="flex-1">
-              <Link to="/">LOGO</Link>
+              <Link to="/"><img src="/favicon.ico" alt="logo" className="rounded"/></Link>
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">

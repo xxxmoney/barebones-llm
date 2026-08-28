@@ -11,10 +11,7 @@ class Persistence():
         self.db = None
 
     def __enter__(self) -> "Persistence":
-        self._path.mkdir(parents=True, exist_ok=True)
-
-        # TODO: should use writeback or not?
-        #self.db = shelve.open(str(self._path), writeback=True)
+        self._path.parent.mkdir(parents=True, exist_ok=True)
         self.db = shelve.open(str(self._path))
 
         return self
