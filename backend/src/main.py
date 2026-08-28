@@ -13,12 +13,16 @@ from src.routes.test import test_route
 from src.routes.openai import openai_route
 from src.routes.configuration import configuration_route
 from src.routes.chat import chat_route
+from src.services.persistence import Persistence
 
 settings = Settings() # dotenv
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
 args = parser.parse_args()
+
+with Persistence() as persistence:
+    pass
 
 app = FastAPI()
 app.add_middleware(
