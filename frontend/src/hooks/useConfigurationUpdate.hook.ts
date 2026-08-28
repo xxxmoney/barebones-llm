@@ -14,7 +14,7 @@ export function useConfigurationUpdate() {
   const handleUpdateConfiguration = useCallback((value: ConfigurationUpdateDto) =>
     toast.promise(async () => {
       const data = await updateConfiguration(value);
-      const isConnectionValid = (data.validation.fields['open_ai_url'] ?? true) && (data.validation.fields['open_ai_token'] ?? true);
+      const isConnectionValid = data.validation.fields['openAiUrl'] && data.validation.fields['openAiToken'];
       if (!isModelsLoaded && !data.validation.isValid && isConnectionValid) {
         await getModels(); // Load models if connection part of configuration is valid
       }
