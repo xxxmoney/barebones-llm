@@ -102,7 +102,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
           </fieldset>
         </details>
 
-        <button type="submit" data-tip="Update" disabled={disabled} className="btn btn-primary w-full tooltip">
+        <button type="submit" data-tip="Save" disabled={disabled} className="btn btn-primary w-full tooltip">
           <Save />
         </button>
       </form>
