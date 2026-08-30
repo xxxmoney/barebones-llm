@@ -21,9 +21,9 @@
     - [OpenRouter](https://openrouter.ai/workspaces/default/keys)
         - `https://openrouter.ai/api/v1/`
     - [OpenAI](https://platform.openai.com/api-keys)
-        - `https://generativelanguage.googleapis.com/v1beta/openai/`
-    - [Google](https://aistudio.google.com/api-keys?project=gen-lang-client-0820887008)
         - `https://api.openai.com/v1/`
+    - [Google](https://aistudio.google.com/api-keys?project=gen-lang-client-0820887008)
+        - `https://generativelanguage.googleapis.com/v1beta/openai/`
     - Other that support [OpenAI API](https://lightning.ai/docs/litserve/features/open-ai-spec)
 - Local
     - [LM Studio](https://lmstudio.ai)
