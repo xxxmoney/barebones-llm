@@ -5,6 +5,7 @@ import { useConfigurationStore } from '../../stores/configuration.store.ts';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading.tsx';
 import type { ConfigurationDto } from '../../dtos/configuration/configuration.dto.ts';
+import { MessagesSquare, Settings } from 'lucide-react';
 
 function AppLayout() {
   const getChats = useChatStore(state => state.getChats);
@@ -40,15 +41,25 @@ function AppLayout() {
             </div>
             <div className="flex-none">
               <ul className="menu menu-horizontal">
-                {configuration?.isValid && <li className="text-xl"><Link to="/chats">Chats</Link></li>}
-                <li className="text-xl"><Link to="/configuration">Configuration</Link></li>
+                {configuration?.isValid &&
+                    <li className="text-xl tooltip tooltip-bottom" data-tip="Chats">
+                      <Link to="/chats">
+                        <MessagesSquare />
+                      </Link>
+                    </li>
+                }
+                <li className="text-xl tooltip tooltip-bottom" data-tip="Settings">
+                  <Link to="/configuration">
+                    <Settings />
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="flex-1"></div>
           </nav>
         </header>
 
-        <main className="grow-1 shrink-1 overflow-y-auto scrollbar-thin py-4xl">
+        <main className="grow-1 shrink-1 overflow-y-auto scrollbar-thin py-xl">
           <Outlet />
         </main>
 

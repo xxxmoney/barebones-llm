@@ -7,7 +7,7 @@ function HomeRoute() {
       <div className="hero">
         <div className="hero-content text-center">
           <div className="">
-            <h1 className="text-heading"><span className="uppercase font-extrabold">Bare</span>bones LLM</h1>
+            <h1 className="text-heading">Bare<span className="font-extrabold">bones</span> LLM</h1>
             <p className="py-lg">Let's chat with LLM - as simple as it can get</p>
             <Link to="/chats" className="btn btn-primary">LET'S DO IT</Link>
           </div>
