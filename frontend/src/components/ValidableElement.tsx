@@ -4,14 +4,15 @@ interface ValidableProps {
   children: (data: { className: string }) => ReactNode;
 
   invalidText: string,
+  invalidTooltip?: string;
   isValid: boolean;
 }
 
-function ValidableElement({ children, invalidText, isValid }: ValidableProps) {
+function ValidableElement({ children, invalidText, invalidTooltip, isValid }: ValidableProps) {
   return (
     <>
       {children({ className: isValid ? 'validator' : 'invalid-input' })}
-      <p className={`invalid-text ${isValid && 'hidden validator-hint'}`}>{invalidText}</p>
+      <p data-tip={invalidTooltip} className={`invalid-text tooltip animate-pulse ${isValid && 'hidden validator-hint'}`}>{invalidText}</p>
     </>
   );
 }
