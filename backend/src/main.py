@@ -6,6 +6,7 @@ import webview
 import threading
 import uvicorn
 import time
+from starlette.responses import RedirectResponse
 from tendo import singleton
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,14 +47,18 @@ app.include_router(llm_route)
 app.include_router(configuration_route)
 app.include_router(chat_route)
 
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "dist")) # Running from exe, use the relative dist path
-else:
-    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/dist")) # Debug, use the relative frontend project path
-
-# On prod mount built frontend to root path
+# Prod mount built frontend to root path
 if not settings.is_debug:
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "dist"))  # Running from exe, use the relative dist path
     app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+# Debug root url redirect to running frontend url
+elif not getattr(sys, 'frozen', False) and not hasattr(sys, '_MEIPASS'):
+    @app.get("/", include_in_schema=False)
+    def root():
+        return RedirectResponse(url=f"http://localhost:{FRONTEND_PORT}")
+# Debug in exe not supported
+else:
+    raise EnvironmentError("Unexpected execution")
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():
