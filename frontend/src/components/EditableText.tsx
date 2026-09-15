@@ -4,22 +4,30 @@ import type { KeyboardEvent, ClipboardEvent, FocusEvent } from 'react';
 interface EditableTextProps {
    text?: string;
    maxLength?: number;
-   allowEnter?: boolean;
+   allowEnterNewLine?: boolean;
    className?: string;
    update: (text: string) => Promise<void>;
    clear?: () => Promise<void>;
 }
 
-function EditableText({ text, maxLength, allowEnter, className, update, clear }: EditableTextProps) {
-  function handleKeyDown(event: KeyboardEvent<HTMLSpanElement>) {
+function EditableText({ text, maxLength, allowEnterNewLine, className, update, clear }: EditableTextProps) {
+
+  async function handleKeyDown(event: KeyboardEvent<HTMLSpanElement>) {
     const isWithinMaxLength = !maxLength || event.currentTarget.textContent.length <= maxLength;
     const isDelete = event.key === 'Backspace' || event.key === 'Delete';
     const isSelectAll = (event.ctrlKey || event.metaKey) && event.key === 'a';
 
     const preventInput = !isWithinMaxLength && !isDelete && !isSelectAll;
-    const preventEnter = !allowEnter && event.key === 'Enter';
+    const preventEnter = !allowEnterNewLine && event.key === 'Enter';
     if (preventInput || preventEnter) {
       event.preventDefault();
+    }
+
+    if (preventEnter) {
+      event.currentTarget.blur();
+      if (event.currentTarget.textContent !== text) {
+        await update(event.currentTarget.textContent);
+      }
     }
   }
   function handlePaste(event: ClipboardEvent<HTMLSpanElement>) {
