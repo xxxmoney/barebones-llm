@@ -65,7 +65,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             {models.length > 0 &&
                 <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
-                  <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailible / model paid" isValid={isModelValid}>
+                  <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailable / model paid" isValid={isModelValid}>
                     {({ className }) => (
                       <Select defaultValue={configuration?.model} name="model" options={models} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}

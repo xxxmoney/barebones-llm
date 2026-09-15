@@ -1,4 +1,4 @@
-from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError
+from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError, NotFoundError, RateLimitError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation_fields import ValidationFieldsDto
@@ -47,16 +47,27 @@ class OpenAIClient:
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
 
             self.get_chat_completion(completion)
-        except APIConnectionError:
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False))
-        except AuthenticationError:
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False))
+        except APIConnectionError as e:
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e)
+        except AuthenticationError as e:
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e)
+        except NotFoundError as e:
+            if "model" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+            elif "url" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e)
+            else:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False, open_ai_token=False), error=e)
+        except RateLimitError as e:
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
         except BadRequestError as e:
             if e.code == "model_not_found":
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
-            if "max_tokens" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False))
-            if "temperature" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False))
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+            elif "max_tokens" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False), error=e)
+            elif "temperature" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False), error=e)
+            elif "model" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
 
         return ValidationDto(is_valid=True, fields=ValidationFieldsDto())

@@ -12,7 +12,7 @@ function ValidableElement({ children, invalidText, invalidTooltip, isValid }: Va
   return (
     <>
       {children({ className: isValid ? 'validator' : 'invalid-input' })}
-      <p data-tip={invalidTooltip} className={`invalid-text tooltip animate-pulse ${isValid && 'hidden validator-hint'}`}>{invalidText}</p>
+      <p data-tip={invalidTooltip} className={`invalid-text tooltip animate-pulse hover:animate-none ${isValid && 'hidden validator-hint'}`}>{invalidText}</p>
     </>
   );
 }
