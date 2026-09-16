@@ -40,12 +40,12 @@ function Configuration({ configuration, models, disabled, validationFields, upda
         <details className="collapse collapse-open" open>
           <summary className="collapse-title p-0">Main Settings</summary>
             
-          <fieldset className="fieldset collapse-content p-0">
+          <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Main Settings</legend>
 
             <fieldset className="fieldset">
-              <label htmlFor="openAiUrl" className="label">OpenAI Url</label>
-              <ValidableElement invalidText="Invalid Url" isValid={isOpenAiUrlValid}>
+              <label htmlFor="openAiUrl" className="label">Url</label>
+              <ValidableElement invalidText="Invalid Url" invalidTooltip="Correct format: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
                   <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="Url" type="url" disabled={disabled} required className={`input ${className}`} />
                 )}
@@ -53,9 +53,9 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             </fieldset>
 
             <fieldset className="fieldset">
-              <label htmlFor="openAiToken" className="label">OpenAI Token</label>
+              <label htmlFor="openAiToken" className="label">Token</label>
 
-              <ValidableElement invalidText="Invalid Token" isValid={isOpenAiTokenValid}>
+              <ValidableElement invalidText="Invalid Token" invalidTooltip="Correct format: XQ.Ab8RN6OjJpZODvCFRY-pNyNam9bNLtsooaKKipEqWZ2bf5-DUw" isValid={isOpenAiTokenValid}>
                 {({ className }) => (
                   <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className={`input ${className}`}  />
                 )}
@@ -65,7 +65,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             {models.length > 0 &&
                 <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
-                  <ValidableElement invalidText="Invalid Model" isValid={isModelValid}>
+                  <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailable / model paid" isValid={isModelValid}>
                     {({ className }) => (
                       <Select defaultValue={configuration?.model} name="model" options={models} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}
@@ -78,13 +78,13 @@ function Configuration({ configuration, models, disabled, validationFields, upda
         <details className="collapse">
           <summary className="collapse-title p-0">Advanced</summary>
 
-          <fieldset className="fieldset collapse-content p-0">
+          <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Advanced</legend>
 
             <fieldset className="fieldset">
               <label htmlFor="maxTokens" className="label">Max Tokens</label>
 
-              <ValidableElement invalidText="Invalid Max Tokens" isValid={isMaxTokensValid}>
+              <ValidableElement invalidText="Invalid Max Tokens" invalidTooltip="Recommended around 4096" isValid={isMaxTokensValid}>
                 {({ className }) => (
                   <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="Max" type="number" disabled={disabled} required min="0" className={`input ${className}`} />
                 )}
@@ -93,7 +93,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
 
             <fieldset className="fieldset">
               <label htmlFor="temperature" className="label">Temperature</label>
-              <ValidableElement invalidText="Invalid Temperature" isValid={isTemperatureValid}>
+              <ValidableElement invalidText="Invalid Temperature" invalidTooltip="Recommended between 0.6 and 1.0" isValid={isTemperatureValid}>
                 {({ className }) => (
                   <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="Value" type="number" disabled={disabled} required min="0" max="1" step="0.1" className={`input ${className}`} />
                 )}

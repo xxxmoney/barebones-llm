@@ -52,6 +52,10 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
           throw new Error('Configuration not found');
         }
 
+        if (configurationUpdate.openAiUrl !== configuration.openAiUrl) {
+          configurationUpdate.model = undefined;
+        }
+
         Object.assign(configuration, configurationUpdate);
         state.validation = undefined;
 

@@ -1,8 +1,11 @@
-from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError
+import logging
+from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError, NotFoundError, RateLimitError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation_fields import ValidationFieldsDto
 from src.dtos.validation import ValidationDto
+
+logger = logging.getLogger(__name__)
 
 class OpenAIClient:
     _open_ai_url: str
@@ -47,16 +50,37 @@ class OpenAIClient:
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
 
             self.get_chat_completion(completion)
-        except APIConnectionError:
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False))
-        except AuthenticationError:
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False))
+        except APIConnectionError as e:
+            logger.warning(e.message)
+
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e.message)
+        except AuthenticationError as e:
+            logger.warning(e.message)
+
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e.message)
+        except NotFoundError as e:
+            logger.warning(e.message)
+
+            if "model" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
+            elif "url" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e.message)
+            else:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False, open_ai_token=False), error=e.message)
+        except RateLimitError as e:
+            logger.warning(e.message)
+
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
         except BadRequestError as e:
+            logger.warning(e.message)
+
             if e.code == "model_not_found":
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False))
-            if "max_tokens" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False))
-            if "temperature" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False))
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+            elif "max_tokens" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False), error=e)
+            elif "temperature" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False), error=e)
+            elif "model" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
 
         return ValidationDto(is_valid=True, fields=ValidationFieldsDto())

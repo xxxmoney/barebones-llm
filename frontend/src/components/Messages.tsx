@@ -30,7 +30,7 @@ function Messages({ messages, update, clear }: MessagesProps) {
       <div>
         {messages?.map(message =>
           <div key={message.id} id={message.id} className={`relative chat chat-${message.position}`}>
-            <EditableText text={message.text} allowEnter update={text => update(message.id, text)} clear={() => clear(message.id)} className="chat-bubble" />
+            <EditableText text={message.text} allowEnterNewLine allowPaste update={text => update(message.id, text)} clear={() => clear(message.id)} className="chat-bubble" />
           </div>
         )}
 
