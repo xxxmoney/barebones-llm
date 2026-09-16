@@ -26,8 +26,10 @@ from src.services.persistence import Persistence
 
 user_data_path.mkdir(parents=True, exist_ok=True)
 
+settings = Settings() # dotenv
+
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG if settings.is_debug else logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s - '%(message)s'",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
@@ -45,15 +47,11 @@ except:
     logger.warning("App already running")
     sys.exit(f"{APP_NAME} instance already running!")
 
-logger.debug("Loading dotenv...")
-settings = Settings() # dotenv
-logger.info("Loaded dotenv")
-
 logger.debug("Parsing cli arguments...")
 parser = argparse.ArgumentParser()
 parser.add_argument("--backend-only", type=bool, default=False)
 args = parser.parse_args()
-logger.info("Parsed cli arguments: %s", json.dumps(args))
+logger.info("Parsed cli arguments: %s", json.dumps(vars(args)))
 
 logger.debug("Setting up local db...")
 with Persistence() as persistence:
