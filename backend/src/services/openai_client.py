@@ -1,8 +1,11 @@
+import logging
 from openai import OpenAI, APIConnectionError, AuthenticationError, BadRequestError, NotFoundError, RateLimitError
 from src.dtos.openai.completion import CompletionRequestDto
 from src.dtos.openai.connection import ConnectionDto
 from src.dtos.openai.validation_fields import ValidationFieldsDto
 from src.dtos.validation import ValidationDto
+
+logger = logging.getLogger(__name__)
 
 class OpenAIClient:
     _open_ai_url: str
@@ -48,10 +51,16 @@ class OpenAIClient:
 
             self.get_chat_completion(completion)
         except APIConnectionError as e:
+            logger.warning(e)
+
             return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e)
         except AuthenticationError as e:
+            logger.warning(e)
+
             return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e)
         except NotFoundError as e:
+            logger.warning(e)
+
             if "model" in e.message:
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
             elif "url" in e.message:
@@ -59,8 +68,12 @@ class OpenAIClient:
             else:
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False, open_ai_token=False), error=e)
         except RateLimitError as e:
+            logger.warning(e)
+
             return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
         except BadRequestError as e:
+            logger.warning(e)
+
             if e.code == "model_not_found":
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
             elif "max_tokens" in e.message:
