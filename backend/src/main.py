@@ -99,13 +99,11 @@ def start_api(use_thread: bool) -> Thread | None:
     def run():
         logger.debug("Starting uvicorn...")
         uvicorn.run(app, host="localhost", port=BACKEND_PORT, log_level="info", reload=False) # Switch to reload=True for live reload - from my experience caused hanging process on port
-        logger.info("Started uvicorn")
 
     if use_thread:
         logger.debug("Starting uvicorn thread...")
         api_thread = threading.Thread(target=run, daemon=True)
         api_thread.start()
-        logger.info("Started uvicorn thread")
 
         return api_thread
     else:
@@ -122,7 +120,6 @@ def start_webview() -> None:
         min_size=(600, 400)
     )
     webview.start(debug=settings.is_debug)
-    logger.info("Started webview")
 
 def main() -> None:
     start_api(True)
