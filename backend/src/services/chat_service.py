@@ -41,9 +41,9 @@ def update_chat(chat_id: UUID, update: ChatUpdateDto) -> ChatDto:
     return ChatDto.model_validate(model)
 
 def insert_chat(update: ChatUpdateDto) -> ChatDto:
-    logger.debug("Inserting chat %s...", update.chat_id)
+    logger.debug("Inserting chat...")
     model: ChatModel = chat_repository.insert_chat(ChatModel(id=uuid4(), name=update.name, messages=[], creation_date=datetime.now(UTC), update_date=None))
-    logger.debug("Inserted chat %s", update.chat_id)
+    logger.debug("Inserted chat")
 
     return ChatDto.model_validate(model)
 
