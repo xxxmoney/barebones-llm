@@ -9,9 +9,9 @@ import uvicorn
 import time
 import logging
 from logging.handlers import RotatingFileHandler
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, JSONResponse
 from tendo import singleton
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from src.constants.constants import FRONTEND_PORT, BACKEND_PORT, APP_NAME
@@ -72,6 +72,12 @@ app.include_router(openai_route)
 app.include_router(llm_route)
 app.include_router(configuration_route)
 app.include_router(chat_route)
+
+@app.exception_handler(Exception)
+async def global_logging_handler(request: Request, exc: Exception):
+    logger.error("Error on %s: %s", request.url, exc, exc_info=True)
+    return JSONResponse(status_code=500, content={"message": "Internal Server Error"})
+
 logger.debug("Checking whether to use built frontend or frontend url based...")
 if not settings.is_debug: # Prod mount built frontend to root path
     logger.debug("Prod environment, using frontend from dist, setting up...")
