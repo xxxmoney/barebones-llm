@@ -51,28 +51,28 @@ class OpenAIClient:
 
             self.get_chat_completion(completion)
         except APIConnectionError as e:
-            logger.warning(e)
+            logger.warning(e.message)
 
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e)
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e.message)
         except AuthenticationError as e:
-            logger.warning(e)
+            logger.warning(e.message)
 
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e)
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e.message)
         except NotFoundError as e:
-            logger.warning(e)
+            logger.warning(e.message)
 
             if "model" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
             elif "url" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False), error=e.message)
             else:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False, open_ai_token=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_url=False, open_ai_token=False), error=e.message)
         except RateLimitError as e:
-            logger.warning(e)
+            logger.warning(e.message)
 
-            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+            return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
         except BadRequestError as e:
-            logger.warning(e)
+            logger.warning(e.message)
 
             if e.code == "model_not_found":
                 return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
