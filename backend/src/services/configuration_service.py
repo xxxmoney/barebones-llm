@@ -37,7 +37,7 @@ def update_configuration(configuration: ConfigurationUpdateDto, is_valid: bool) 
     logger.debug("Validating model configuration...")
     model = ConfigurationModel.model_validate(configuration)
     model.is_valid = is_valid
-    logger.debug("Validated model configuration %s", model.is_valid)
+    logger.debug("Validated model configuration: %s", model.is_valid)
 
     logger.debug("Updating configuration...")
     config = configuration_repository.update_configuration(model)
