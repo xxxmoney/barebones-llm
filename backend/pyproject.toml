@@ -27,7 +27,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 packages = [{include = "src"}]
 
-[project.scripts]
+[tool.poetry.scripts]
 dev = "src.main:main"
 dev-backend-only = "src.main:main_backend_only"
 

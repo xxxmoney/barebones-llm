@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import type { ValidableDto } from '../dtos/validation.dto.ts';
 
-const URL_PREFIX = '/api/configuration';
+const URL_PREFIX = '/configuration';
 
 export const ConfigurationApi = {
   getConfiguration(): Promise<AxiosResponse<ConfigurationDto>> {

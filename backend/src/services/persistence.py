@@ -12,7 +12,7 @@ class Persistence():
 
     def __enter__(self) -> "Persistence":
         self._path.parent.mkdir(parents=True, exist_ok=True)
-        self.db = shelve.open(str(self._path))
+        self.db = shelve.open(str(self._path / "db"))
 
         return self
 

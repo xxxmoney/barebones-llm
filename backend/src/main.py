@@ -39,13 +39,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-try:
-    logger.debug("Checking single instance...")
-    me = singleton.SingleInstance()  # Prevent multiple instances from running
-    logger.info("Checked single instance")
-except:
-    logger.warning("App already running")
-    sys.exit(f"{APP_NAME} instance already running!")
+if not settings.is_debug:
+    try:
+        logger.debug("Checking single instance...")
+        me = singleton.SingleInstance()  # Prevent multiple instances from running
+        logger.info("Checked single instance")
+    except:
+        logger.warning("App already running")
+        sys.exit(f"{APP_NAME} instance already running!")
 
 logger.debug("Parsing cli arguments...")
 parser = argparse.ArgumentParser()
@@ -98,7 +99,7 @@ logger.info("Set up FastAPI")
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         logger.debug("Starting uvicorn...")
-        uvicorn.run(app, host="localhost", port=BACKEND_PORT, log_level="info", reload=False) # Switch to reload=True for live reload - from my experience caused hanging process on port
+        uvicorn.run("src.main:app" if settings.is_debug else app, host="0.0.0.0", port=BACKEND_PORT, log_level="info", reload=settings.is_debug)
 
     if use_thread:
         logger.debug("Starting uvicorn thread...")
@@ -114,7 +115,7 @@ def start_webview() -> None:
     logger.debug("Starting webview...")
     webview.create_window(
         "barebones-llm",
-        f"http://localhost:{FRONTEND_PORT if settings.is_debug else BACKEND_PORT}/",
+        f"http://0.0.0.0:{FRONTEND_PORT if settings.is_debug else BACKEND_PORT}/",
         width=1000,
         height=700,
         min_size=(600, 400)

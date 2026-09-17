@@ -1,7 +1,7 @@
 import { api } from './index';
 import type { AxiosResponse } from 'axios';
 
-const URL_PREFIX = '/api/test';
+const URL_PREFIX = '/test';
 
 export const TestApi = {
   testConnection(): Promise<AxiosResponse> {
