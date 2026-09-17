@@ -96,10 +96,12 @@ else: # Debug in exe not supported
 
 logger.info("Set up FastAPI")
 
+host = "0.0.0.0" if settings.is_debug else "localhost"
+
 def start_api(use_thread: bool) -> Thread | None:
     def run():
         logger.debug("Starting uvicorn...")
-        uvicorn.run("src.main:app" if settings.is_debug else app, host="0.0.0.0", port=BACKEND_PORT, log_level="info", reload=settings.is_debug)
+        uvicorn.run("src.main:app" if settings.is_debug else app, host=host, port=BACKEND_PORT, log_level="info", reload=settings.is_debug)
 
     if use_thread:
         logger.debug("Starting uvicorn thread...")
@@ -115,7 +117,7 @@ def start_webview() -> None:
     logger.debug("Starting webview...")
     webview.create_window(
         "barebones-llm",
-        f"http://0.0.0.0:{FRONTEND_PORT if settings.is_debug else BACKEND_PORT}/",
+        f"http://{host}:{FRONTEND_PORT if settings.is_debug else BACKEND_PORT}/",
         width=1000,
         height=700,
         min_size=(600, 400)
