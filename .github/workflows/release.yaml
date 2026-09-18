@@ -7,6 +7,9 @@ on:
       - feature-docker-ci-cd # TODO: change later to master
   workflow_dispatch:
 
+permissions:
+      contents: write
+
 jobs:
   build:
     name: Build Windows
@@ -26,7 +29,6 @@ jobs:
         with:
           python-version: '3.12.0'
 
-
       - name: Build Frontend
         working-directory: ./frontend
         run: |
@@ -40,9 +42,20 @@ jobs:
           poetry install
           poetry run poe build
 
-      - name: Upload Exe
-        uses: actions/upload-artifact@v4
+      - name: Get Version
+        id: version
+        working-directory: ./backend
+        run: |
+          $APP_VERSION = poetry version --short
+          echo "APP_VERSION=$APP_VERSION" >> $env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: BarebonesLLM-Windows
-          path: ./backend/dist/*.exe
+          tag_name: "${{ steps.version.outputs.APP_VERSION }}"
+          name: "v${{ steps.version.outputs.APP_VERSION }}"
+          files: backend/dist/*.exe
+          generate_release_notes: true
+
+    # TODO: define other like unix, etc
 
