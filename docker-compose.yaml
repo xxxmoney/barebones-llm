@@ -8,9 +8,9 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - "./backend:/app" # Live realod backend code
-      - "user_data:/app/data" # Persist user data across container restarts
-      - "/app/.venv" # Virtual environment is not overwritten by the volume
+      - "./backend:/app" # Link backend code
+      - "user_data:/app/data" # Persist user data
+      - "/app/.venv" # Virtual environment is not overwritten
     environment:
       - "IS_DEBUG=True"
     dns:
@@ -21,8 +21,8 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - "./frontend:/app" # Live realod frontend code
-      - "/app/node_modules" # Prevent node_modules is not overwritten by the volume
+      - "./frontend:/app" # Link frontend code
+      - "/app/node_modules" # node_modules is not overwritten
     environment:
       - "API_BASE_URL=http://backend:5000"
     depends_on:

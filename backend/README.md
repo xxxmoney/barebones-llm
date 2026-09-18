@@ -1,7 +1,8 @@
 
 # Backend
 
-## Getting started
+## Getting started (local)
+- (Running with Docker in [README.md](../README.md))
 - Set up python correctly - recommended usage of [pyenv](https://github.com/pyenv-win/pyenv-win)
   - Version `3.12.0`
 - Set up [Poetry](https://python-poetry.org) on your machine
@@ -18,7 +19,7 @@
   - Check the current .venv `poetry env info --path`
   - Remove venvs `poetry env remove --all` (also need to remove the physical path to the venv)
 - Stuck process
-  - If you experience that the app's code is not updated even after restart (all the more if using `uvicorn` reload), the process is probably stuck
+  - If you experience that the app's code is not updated even after restart (all the more if using `uvicorn` reload), the process is probably stuck)
   - Try using these scripts:
     - `kill_process.ps1` - tries to kill the process it can find by port 5000
     - `list_processes.ps1` - get to know which processes may be used by port 5000 (listening)

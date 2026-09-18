@@ -35,7 +35,10 @@
 <video src="https://github.com/user-attachments/assets/9d30afc2-08f8-4980-8fd7-0c1d4253f03b" autoplay loop muted playsinline width="100%"></video>
 
 ## Local develop?
-- Check `/frontend` and `/backend` READMEs
+- Runing with Docker
+    - `docker compose up -d --build`
+- Running locally
+    - Check `/frontend` and `/backend` READMEs
 
 ## Roadmap?
 - Progress here: [Trello](https://trello.com/b/wU1YRHXb)
