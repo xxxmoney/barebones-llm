@@ -12,6 +12,7 @@ services:
       - "user_data:/app/data" # Persist user data
       - "/app/.venv" # Virtual environment is not overwritten
     environment:
+      - "HOST=0.0.0.0" # Expose outside container
       - "IS_DEBUG=True"
     dns:
       - 8.8.8.8  # <--- Force Google DNS - fix on Windows
@@ -24,6 +25,7 @@ services:
       - "./frontend:/app" # Link frontend code
       - "/app/node_modules" # node_modules is not overwritten
     environment:
+      - "HOST=0.0.0.0" # Expose outside container
       - "API_BASE_URL=http://backend:5000"
     depends_on:
       - backend

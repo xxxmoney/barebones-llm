@@ -96,7 +96,7 @@ else: # Debug in exe not supported
 
 logger.info("Set up FastAPI")
 
-host = "0.0.0.0" if settings.is_debug else "localhost"
+host = settings.host if settings.host else "localhost"
 
 def start_api(use_thread: bool) -> Thread | None:
     def run():

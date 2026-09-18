@@ -9,8 +9,7 @@ chats_key = "chats"
 
 def get_chats() -> List[ChatModel]:
     with Persistence() as persistence:
-        if chats_key not in persistence.db.keys():
-            persistence.db[chats_key] = []
+        _check_chats(persistence)
 
         chats = persistence.db[chats_key]
 
@@ -23,6 +22,8 @@ def get_chat(chat_id: uuid) -> ChatModel | None:
 
 def insert_chat(insert: ChatModel) -> ChatModel:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chats.append(insert)
         persistence.db[chats_key] = chats
@@ -31,6 +32,8 @@ def insert_chat(insert: ChatModel) -> ChatModel:
 
 def insert_chat_messages(chat_id: uuid, inserts: List[MessageModel]) -> List[MessageModel]:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
@@ -45,6 +48,8 @@ def insert_chat_messages(chat_id: uuid, inserts: List[MessageModel]) -> List[Mes
 
 def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> ChatModel:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
@@ -59,6 +64,8 @@ def update_chat(chat_id: uuid, update_function: Callable[[ChatModel], None]) -> 
 
 def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callable[[MessageModel], None]) -> MessageModel:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
@@ -78,6 +85,8 @@ def update_chat_message(chat_id: uuid, message_id: uuid, update_function: Callab
 
 def delete_chat(chat_id: uuid) -> UUID:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
@@ -92,6 +101,8 @@ def delete_chat(chat_id: uuid) -> UUID:
 
 def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
     with Persistence() as persistence:
+        _check_chats(persistence)
+
         chats: List[ChatModel] = persistence.db[chats_key]
         chat = next((chat for chat in chats if chat.id == chat_id), None)
 
@@ -109,3 +120,7 @@ def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
         persistence.db[chats_key] = chats
 
     return deleted
+
+def _check_chats(persistence: Persistence) -> None:
+    if chats_key not in persistence.db.keys():
+        persistence.db[chats_key] = []
