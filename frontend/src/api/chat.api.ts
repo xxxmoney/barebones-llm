@@ -4,7 +4,7 @@ import type { ChatDto, ChatUpdateDto } from '../dtos/chat/chat.dto.ts';
 import type { MessageDto } from '../dtos/chat/message.dto.ts';
 import type { MessageUpdateDto } from '../dtos/chat/message.dto.ts';
  
-const URL_PREFIX = '/api/chat';
+const URL_PREFIX = '/chat';
 
 export const ChatApi = {
   getChats(): Promise<AxiosResponse<ChatDto[]>> {

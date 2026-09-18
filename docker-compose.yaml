@@ -1,0 +1,34 @@
+
+name: BarebonesLLM
+
+services:
+  backend:
+    build: "./backend"
+    command: "poetry run dev-backend-only"
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./backend:/app" # Link backend code
+      - "user_data:/app/data" # Persist user data
+      - "/app/.venv" # Virtual environment is not overwritten
+    environment:
+      - "HOST=0.0.0.0" # Expose outside container
+      - "IS_DEBUG=True"
+    dns:
+      - 8.8.8.8  # <--- Force Google DNS - fix on Windows
+    
+  frontend:
+    build: "./frontend"
+    ports:
+      - "5173:5173"
+    volumes:
+      - "./frontend:/app" # Link frontend code
+      - "/app/node_modules" # node_modules is not overwritten
+    environment:
+      - "HOST=0.0.0.0" # Expose outside container
+      - "API_BASE_URL=http://backend:5000"
+    depends_on:
+      - backend
+
+volumes:
+  user_data:
