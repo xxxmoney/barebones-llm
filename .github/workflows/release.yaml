@@ -4,7 +4,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - feature-docker-ci-cd # TODO: change later to master
+      - master
   workflow_dispatch:
 
 permissions:
@@ -57,5 +57,4 @@ jobs:
           files: backend/dist/*.exe
           generate_release_notes: true
 
-    # TODO: define other like unix, etc
 
