@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: light --default, dark --prefersdark;
+    themes: corporate --default, sunset --prefersdark;;
 }
 
 @theme {
@@ -37,7 +37,7 @@ nav a.active {
     @apply text-primary font-bold;
 }
 nav a:not(.active) {
-    @apply opacity-75;
+    @apply opacity-90;
 }
 nav a:hover {
     @apply opacity-100;

@@ -38,7 +38,7 @@ function ChatListRoute() {
         <ul className="flex max-w-80 flex-col items-center gap-md">
           {chats.map((chat, index) =>
             <li key={chat.id} className="relative group">
-              <Link className={`btn btn-secondary tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
+              <Link className={`btn btn-primary tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
               <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
             </li>
           )}
