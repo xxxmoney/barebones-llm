@@ -14,6 +14,7 @@ services:
     environment:
       - "HOST=0.0.0.0" # Expose outside container
       - "IS_DEBUG=True"
+      - "WATCHFILES_FORCE_POLLING=true" # Fix for Windows file watching
     dns:
       - 8.8.8.8  # <--- Force Google DNS - fix on Windows
     

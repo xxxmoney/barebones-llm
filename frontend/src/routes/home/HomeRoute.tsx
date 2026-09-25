@@ -4,7 +4,7 @@ function HomeRoute() {
 
   return (
     <>
-      <div className="hero">
+      <div className="hero h-full">
         <div className="hero-content text-center">
           <div className="">
             <h1 className="text-heading">Bare<span className="font-extrabold">bones</span> LLM</h1>
