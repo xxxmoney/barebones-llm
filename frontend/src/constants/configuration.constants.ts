@@ -6,7 +6,7 @@ export const PROVIDERS  = [
   },
   {
     label: 'Google (Gemini)',
-    value: 'https://generativelanguage.googleapis.com/v1beta/'
+    value: 'https://generativelanguage.googleapis.com/v1beta/openai/'
   },
   {
     label: 'Anthropic (Claude)',
@@ -14,7 +14,7 @@ export const PROVIDERS  = [
   },
   {
     label: 'OpenRouter',
-    value: 'https://openrouter.ai/'
+    value: 'https://openrouter.ai/api/v1/'
   },
   {
     label: 'Ollama',

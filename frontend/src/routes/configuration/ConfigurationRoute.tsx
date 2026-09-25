@@ -13,11 +13,18 @@ function ConfigurationRoute() {
   const loading: boolean = useConfigurationStore(state => state.loading);
   const configuration: ConfigurationDto | undefined = useConfigurationStore(state => state.configuration);
   const validation: ValidationDto | undefined = useConfigurationStore(state => state.validation);
+  const setConfigurationInvalid = useConfigurationStore(state => state.setConfigurationInvalid);
   const models: ModelDto[] = useModelsStore(state => state.models);
   const { handleUpdateConfiguration } = useConfigurationUpdate();
   const getModels = useModelsStore(state => state.getModels);
   const isModelsLoaded = useModelsStore(state => state.hasLoaded);
   const isModelsLoading = useModelsStore(state => state.loading);
+  const resetModels = useModelsStore(state => state.resetModels);
+
+  function handleOpenAiUrlChange() {
+    setConfigurationInvalid(); // Prevent models refresh (useEffect below) on every OpenAI URL change
+    resetModels();
+  }
 
   useEffect(() => {
     if (!isModelsLoaded && configuration?.isValid) {
@@ -37,6 +44,7 @@ function ConfigurationRoute() {
               validationFields={validation?.fields ?? {}}
               disabled={loading}
               update={handleUpdateConfiguration}
+              openAiUrlChange={handleOpenAiUrlChange}
             />
         }
       </section>

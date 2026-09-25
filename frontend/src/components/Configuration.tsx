@@ -11,12 +11,12 @@ export interface ConfigurationProps {
     disabled?: boolean;
     validationFields: Record<string, boolean>;
 
-    update: (configuration: ConfigurationUpdateDto) => Promise<void>;
+    update: (configuration: ConfigurationUpdateDto) => Promise<void> | void;
+    openAiUrlChange?: () => Promise<void> | void;
 }
 
-function Configuration({ configuration, models, disabled, validationFields, update }: ConfigurationProps) {
+function Configuration({ configuration, models, disabled, validationFields, update, openAiUrlChange }: ConfigurationProps) {
   const modelRef = useRef<HTMLSelectElement>(null);
-  const [currentModels, setCurrentModels] = useState<string[]>(models);
   const [showCustomProvider, setShowCustomProvider] = useState<boolean>(configuration?.isCustomAiProvider ?? false);
 
   const isOpenAiUrlValid = validationFields['openAiUrl'] ?? true;
@@ -40,17 +40,20 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     });
   }
 
-  function resetModels() {
+  function resetCurrentModel() {
     if (modelRef.current) {
       modelRef.current.value = '';
     }
-
-    setCurrentModels([]);
   }
 
-  function handleIsCustomProviderChange(value: ChangeEvent<HTMLInputElement>) {
-    resetModels();
+  function handleOpenAiUrlChange() {
+    resetCurrentModel();
+    openAiUrlChange?.();
+  }
+
+  async function handleIsCustomProviderChange(value: ChangeEvent<HTMLInputElement>) {
     setShowCustomProvider(value.currentTarget.checked);
+    await handleOpenAiUrlChange();
   }
 
   return (
@@ -69,7 +72,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               <label htmlFor="openAIUrl" className="label">AI Provider</label>
               <ValidableElement invalidText="Choose one of the providers" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <Select defaultValue={configuration?.openAiUrl} change={() => resetModels()} name="openAiUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
+                  <Select defaultValue={configuration?.openAiUrl} change={() => openAiUrlChange?.()} name="openAiUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>}
@@ -79,7 +82,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               </label>
               <ValidableElement invalidText="Invalid format, should be something like: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.openAiUrl} onChange={() => resetModels()} name="openAiUrl" id="openAiUrlCustom" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
+                  <input defaultValue={configuration?.openAiUrl} onChange={() => openAiUrlChange?.()} name="openAiUrl" id="openAiUrlCustom" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>}
@@ -97,12 +100,12 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               </ValidableElement>
             </fieldset>
 
-            {currentModels.length > 0 &&
+            {models.length > 0 &&
                 <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
-                  <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailable / model paid" isValid={isModelValid}>
+                  <ValidableElement invalidText="Did you choose correct availible model?" isValid={isModelValid}>
                     {({ className }) => (
-                      <Select defaultValue={configuration?.model} name="model" id="model" ref={modelRef} options={currentModels.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
+                      <Select defaultValue={configuration?.model} name="model" id="model" ref={modelRef} options={models.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}
                   </ValidableElement>
                 </fieldset>
