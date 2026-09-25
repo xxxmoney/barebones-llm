@@ -1,8 +1,9 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { ChevronDown, CircleQuestionMark, Save } from 'lucide-react';
-import { type SubmitEvent } from 'react';
+import { type SubmitEvent, useState } from 'react';
 import Select from './Select.tsx';
 import ValidableElement from './ValidableElement.tsx';
+import { PROVIDERS } from '../constants/configuration.constants.ts';
 
 export interface ConfigurationProps {
     configuration?: ConfigurationDto;
@@ -14,6 +15,8 @@ export interface ConfigurationProps {
 }
 
 function Configuration({ configuration, models, disabled, validationFields, update }: ConfigurationProps) {
+  const [showCustomProvider, setShowCustomProvider] = useState(false);
+
   const isOpenAiUrlValid = validationFields['openAiUrl'] ?? true;
   const isOpenAiTokenValid = validationFields['openAiToken'] ?? true;
   const isModelValid = validationFields['model'] ?? true;
@@ -34,6 +37,14 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     });
   }
 
+  function handleProviderChange(value: string) {
+    setShowCustomProvider(value === 'custom');
+
+    return Promise.resolve();
+  }
+
+  const providers = PROVIDERS.concat([{ label: 'Custom', value: 'custom' }]);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-80 gap-md">
@@ -47,15 +58,23 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             <legend className="fieldset-legend hidden">Main Settings</legend>
 
             <fieldset className="fieldset">
-              <label htmlFor="openAiUrl" className="label">
-                AI Provider Url
-              </label>
-              <ValidableElement invalidText="Invalid format, should be something like: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
+              <label htmlFor="openAIUrl" className="label">AI Provider</label>
+              <ValidableElement invalidText="Choose one of the providers" isValid={isModelValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
+                  <Select defaultValue={configuration?.openAiToken} name="openAIUrl" id="openAIUrl" options={providers} change={handleProviderChange} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>
+            {showCustomProvider && <fieldset className="fieldset">
+              <label htmlFor="openAiUrlCustom" className="label">
+                Custom AI Provider
+              </label>
+              <ValidableElement invalidText="Invalid format, should be something like: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
+                {({ className }) => (
+                  <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrlCustom" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
+                )}
+              </ValidableElement>
+            </fieldset>}
 
             <fieldset className="fieldset">
               <label htmlFor="openAiToken" className="label">
@@ -75,7 +94,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
                   <label htmlFor="model" className="label">Model</label>
                   <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailable / model paid" isValid={isModelValid}>
                     {({ className }) => (
-                      <Select defaultValue={configuration?.model} name="model" options={models} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
+                      <Select defaultValue={configuration?.model} name="model" id="model" options={models.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}
                   </ValidableElement>
                 </fieldset>
