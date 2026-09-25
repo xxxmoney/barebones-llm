@@ -32,3 +32,13 @@ html {
 .invalid-text {
     color: var(--color-error);
 }
+
+nav a.active {
+    @apply text-primary font-bold;
+}
+nav a:not(.active) {
+    @apply opacity-75;
+}
+nav a:hover {
+    @apply opacity-100;
+}

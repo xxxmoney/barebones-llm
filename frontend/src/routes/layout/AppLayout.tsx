@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router';
+import { NavLink, Outlet } from 'react-router';
 import { Toaster } from 'react-hot-toast';
 import { useChatStore } from '../../stores/chat.store.ts';
 import { useConfigurationStore } from '../../stores/configuration.store.ts';
@@ -35,26 +35,25 @@ function AppLayout() {
     <>
       <div className="w-full h-screen max-w-[1000px] mx-auto flex flex-col px-sm">
         <header className="grow-0 shrink-0">
-          <nav className="navbar justify-between p-0">
-            <div>
-              <Link to="/"><img src="/favicon.ico" alt="logo" className="rounded"/></Link>
-            </div>
-            <div>
-              <ul className="menu menu-horizontal">
-                {configuration?.isValid &&
-                    <li className="text-xl tooltip tooltip-bottom" data-tip="Chats">
-                      <Link to="/chats">
-                        <MessagesSquare />
-                      </Link>
+          <nav className="navbar p-0">
+            <ul className="menu menu-horizontal w-full">
+              <li className="tooltip tooltip-bottom" data-tip="Go to home page">
+                <NavLink className="link link-hover" to="/"><img src="/favicon.ico" alt="logo" className="rounded inline"/> BarebonesLLM</NavLink>
+              </li>
+              <div className="flex-1"></div>
+              {configuration?.isValid &&
+                    <li className="tooltip tooltip-bottom" data-tip="Explore your chats">
+                      <NavLink className="link link-hover" to="/chats">
+                        <MessagesSquare /> Chats
+                      </NavLink>
                     </li>
-                }
-                <li className="text-xl tooltip tooltip-bottom" data-tip="Settings">
-                  <Link to="/configuration">
-                    <Settings />
-                  </Link>
-                </li>
-              </ul>
-            </div>
+              }
+              <li className="tooltip tooltip-bottom" data-tip="Change your settings">
+                <NavLink className="link link-hover" to="/configuration">
+                  <Settings /> Settings
+                </NavLink>
+              </li>
+            </ul>
           </nav>
         </header>
 
