@@ -33,13 +33,13 @@ function AppLayout() {
 
   return (
     <>
-      <div className="container mx-auto h-screen flex flex-col px-sm">
+      <div className="w-full h-screen max-w-[1000px] mx-auto flex flex-col px-sm">
         <header className="grow-0 shrink-0">
-          <nav className="navbar p-0">
-            <div className="flex-1">
+          <nav className="navbar justify-between p-0">
+            <div>
               <Link to="/"><img src="/favicon.ico" alt="logo" className="rounded"/></Link>
             </div>
-            <div className="flex-none">
+            <div>
               <ul className="menu menu-horizontal">
                 {configuration?.isValid &&
                     <li className="text-xl tooltip tooltip-bottom" data-tip="Chats">
@@ -55,7 +55,6 @@ function AppLayout() {
                 </li>
               </ul>
             </div>
-            <div className="flex-1"></div>
           </nav>
         </header>
 

@@ -5,11 +5,15 @@ function HomeRoute() {
   return (
     <>
       <div className="hero h-full">
-        <div className="hero-content text-center">
+        <div className="hero-content">
           <div className="">
             <h1 className="text-heading">Bare<span className="font-extrabold">bones</span> LLM</h1>
-            <p className="py-lg">Let's chat with LLM - as simple as it can get</p>
-            <Link to="/chats" className="btn btn-primary">LET'S DO IT</Link>
+            <div className="flex items-start flex-col mt-lg mb-sm gap-xs">
+              <p>App to <em>simply chat with AI</em></p>
+              <p>Firstly, we need to <em>setup the connection</em>:</p>
+              <Link to="/chats" className="btn btn-primary">GETTING STARTED</Link>
+            </div>
+
           </div>
         </div>
       </div>
