@@ -1,5 +1,5 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
-import { Save } from 'lucide-react';
+import { ChevronDown, Save } from 'lucide-react';
 import { type SubmitEvent } from 'react';
 import Select from './Select.tsx';
 import ValidableElement from './ValidableElement.tsx';
@@ -38,7 +38,10 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     <>
       <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-80 gap-md">
         <details className="collapse collapse-open" open>
-          <summary className="collapse-title p-0">Main Settings</summary>
+          <summary className="collapse-title flex flex-row items-center justify-between p-0">
+            <span>Main Settings</span>
+            <ChevronDown />
+          </summary>
             
           <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Main Settings</legend>
@@ -76,7 +79,10 @@ function Configuration({ configuration, models, disabled, validationFields, upda
         </details>
 
         <details className="collapse">
-          <summary className="collapse-title p-0">Advanced</summary>
+          <summary className="collapse-title flex flex-row items-center justify-between p-0">
+            <span>Advanced</span>
+            <ChevronDown />
+          </summary>
 
           <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Advanced</legend>
@@ -103,7 +109,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
         </details>
 
         <button type="submit" data-tip="Save" disabled={disabled} className="btn btn-primary w-full tooltip">
-          <Save />
+          <Save/> Save
         </button>
       </form>
     </>
