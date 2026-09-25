@@ -15,7 +15,7 @@ export interface ConfigurationProps {
 }
 
 function Configuration({ configuration, models, disabled, validationFields, update }: ConfigurationProps) {
-  const [showCustomProvider, setShowCustomProvider] = useState(false);
+  const [showCustomProvider, setShowCustomProvider] = useState(configuration?.isCustomAiProvider ?? false);
 
   const isOpenAiUrlValid = validationFields['openAiUrl'] ?? true;
   const isOpenAiTokenValid = validationFields['openAiToken'] ?? true;
@@ -27,6 +27,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
+    console.log(formData);
 
     await update({
       openAiUrl: formData.get('openAiUrl') as string,
@@ -34,6 +35,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
       model: formData.get('model') as string,
       maxTokens: Number(formData.get('maxTokens')),
       temperature: Number(formData.get('temperature')),
+      isCustomAiProvider: formData.get('customAiProvider') === 'on',
     });
   }
 
@@ -57,9 +59,9 @@ function Configuration({ configuration, models, disabled, validationFields, upda
 
             {showCustomProvider || <fieldset className="fieldset">
               <label htmlFor="openAIUrl" className="label">AI Provider</label>
-              <ValidableElement invalidText="Choose one of the providers" isValid={isModelValid}>
+              <ValidableElement invalidText="Choose one of the providers" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <Select defaultValue={configuration?.openAiToken} name="openAIUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
+                  <Select defaultValue={configuration?.openAiToken} name="openAiUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>}
@@ -110,7 +112,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             <legend className="fieldset-legend hidden">Advanced</legend>
 
             <fieldset className="fieldset flex flex-row items-center gap-sm">
-              <input type="checkbox" id="customAiProvider" className="toggle" onChange={handleProviderChange} />
+              <input type="checkbox" id="customAiProvider" name="customAiProvider" className="toggle" onChange={handleProviderChange} />
               <label htmlFor="customAiProvider" className="label">Custom AI Provider</label>
             </fieldset>
 
