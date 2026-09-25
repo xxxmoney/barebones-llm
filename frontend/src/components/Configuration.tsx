@@ -1,5 +1,5 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
-import { ChevronDown, Save } from 'lucide-react';
+import { ChevronDown, CircleQuestionMark, Save } from 'lucide-react';
 import { type SubmitEvent } from 'react';
 import Select from './Select.tsx';
 import ValidableElement from './ValidableElement.tsx';
@@ -47,20 +47,25 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             <legend className="fieldset-legend hidden">Main Settings</legend>
 
             <fieldset className="fieldset">
-              <label htmlFor="openAiUrl" className="label">Url</label>
-              <ValidableElement invalidText="Invalid Url" invalidTooltip="Correct format: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
+              <label htmlFor="openAiUrl" className="label">
+                AI Provider Url
+              </label>
+              <ValidableElement invalidText="Invalid format, should be something like: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="Url" type="url" disabled={disabled} required className={`input ${className}`} />
+                  <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrl" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>
 
             <fieldset className="fieldset">
-              <label htmlFor="openAiToken" className="label">Token</label>
+              <label htmlFor="openAiToken" className="label">
+                AI Provider API Key
+                <a href="https://docs.jabref.org/ai/ai-providers-and-api-keys#how-to-get-an-api-key" className="tooltip tooltip-right" data-tip="Click for more details" target="_blank"><CircleQuestionMark className="inline size-4" /></a>
+              </label>
 
-              <ValidableElement invalidText="Invalid Token" invalidTooltip="Correct format: XQ.Ab8RN6OjJpZODvCFRY-pNyNam9bNLtsooaKKipEqWZ2bf5-DUw" isValid={isOpenAiTokenValid}>
+              <ValidableElement invalidText="Invalid format, should be something like: XQ.Ab8RN6OjJpZODvCFRY-pNyNam9bNLtsooaKKipEqWZ2bf5-DUw" isValid={isOpenAiTokenValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="Token" type="string" disabled={disabled} required className={`input ${className}`}  />
+                  <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="EX.Ed1RN7IjJpZODUcOXY-uNzNam2bHLtnereMKipBqWR5bf3-CBw" type="string" disabled={disabled} required className={`input ${className}`}  />
                 )}
               </ValidableElement>
             </fieldset>
@@ -88,20 +93,26 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             <legend className="fieldset-legend hidden">Advanced</legend>
 
             <fieldset className="fieldset">
-              <label htmlFor="maxTokens" className="label">Max Tokens</label>
+              <label htmlFor="maxTokens" className="label">
+                Chat Max Length (Tokens)
+                <a href="https://www.promptingguide.ai/introduction/settings" className="tooltip tooltip-right" data-tip="Click for more details" target="_blank"><CircleQuestionMark className="inline size-4" /></a>
+              </label>
 
               <ValidableElement invalidText="Invalid Max Tokens" invalidTooltip="Recommended around 4096" isValid={isMaxTokensValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="Max" type="number" disabled={disabled} required min="0" className={`input ${className}`} />
+                  <input defaultValue={configuration?.maxTokens} name="maxTokens" id="maxTokens" placeholder="4096" type="number" disabled={disabled} required min="0" className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>
 
             <fieldset className="fieldset">
-              <label htmlFor="temperature" className="label">Temperature</label>
+              <label htmlFor="temperature" className="label">
+                Model Temperature
+                <a href="https://www.promptingguide.ai/introduction/settings" className="tooltip tooltip-right" data-tip="Click for more details" target="_blank"><CircleQuestionMark className="inline size-4" /></a>
+              </label>
               <ValidableElement invalidText="Invalid Temperature" invalidTooltip="Recommended between 0.6 and 1.0" isValid={isTemperatureValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="Value" type="number" disabled={disabled} required min="0" max="1" step="0.1" className={`input ${className}`} />
+                  <input defaultValue={configuration?.temperature} name="temperature" id="temperature" placeholder="0.7" type="number" disabled={disabled} required min="0" max="1" step="0.1" className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>
