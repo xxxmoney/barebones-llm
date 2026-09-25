@@ -17,7 +17,7 @@ function ChatRoute() {
   const mappedMessages: Message[] | undefined = useMemo(() => messages?.map((message) => ({
     id: message.id,
     text: message.text,
-    position: message.role === 'user' ? 'start' : 'end',
+    position: message.role === 'user' ? 'end' : 'start',
     date: message.date
   })), [messages]);
 
