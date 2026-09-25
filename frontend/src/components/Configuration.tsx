@@ -1,6 +1,6 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { ChevronDown, CircleQuestionMark, Save } from 'lucide-react';
-import { type SubmitEvent, useState } from 'react';
+import { type ChangeEvent, type SubmitEvent, useState } from 'react';
 import Select from './Select.tsx';
 import ValidableElement from './ValidableElement.tsx';
 import { PROVIDERS } from '../constants/configuration.constants.ts';
@@ -37,13 +37,11 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     });
   }
 
-  function handleProviderChange(value: string) {
-    setShowCustomProvider(value === 'custom');
+  function handleProviderChange(value: ChangeEvent<HTMLInputElement>) {
+    setShowCustomProvider(value.currentTarget.checked);
 
     return Promise.resolve();
   }
-
-  const providers = PROVIDERS.concat([{ label: 'Custom', value: 'custom' }]);
 
   return (
     <>
@@ -57,14 +55,14 @@ function Configuration({ configuration, models, disabled, validationFields, upda
           <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Main Settings</legend>
 
-            <fieldset className="fieldset">
+            {showCustomProvider || <fieldset className="fieldset">
               <label htmlFor="openAIUrl" className="label">AI Provider</label>
               <ValidableElement invalidText="Choose one of the providers" isValid={isModelValid}>
                 {({ className }) => (
-                  <Select defaultValue={configuration?.openAiToken} name="openAIUrl" id="openAIUrl" options={providers} change={handleProviderChange} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
+                  <Select defaultValue={configuration?.openAiToken} name="openAIUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
-            </fieldset>
+            </fieldset>}
             {showCustomProvider && <fieldset className="fieldset">
               <label htmlFor="openAiUrlCustom" className="label">
                 Custom AI Provider
@@ -110,6 +108,11 @@ function Configuration({ configuration, models, disabled, validationFields, upda
 
           <fieldset className="fieldset collapse-content p-0 py-sm">
             <legend className="fieldset-legend hidden">Advanced</legend>
+
+            <fieldset className="fieldset flex flex-row items-center gap-sm">
+              <input type="checkbox" id="customAiProvider" className="toggle" onChange={handleProviderChange} />
+              <label htmlFor="customAiProvider" className="label">Custom AI Provider</label>
+            </fieldset>
 
             <fieldset className="fieldset">
               <label htmlFor="maxTokens" className="label">
