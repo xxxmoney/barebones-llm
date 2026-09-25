@@ -6,6 +6,7 @@ export interface ConfigurationDto {
     model?: string;
     maxTokens: number;
     temperature: number;
+    isCustomAiProvider: boolean;
 }
 
 export interface ConfigurationUpdateDto {
@@ -14,4 +15,5 @@ export interface ConfigurationUpdateDto {
     model?: string;
     maxTokens: number;
     temperature: number;
+    isCustomAiProvider: boolean;
 }

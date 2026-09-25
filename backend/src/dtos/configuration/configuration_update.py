@@ -6,4 +6,4 @@ class ConfigurationUpdateDto(BaseDto):
     model: str | None = None # Empty during setup up when no model is available
     max_tokens: int
     temperature: float
-    is_custom_ai_provider: bool
+    is_custom_ai_provider: bool = False

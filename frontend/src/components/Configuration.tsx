@@ -1,6 +1,6 @@
 import type { ConfigurationDto, ConfigurationUpdateDto } from '../dtos/configuration/configuration.dto.ts';
 import { ChevronDown, CircleQuestionMark, Save } from 'lucide-react';
-import { type ChangeEvent, type SubmitEvent, useState } from 'react';
+import { type ChangeEvent, type SubmitEvent, useRef, useState } from 'react';
 import Select from './Select.tsx';
 import ValidableElement from './ValidableElement.tsx';
 import { PROVIDERS } from '../constants/configuration.constants.ts';
@@ -15,7 +15,9 @@ export interface ConfigurationProps {
 }
 
 function Configuration({ configuration, models, disabled, validationFields, update }: ConfigurationProps) {
-  const [showCustomProvider, setShowCustomProvider] = useState(configuration?.isCustomAiProvider ?? false);
+  const modelRef = useRef<HTMLSelectElement>(null);
+  const [currentModels, setCurrentModels] = useState<string[]>(models);
+  const [showCustomProvider, setShowCustomProvider] = useState<boolean>(configuration?.isCustomAiProvider ?? false);
 
   const isOpenAiUrlValid = validationFields['openAiUrl'] ?? true;
   const isOpenAiTokenValid = validationFields['openAiToken'] ?? true;
@@ -27,7 +29,6 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    console.log(formData);
 
     await update({
       openAiUrl: formData.get('openAiUrl') as string,
@@ -39,10 +40,17 @@ function Configuration({ configuration, models, disabled, validationFields, upda
     });
   }
 
-  function handleProviderChange(value: ChangeEvent<HTMLInputElement>) {
-    setShowCustomProvider(value.currentTarget.checked);
+  function resetModels() {
+    if (modelRef.current) {
+      modelRef.current.value = '';
+    }
 
-    return Promise.resolve();
+    setCurrentModels([]);
+  }
+
+  function handleIsCustomProviderChange(value: ChangeEvent<HTMLInputElement>) {
+    resetModels();
+    setShowCustomProvider(value.currentTarget.checked);
   }
 
   return (
@@ -61,7 +69,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               <label htmlFor="openAIUrl" className="label">AI Provider</label>
               <ValidableElement invalidText="Choose one of the providers" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <Select defaultValue={configuration?.openAiToken} name="openAiUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
+                  <Select defaultValue={configuration?.openAiUrl} change={() => resetModels()} name="openAiUrl" id="openAIUrl" options={PROVIDERS} placeholder="Choose specific AI provider" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>}
@@ -71,7 +79,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               </label>
               <ValidableElement invalidText="Invalid format, should be something like: https://api.openai.com/v1/" isValid={isOpenAiUrlValid}>
                 {({ className }) => (
-                  <input defaultValue={configuration?.openAiUrl} name="openAiUrl" id="openAiUrlCustom" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
+                  <input defaultValue={configuration?.openAiUrl} onChange={() => resetModels()} name="openAiUrl" id="openAiUrlCustom" placeholder="https://api.openai.com/v1/" type="url" disabled={disabled} required className={`input ${className}`} />
                 )}
               </ValidableElement>
             </fieldset>}
@@ -89,12 +97,12 @@ function Configuration({ configuration, models, disabled, validationFields, upda
               </ValidableElement>
             </fieldset>
 
-            {models.length > 0 &&
+            {currentModels.length > 0 &&
                 <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
                   <ValidableElement invalidText="Invalid Model" invalidTooltip="Incorrect model name / model unavailable / model paid" isValid={isModelValid}>
                     {({ className }) => (
-                      <Select defaultValue={configuration?.model} name="model" id="model" options={models.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
+                      <Select defaultValue={configuration?.model} name="model" id="model" ref={modelRef} options={currentModels.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}
                   </ValidableElement>
                 </fieldset>
@@ -112,7 +120,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             <legend className="fieldset-legend hidden">Advanced</legend>
 
             <fieldset className="fieldset flex flex-row items-center gap-sm">
-              <input type="checkbox" id="customAiProvider" name="customAiProvider" className="toggle" onChange={handleProviderChange} />
+              <input type="checkbox" defaultChecked={configuration?.isCustomAiProvider} id="customAiProvider" name="customAiProvider" className="toggle" onChange={handleIsCustomProviderChange} />
               <label htmlFor="customAiProvider" className="label">Custom AI Provider</label>
             </fieldset>
 
