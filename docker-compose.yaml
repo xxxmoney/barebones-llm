@@ -17,6 +17,8 @@ services:
       - "WATCHFILES_FORCE_POLLING=true" # Fix for Windows file watching
     dns:
       - 8.8.8.8  # <--- Force Google DNS - fix on Windows
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Preserve host access to local machine
     
   frontend:
     build: "./frontend"
