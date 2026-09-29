@@ -3,23 +3,33 @@ import type { KeyboardEvent, ClipboardEvent, FocusEvent } from 'react';
 
 interface EditableTextProps {
    text?: string;
+   placeholder?: string;
    maxLength?: number;
-   allowEnterNewLine?: boolean;
+   allowShiftEnterNewLine?: boolean;
+   allowEnterSubmit?: boolean;
    allowPaste?: boolean;
    className?: string;
    update: (text: string) => Promise<void>;
    clear?: () => Promise<void>;
 }
 
-function EditableText({ text, maxLength, allowEnterNewLine, allowPaste, className, update, clear }: EditableTextProps) {
+function EditableText({ text, placeholder, maxLength, allowShiftEnterNewLine, allowEnterSubmit, allowPaste, className, update, clear }: EditableTextProps) {
   async function handleKeyDown(event: KeyboardEvent<HTMLSpanElement>) {
     const isWithinMaxLength = !maxLength || event.currentTarget.textContent.length <= maxLength;
     const isDelete = event.key === 'Backspace' || event.key === 'Delete';
     const isSelectAll = (event.ctrlKey || event.metaKey) && event.key === 'a';
     const isEnter = event.key === 'Enter';
+    const isShift = event.shiftKey;
+
+    if (allowEnterSubmit && isEnter && !isShift) {
+      event.preventDefault();
+      await update(event.currentTarget.innerText);
+
+      return;
+    }
 
     const preventInput = !isWithinMaxLength && !isDelete && !isSelectAll;
-    const preventEnter = !allowEnterNewLine && isEnter;
+    const preventEnter = !allowShiftEnterNewLine && isEnter && isShift;
     if (preventInput || preventEnter) {
       event.preventDefault();
     }
@@ -38,8 +48,8 @@ function EditableText({ text, maxLength, allowEnterNewLine, allowPaste, classNam
 
   return (
     <>
-      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`relative group ${className}`} contentEditable suppressContentEditableWarning>
-        <span dangerouslySetInnerHTML={{ __html: text! }} className="whitespace-pre-wrap" />
+      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`relative group ${className}`}>
+        <span dangerouslySetInnerHTML={{ __html: text! }} contentEditable suppressContentEditableWarning data-placeholder={placeholder || 'Enter text'} className="whitespace-pre-wrap empty:before:content-[attr(data-placeholder)]" />
         {clear && <Delete click={clear} absolute className="opacity-0 group-hover:opacity-100" />}
       </span>
     </>
