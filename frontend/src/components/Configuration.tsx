@@ -93,7 +93,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
                 <a href="https://docs.jabref.org/ai/ai-providers-and-api-keys#how-to-get-an-api-key" className="tooltip tooltip-right" data-tip="Click for more details" target="_blank"><CircleQuestionMark className="inline size-4" /></a>
               </label>
 
-              <ValidableElement invalidText="Invalid format, should be something like: XQ.Ab8RN6OjJpZODvCFRY-pNyNam9bNLtsooaKKipEqWZ2bf5-DUw" isValid={isOpenAiTokenValid}>
+              <ValidableElement invalidText="Invalid token, should be something like: XQ.Ab8RN6OjJpZODvCFRY-pNyNam9bNLtsooaKKipEqWZ2bf5-DUw" isValid={isOpenAiTokenValid}>
                 {({ className }) => (
                   <input defaultValue={configuration?.openAiToken} name="openAiToken" id="openAiToken" placeholder="EX.Ed1RN7IjJpZODUcOXY-uNzNam2bHLtnereMKipBqWR5bf3-CBw" type="string" disabled={disabled} required className={`input ${className}`}  />
                 )}
