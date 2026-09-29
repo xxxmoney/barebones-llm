@@ -103,7 +103,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
             {models.length > 0 &&
                 <fieldset className="fieldset">
                   <label htmlFor="model" className="label">Model</label>
-                  <ValidableElement invalidText="Did you choose correct availible model?" isValid={isModelValid}>
+                  <ValidableElement invalidText="Did you choose correct available model?" isValid={isModelValid}>
                     {({ className }) => (
                       <Select defaultValue={configuration?.model} name="model" id="model" ref={modelRef} options={models.map(model => ({ label: model, value: model }))} placeholder="Choose model" disabled={disabled} required className={`input ${className}`} />
                     )}
@@ -155,7 +155,7 @@ function Configuration({ configuration, models, disabled, validationFields, upda
         </details>
 
         <button type="submit" data-tip="Save" disabled={disabled} className="btn btn-primary w-full tooltip">
-          <Save/> Save
+          <Save/> Save and test connection
         </button>
       </form>
     </>
