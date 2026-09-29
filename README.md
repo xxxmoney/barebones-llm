@@ -10,6 +10,9 @@
 - Download: [GitHub Releases](https://github.com/xxxmoney/barebones-llm/releases)
 - Open
 
+## Note UX rework
+- UX rework is under way, so the tutorial videos may not be on par - will be making new ones
+
 ## Don't trust?
 - [VirustTotal](https://www.virustotal.com/gui/file-analysis/OGU4NzM3ODlhMTkwMGQ0NGZjZWQ2NmIzNGM0Nzc5YzM6MTc4ODA5OTc1NA==)
 
