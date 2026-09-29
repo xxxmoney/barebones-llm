@@ -35,7 +35,7 @@ function Chat({ name, nameMaxLength, messages, disabled = false, loading = false
 
         {loading && <Loading />}
 
-        <MemoTextSubmit disabled={disabled} submit={messageSubmit} placeholder={hasMessages ? 'How do you want to continue with conversation with AI?' : 'What do you want to ask AI about today?'} autoFocus />
+        <MemoTextSubmit disabled={disabled} submit={messageSubmit} placeholder={hasMessages ? 'How do you want to continue this conversation with AI?' : 'What do you want to ask AI about today?'} autoFocus />
       </section>
     </>
   );

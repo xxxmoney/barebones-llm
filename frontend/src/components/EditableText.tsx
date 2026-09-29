@@ -1,3 +1,4 @@
+import { PencilLine } from 'lucide-react';
 import Delete from './Delete.tsx';
 import type { KeyboardEvent, ClipboardEvent, FocusEvent } from 'react';
 
@@ -48,9 +49,15 @@ function EditableText({ text, placeholder, maxLength, allowShiftEnterNewLine, al
 
   return (
     <>
-      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`relative group ${className}`}>
+      <span onKeyDown={handleKeyDown} onPaste={handlePaste} onBlur={handleBlur} className={`inline-block relative group hover:cursor-text ${className}`}>
         <span dangerouslySetInnerHTML={{ __html: text! }} contentEditable suppressContentEditableWarning data-placeholder={placeholder || 'Enter text'} className="whitespace-pre-wrap empty:before:content-[attr(data-placeholder)]" />
         {clear && <Delete click={clear} absolute className="opacity-0 group-hover:opacity-100" />}
+
+        <div className="flex flex-row justify-start opacity-0 group-hover:opacity-100 left-0 top-0 -translate-x-2 translate-y-1">
+          <span data-tip="You can edit this text" className="tooltip tooltip-right">
+            <PencilLine />
+          </span>
+        </div>
       </span>
     </>
   );
