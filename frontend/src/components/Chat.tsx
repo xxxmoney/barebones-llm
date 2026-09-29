@@ -22,9 +22,11 @@ const MemoMessages = memo(Messages);
 const MemoTextSubmit = memo(TextSubmit);
 
 function Chat({ name, nameMaxLength, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate, chatDelete, messageDelete }: ChatProps) {
+  const hasMessages = messages && messages.length > 0;
+
   return (
     <>
-      <section className="mx-auto flex flex-col gap-lg max-w-[30rem]">
+      <section className="mx-auto flex flex-col gap-lg max-w-[35rem]">
         <h2 className="text-heading text-center">
           <MemoEditableText text={name} maxLength={nameMaxLength} update={chatUpdate} clear={chatDelete} allowEnterSubmit />
         </h2>
@@ -33,7 +35,7 @@ function Chat({ name, nameMaxLength, messages, disabled = false, loading = false
 
         {loading && <Loading />}
 
-        <MemoTextSubmit disabled={disabled} submit={messageSubmit} placeholder="What do you want to ask AI about today?" autoFocus />
+        <MemoTextSubmit disabled={disabled} submit={messageSubmit} placeholder={hasMessages ? 'How do you want to continue with conversation with AI?' : 'What do you want to ask AI about today?'} autoFocus />
       </section>
     </>
   );
