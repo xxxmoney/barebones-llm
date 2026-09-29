@@ -12,6 +12,9 @@ export default defineConfig({
         target: process.env.API_BASE_URL ?? 'http://localhost:5000',
         changeOrigin: true
       }
+    },
+    watch: {
+      usePolling: true, // Fix for windows file watching
     }
   }
 });

@@ -26,7 +26,7 @@ export function useConfigurationUpdate() {
       loading: 'Updating configuration...',
       success: 'Configuration updated!',
       error: 'Failed to update configuration'
-    }), [updateConfiguration]);
+    }), [updateConfiguration, isModelsLoaded, getModels, navigate]);
 
   return { handleUpdateConfiguration };
 }

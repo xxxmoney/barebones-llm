@@ -13,7 +13,8 @@ def get_configuration() -> ConfigurationModel:
                 open_ai_token=None,
                 model=None,
                 max_tokens=DEFAULT_MAX_TOKENS,
-                temperature=DEFAULT_TEMPERATURE
+                temperature=DEFAULT_TEMPERATURE,
+                is_custom_ai_provider=False
             )
 
         config = persistence.db[configuration_key]

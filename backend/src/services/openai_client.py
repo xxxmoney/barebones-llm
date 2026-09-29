@@ -75,12 +75,16 @@ class OpenAIClient:
             logger.warning(e.message)
 
             if e.code == "model_not_found":
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
             elif "max_tokens" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(max_tokens=False), error=e.message)
             elif "temperature" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(temperature=False), error=e.message)
             elif "model" in e.message:
-                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e)
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(model=False), error=e.message)
+            elif "auth" in e.message:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False), error=e.message)
+            else:
+                return ValidationDto(is_valid=False, fields=ValidationFieldsDto(open_ai_token=False, model=False), error=e.message)
 
         return ValidationDto(is_valid=True, fields=ValidationFieldsDto())

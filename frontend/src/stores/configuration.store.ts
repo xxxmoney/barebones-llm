@@ -13,6 +13,8 @@ interface ConfigurationStore {
 
   getConfiguration: () => Promise<ConfigurationDto>;
   updateConfiguration: (configurationUpdate: ConfigurationUpdateDto) => Promise<ValidableDto<ConfigurationDto>>;
+
+  setConfigurationInvalid: () => void;
 }
 
 export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((set) => ({
@@ -78,5 +80,13 @@ export const useConfigurationStore = create(devtools(immer<ConfigurationStore>((
         state.loading = false;
       });
     }
+  },
+
+  setConfigurationInvalid: () => {
+    set(state => {
+      if (state.configuration) {
+        state.configuration.isValid = false;
+      }
+    });
   }
 }))));

@@ -10,6 +10,8 @@ interface LlmStore {
     models: ModelDto[];
 
     getModels: () => Promise<ModelDto[]>;
+
+    resetModels: () => void;
 }
 
 export const useModelsStore = create(devtools(immer<LlmStore>((set) => ({
@@ -39,5 +41,12 @@ export const useModelsStore = create(devtools(immer<LlmStore>((set) => ({
         state.loading = false;
       });
     }
+  },
+
+  resetModels: () => {
+    set(state => {
+      state.models = [];
+      state.hasLoaded = false;
+    });
   }
 }))));

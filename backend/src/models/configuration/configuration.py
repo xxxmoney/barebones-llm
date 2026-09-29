@@ -7,3 +7,4 @@ class ConfigurationModel(BaseModel):
     model: str | None
     max_tokens: int
     temperature: float
+    is_custom_ai_provider: bool = False

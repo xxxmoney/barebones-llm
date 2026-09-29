@@ -30,15 +30,16 @@ function ChatListRoute() {
   return (
     <>
       <section className="flex flex-col gap-xl items-center">
-        <button onClick={create} className="btn btn-primary tooltip tooltip-right" data-tip="New">
-          <Plus />
+        <button onClick={create} className="btn btn-primary tooltip tooltip-right grow-0 shrink-0" data-tip="New">
+          <Plus /> Create New Chat
         </button>
 
-        <h2 className="text-lg">Chats:</h2>
-        <ul className="flex max-w-80 flex-col items-center gap-md">
+        <h2 className="text-lg grow-0 shrink-0">Choose from your chats:</h2>
+
+        <ul className="flex flex-col items-center gap-md grow-1 shrink-1">
           {chats.map((chat, index) =>
             <li key={chat.id} className="relative group">
-              <Link className={`btn btn-secondary tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
+              <Link className={`btn btn-primary tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
               <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
             </li>
           )}
