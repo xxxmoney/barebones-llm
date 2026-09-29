@@ -33,7 +33,7 @@ function AppLayout() {
 
   return (
     <>
-      <div className="w-full h-screen max-w-[1000px] mx-auto flex flex-col px-sm">
+      <div className="w-full h-full max-w-[1000px] mx-auto flex flex-col px-sm">
         <header className="grow-0 shrink-0">
           <nav className="navbar p-0">
             <ul className="menu menu-horizontal w-full">
@@ -57,7 +57,7 @@ function AppLayout() {
           </nav>
         </header>
 
-        <main className="grow-1 shrink-1 overflow-y-auto scrollbar-thin py-xl">
+        <main className="flex-grow-1 flex-shrink-1 overflow-y-auto scrollbar-thin py-xl">
           <Outlet />
         </main>
 
