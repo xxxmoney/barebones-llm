@@ -32,7 +32,7 @@ function TextSubmit({ disabled, placeholder, autoFocus, maxLength, submit }: Mes
   return (
     <>
       <form onSubmit={handleSubmit} className="w-full flex flex-row justify-center items-center gap-sm">
-        <input type="text" maxLength={maxLength} onChange={handleChange} disabled={disabled} value={text} placeholder={placeholder} className="input input-primary flex-1" autoFocus={autoFocus} />
+        <input type="text" maxLength={maxLength} onChange={handleChange} disabled={disabled} value={text} placeholder={placeholder} className="input input-primary flex-grow-1" autoFocus={autoFocus} />
 
         <button type="submit" disabled={disabled} data-tip="Send" className="btn btn-primary tooltip">
           <SendHorizontal /> Send

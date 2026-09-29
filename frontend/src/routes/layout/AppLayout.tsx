@@ -40,7 +40,7 @@ function AppLayout() {
               <li className="tooltip tooltip-bottom" data-tip="Go to home page">
                 <NavLink className="link link-hover" to="/"><img src="/favicon.ico" alt="logo" className="rounded inline"/> BarebonesLLM</NavLink>
               </li>
-              <div className="flex-1"></div>
+              <div className="flex-grow-1"></div>
               {configuration?.isValid &&
                     <li className="tooltip tooltip-bottom" data-tip="Explore your chats">
                       <NavLink className="link link-hover" to="/chats">
