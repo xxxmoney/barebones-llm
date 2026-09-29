@@ -59,10 +59,10 @@ function Configuration({ configuration, models, disabled, validationFields, upda
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-80 gap-md">
-        <details className="collapse collapse-open" open>
+        <details className="group collapse collapse-open" open>
           <summary className="collapse-title flex flex-row items-center justify-between p-0">
             <span>Main Settings</span>
-            <ChevronDown />
+            <ChevronDown className="transition-transform group-open:rotate-180" />
           </summary>
             
           <fieldset className="fieldset collapse-content p-0 py-sm">
@@ -113,10 +113,10 @@ function Configuration({ configuration, models, disabled, validationFields, upda
           </fieldset>
         </details>
 
-        <details className="collapse">
+        <details className="group collapse">
           <summary className="collapse-title flex flex-row items-center justify-between p-0">
             <span>Advanced</span>
-            <ChevronDown />
+            <ChevronDown className="transition-transform group-open:rotate-180" />
           </summary>
 
           <fieldset className="fieldset collapse-content p-0 py-sm">

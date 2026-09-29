@@ -54,7 +54,7 @@ function EditableText({ text, placeholder, maxLength, allowShiftEnterNewLine, al
         {clear && <Delete click={clear} absolute className="opacity-0 group-hover:opacity-100" />}
 
         <div className="flex flex-row justify-start opacity-0 group-hover:opacity-100 left-0 top-0 -translate-x-2 translate-y-1">
-          <span data-tip="You can edit this text" className="tooltip tooltip-right">
+          <span data-tip="You can edit this" className="tooltip tooltip-right">
             <PencilLine />
           </span>
         </div>
