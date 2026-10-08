@@ -1,25 +1,19 @@
 
 # Barebones LLM
 
-## Another LLM Client?
-- This *dead* simple
-- Download, run, set **url**, **token**, **model**, chat
-- No long setup
+BarebonesLLM is an AI client with a goal to simply and easily allow chatting with chosen AI model.
+Running locally, you can choose remote AI providers or even your local one.
 
-## How start?
-- Download: [GitHub Releases](https://github.com/xxxmoney/barebones-llm/releases)
-- Open
+## Getting started
+- Download and open: [GitHub Releases](https://github.com/xxxmoney/barebones-llm/releases)
 
-## Note UX rework
-- UX rework is under way, so the tutorial videos may not be on par - will be making new ones
+## Note: UX rework
+- New videos to address the current UX rework are work in progress
 
-## Don't trust?
-- [VirustTotal](https://www.virustotal.com/gui/file-analysis/OGU4NzM3ODlhMTkwMGQ0NGZjZWQ2NmIzNGM0Nzc5YzM6MTc4ODA5OTc1NA==)
-
-## First time?
+## Videos to get you started easily
 <video src="https://github.com/user-attachments/assets/903a7dc0-fe63-42a8-a3c8-b431b47b62bc" autoplay loop muted playsinline width="100%"></video>
 
-## LLM support?
+## Supported AI Providers
 - Remote  
     - [OpenRouter](https://openrouter.ai/workspaces/default/keys)
         - `https://openrouter.ai/api/v1/`
@@ -32,19 +26,19 @@
     - [LM Studio](https://lmstudio.ai)
     - [TextGen](https://github.com/oobabooga/textgen)
 
-## Usage?
+## Usage
 <video src="https://github.com/user-attachments/assets/c9d6715c-582f-411f-8fda-a83eba17377b" autoplay loop muted playsinline width="100%"></video>
 <video src="https://github.com/user-attachments/assets/4e077c8d-c7ef-4552-9b38-4aa82be4fa90" autoplay loop muted playsinline width="100%"></video>
 <video src="https://github.com/user-attachments/assets/9d30afc2-08f8-4980-8fd7-0c1d4253f03b" autoplay loop muted playsinline width="100%"></video>
 
-## Local develop?
+## Developing locally
 - Runing with Docker
     - `docker compose up -d --build`
 - Running locally
     - Check `/frontend` and `/backend` READMEs
 
-## Roadmap?
-- Progress here: [Trello](https://trello.com/b/wU1YRHXb)
+## Roadmap
+- [Trello](https://trello.com/b/wU1YRHXb)
 
-## Tech stack?
+## Tech stack
 - Python (FastAPI, pywebview, pyinstaller), React (TypeScript, Axios, Zustand, Immer, DaisyUI, TailwindCSS)
