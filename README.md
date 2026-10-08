@@ -1,17 +1,17 @@
 
 # Barebones LLM
 
-BarebonesLLM is an AI client with a goal to simply and easily allow chatting with chosen AI model.
-Running locally, you can choose remote AI providers or even your local one.
+A fast, lightweight, and private desktop client for your favorite AI models.
+
+**BarebonesLLM** is a minimalist AI chat interface designed for simplicity. Whether you want to plug in a cloud API key (OpenAI, Google) or chat completely offline with a local model (Ollama, LM Studio). 
+
+BarebonesLLM provides a clean, native desktop experience with zero tracking and zero subscriptions.
 
 ## Getting started
 - Download and open: [GitHub Releases](https://github.com/xxxmoney/barebones-llm/releases)
 
 ## Note: UX rework
 - New videos to address the current UX rework are work in progress
-
-## Videos to get you started easily
-<video src="https://github.com/user-attachments/assets/903a7dc0-fe63-42a8-a3c8-b431b47b62bc" autoplay loop muted playsinline width="100%"></video>
 
 ## Supported AI Providers
 - Remote  
@@ -25,6 +25,9 @@ Running locally, you can choose remote AI providers or even your local one.
 - Local
     - [LM Studio](https://lmstudio.ai)
     - [TextGen](https://github.com/oobabooga/textgen)
+
+## Setting up
+<video src="https://github.com/user-attachments/assets/903a7dc0-fe63-42a8-a3c8-b431b47b62bc" autoplay loop muted playsinline width="100%"></video>
 
 ## Usage
 <video src="https://github.com/user-attachments/assets/c9d6715c-582f-411f-8fda-a83eba17377b" autoplay loop muted playsinline width="100%"></video>
