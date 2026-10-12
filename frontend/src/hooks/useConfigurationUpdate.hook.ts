@@ -20,7 +20,7 @@ export function useConfigurationUpdate() {
       }
 
       if (data.validation.isValid) {
-        await navigate('/chats');
+        await navigate('/chat');
       }
     }, {
       loading: 'Updating configuration...',

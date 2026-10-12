@@ -24,7 +24,7 @@ export function useChatUpdate(id?: string) {
       const deleteChatPromise = deleteChat(id!);
       await toast.promise(async () => {
         await deleteChatPromise;
-        await navigate('/chats');
+        await navigate('/chat');
       }, {
         loading: 'Deleting chat...',
         success: 'Chat deleted!',

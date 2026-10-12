@@ -14,13 +14,13 @@ function HomeRoute() {
             <h1 className="text-heading">Bare<span className="font-extrabold">bones</span> LLM</h1>
             <div className="flex items-start flex-col gap-xs">
               <p>App to <em>{configuration?.isValid ?
-                <Link to="/chats" className="link link-hover">simply chat with AI</Link> :
+                <Link to="/chat" className="link link-hover">simply chat with AI</Link> :
                 <span>simply chat with AI</span>}</em>
               </p>
               {configuration?.isValid || <p>Firstly, we need to <em><Link to="/configuration" className="link link-hover">set up connection</Link></em>:</p>}
             </div>
             <div className="flex items-start flex-row gap-md">
-              {configuration?.isValid && <Link to="/chats" className="btn btn-primary"><MessagesSquare /> Let's chat</Link>}
+              {configuration?.isValid && <Link to="/chat" className="btn btn-primary"><MessagesSquare /> Let's chat</Link>}
               <Link to="/configuration" className="btn btn-primary"><Settings /> Set up connection</Link>
             </div>
           </div>

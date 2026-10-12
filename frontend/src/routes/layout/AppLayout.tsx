@@ -43,8 +43,8 @@ function AppLayout() {
               <div className="flex-grow-1"></div>
               {configuration?.isValid &&
                     <li className="tooltip tooltip-bottom" data-tip="Explore your chats">
-                      <NavLink className="link link-hover" to="/chats">
-                        <MessagesSquare /> Chats
+                      <NavLink className="link link-hover" to="/chat">
+                        <MessagesSquare /> Chat
                       </NavLink>
                     </li>
               }

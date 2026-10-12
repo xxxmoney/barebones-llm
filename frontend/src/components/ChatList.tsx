@@ -1,10 +1,11 @@
-﻿import { useChatStore } from '../../stores/chat.store.ts';
+import { useChatStore } from '../stores/chat.store.ts';
 import { Link, useNavigate } from 'react-router';
-import { DEFAULT_NAME } from '../../constants/chat.constants.ts';
-import Delete from '../../components/Delete.tsx';
+import { DEFAULT_NAME } from '../constants/chat.constants.ts';
+import Delete from '../components/Delete.tsx';
 import { Plus } from 'lucide-react';
+import type { ComponentProps } from 'react';
 
-function ChatListRoute() {
+function ChatList({ ...rest }: ComponentProps<'section'>) {
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
   const insertChat = useChatStore(state => state.insertChat);
@@ -29,7 +30,7 @@ function ChatListRoute() {
 
   return (
     <>
-      <section className="flex flex-col gap-xl items-center">
+      <section {...rest} className={`flex flex-col gap-xl items-center px-lg ${rest.className}`}>
         <button onClick={create} className="btn btn-primary tooltip tooltip-right grow-0 shrink-0" data-tip="New">
           <Plus /> Create New Chat
         </button>
@@ -49,4 +50,4 @@ function ChatListRoute() {
   );
 }
 
-export default ChatListRoute;
+export default ChatList;
