@@ -39,12 +39,12 @@ html, body, #root {
     color: var(--color-error);
 }
 
-nav a.active {
+.link.active {
     @apply text-primary font-bold;
 }
-nav a:not(.active) {
+.link:not(.active) {
     @apply opacity-90;
 }
-nav a:hover {
+.link:hover {
     @apply opacity-100;
 }

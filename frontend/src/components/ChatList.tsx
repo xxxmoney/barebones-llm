@@ -1,5 +1,5 @@
 import { useChatStore } from '../stores/chat.store.ts';
-import { Link, useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { DEFAULT_NAME } from '../constants/chat.constants.ts';
 import Delete from '../components/Delete.tsx';
 import { Plus } from 'lucide-react';
@@ -40,7 +40,7 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
         <ul className="flex flex-col items-center gap-md grow-1 shrink-1">
           {chats.map((chat, index) =>
             <li key={chat.id} className="relative group">
-              <Link className={`btn btn-primary tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</Link>
+              <NavLink className={`link link-hover tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</NavLink>
               <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
             </li>
           )}
