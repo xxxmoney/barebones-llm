@@ -26,7 +26,7 @@ function Chat({ name, nameMaxLength, messages, disabled = false, loading = false
 
   return (
     <>
-      <section className="mx-auto flex flex-col gap-lg max-w-[35rem]" {...rest}>
+      <section {...rest} className={`mx-auto flex flex-col gap-md max-w-[35rem] ${rest.className}`}>
         <h2 className="text-heading text-center">
           <MemoEditableText text={name} maxLength={nameMaxLength} update={chatUpdate} clear={chatDelete} allowEnterSubmit />
         </h2>
