@@ -2,9 +2,9 @@ import Messages, { type Message } from './Messages.tsx';
 import TextSubmit from './TextSubmit.tsx';
 import Loading from './Loading.tsx';
 import EditableText from './EditableText.tsx';
-import { memo } from 'react';
+import { memo, type ComponentProps } from 'react';
 
-interface ChatProps {
+interface ChatProps extends ComponentProps<'section'> {
     name?: string;
     nameMaxLength?: number;
     messages?: Message[];
@@ -21,12 +21,12 @@ const MemoEditableText = memo(EditableText);
 const MemoMessages = memo(Messages);
 const MemoTextSubmit = memo(TextSubmit);
 
-function Chat({ name, nameMaxLength, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate, chatDelete, messageDelete }: ChatProps) {
+function Chat({ name, nameMaxLength, messages, disabled = false, loading = false, messageSubmit, messageUpdate, chatUpdate, chatDelete, messageDelete, ...rest }: ChatProps) {
   const hasMessages = messages && messages.length > 0;
 
   return (
     <>
-      <section className="mx-auto flex flex-col gap-lg max-w-[35rem]">
+      <section {...rest} className={`mx-auto flex flex-col gap-md max-w-[40rem] ${rest.className}`}>
         <h2 className="text-heading text-center">
           <MemoEditableText text={name} maxLength={nameMaxLength} update={chatUpdate} clear={chatDelete} allowEnterSubmit />
         </h2>

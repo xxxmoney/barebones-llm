@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { useChatUpdate } from '../../hooks/useChatUpdate.hook.ts';
 import { useMessageUpdate } from '../../hooks/useMessageUpdate.hook.ts';
 import { NAME_MAX_LENGTH } from '../../constants/chat.constants.ts';
+import ChatList from '../../components/ChatList.tsx';
 
 function ChatRoute() {
   const { id } = useParams();
@@ -32,14 +33,21 @@ function ChatRoute() {
   }, [id, getMessages]);
 
   return (
-    <Chat
-      name={name} nameMaxLength={NAME_MAX_LENGTH}
-      messages={mappedMessages}
-      disabled={loading}
-      loading={loading}
-      chatUpdate={handleUpdateChat} chatDelete={handleDeleteChat}
-      messageSubmit={handleSubmitMessage} messageUpdate={handleUpdateMessage} messageDelete={handleDeleteMessage}
-    />
+    <>
+      <div className="flex flex-row gap-lg">
+        <ChatList className="grow-0 shrink-0" />
+
+        {id && <Chat
+          name={name} nameMaxLength={NAME_MAX_LENGTH}
+          messages={mappedMessages}
+          disabled={loading}
+          loading={loading}
+          chatUpdate={handleUpdateChat} chatDelete={handleDeleteChat}
+          messageSubmit={handleSubmitMessage} messageUpdate={handleUpdateMessage} messageDelete={handleDeleteMessage}
+          className="grow-1"
+        />}
+      </div>
+    </>
   );
 }
 
