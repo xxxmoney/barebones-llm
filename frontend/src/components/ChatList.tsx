@@ -36,24 +36,24 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
 
   return (
     <>
-      <div className="px-md flex flex-col items-center gap-sm">
-        <div className="self-stretch flex flex-row gap-md">
+      <div className={`px-md flex flex-col items-center gap-sm ${rest.className}`}>
+        <div className={`self-stretch flex gap-md ${isHidden ? 'flex-col' : 'flex-row'}`}>
           <button onClick={toggleHidden} className="cursor-pointer tooltip tooltip-right grow-0 shrink-0" data-tip={isHidden ? 'Show' : 'Hide'}>
             <Menu />
           </button>
 
-          <div className={`min-w-[1px] h-full bg-base-content ${isHidden && 'hidden'}`}/>
+          <div className={`bg-base-content ${isHidden ? 'min-h-[1px] w-full' : 'min-w-[1px] h-full'}`}/>
 
-          <button onClick={create} className={`cursor-pointer tooltip tooltip-right ${isHidden && 'hidden'}`} data-tip="New">
+          <button onClick={create} className="cursor-pointer tooltip tooltip-right" data-tip="New">
             <Plus />
           </button>
         </div>
 
-        <div className={`min-w-[8rem] ${isHidden && 'hidden'}`}>
+        <div className={`min-w-[8rem] ${isHidden ? 'hidden' : ''}`}>
           <hr className="min-h-[1px] bg-base-content border-none" />
         </div>
 
-        <section {...rest} className={`flex flex-col gap-sm ${isHidden && 'hidden'} ${rest.className}`}>
+        <section {...rest} className={`flex flex-col gap-sm ${isHidden ? 'hidden' : ''}`}>
           <h2 className="self-stretch text-lg text-center grow-0 shrink-0">Chats:</h2>
 
           <ul className="flex flex-col items-center gap-md">
