@@ -24,6 +24,7 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
   async function remove(chatId: string) {
     try {
       await deleteChat(chatId);
+      await navigate('/chat/');
     } catch(error) {
       console.error('Error deleting chat:', error);
     }
