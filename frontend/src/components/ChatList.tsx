@@ -5,7 +5,7 @@ import Delete from '../components/Delete.tsx';
 import { Menu, Plus } from 'lucide-react';
 import { type ComponentProps, useState } from 'react';
 
-function ChatList({ ...rest }: ComponentProps<'section'>) {
+function ChatList({ ...rest }: ComponentProps<'div'>) {
   const [isHidden, setIsHidden] = useState<boolean>(false);
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
@@ -36,7 +36,7 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
 
   return (
     <>
-      <div className={`px-md flex flex-col items-center gap-sm ${rest.className}`}>
+      <div {...rest} className={`px-md flex flex-col items-center gap-sm ${rest.className}`}>
         <div className={`self-stretch flex gap-md ${isHidden ? 'flex-col' : 'flex-row'}`}>
           <button onClick={toggleHidden} className="cursor-pointer tooltip tooltip-right grow-0 shrink-0" data-tip={isHidden ? 'Show' : 'Hide'}>
             <Menu />
@@ -53,7 +53,7 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
           <hr className="min-h-[1px] bg-base-content border-none" />
         </div>
 
-        <section {...rest} className={`flex flex-col gap-sm ${isHidden ? 'hidden' : ''}`}>
+        <section className={`flex flex-col gap-sm ${isHidden ? 'hidden' : ''}`}>
           <h2 className="self-stretch text-lg text-center grow-0 shrink-0">Chats:</h2>
 
           <ul className="flex flex-col items-center gap-md">
