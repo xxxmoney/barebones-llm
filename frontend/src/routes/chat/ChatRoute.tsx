@@ -35,7 +35,7 @@ function ChatRoute() {
   return (
     <>
       <div className="flex flex-row gap-lg">
-        <ChatList className="flex-1" />
+        <ChatList className="grow-0 shrink-0" />
 
         {id && <Chat
           name={name} nameMaxLength={NAME_MAX_LENGTH}

@@ -2,10 +2,11 @@ import { useChatStore } from '../stores/chat.store.ts';
 import { NavLink, useNavigate } from 'react-router';
 import { DEFAULT_NAME } from '../constants/chat.constants.ts';
 import Delete from '../components/Delete.tsx';
-import { Plus } from 'lucide-react';
-import type { ComponentProps } from 'react';
+import { Menu, Plus } from 'lucide-react';
+import { type ComponentProps, useState } from 'react';
 
 function ChatList({ ...rest }: ComponentProps<'section'>) {
+  const [isHidden, setIsHidden] = useState<boolean>(false);
   const navigate = useNavigate();
   const chats = useChatStore(state => state.chats);
   const insertChat = useChatStore(state => state.insertChat);
@@ -28,24 +29,43 @@ function ChatList({ ...rest }: ComponentProps<'section'>) {
     }
   }
 
+  function toggleHidden() {
+    setIsHidden(!isHidden);
+  }
+
   return (
     <>
-      <section {...rest} className={`flex flex-col gap-xl items-center px-lg ${rest.className}`}>
-        <button onClick={create} className="btn btn-primary tooltip tooltip-right grow-0 shrink-0" data-tip="New">
-          <Plus /> Create New Chat
-        </button>
+      <div className="px-md flex flex-col items-center gap-sm">
+        <div className="self-stretch flex flex-row gap-md">
+          <button onClick={toggleHidden} className="cursor-pointer tooltip tooltip-right grow-0 shrink-0" data-tip={isHidden ? 'Show' : 'Hide'}>
+            <Menu />
+          </button>
 
-        <h2 className="text-lg grow-0 shrink-0">Choose from your chats:</h2>
+          <div className={`min-w-[1px] h-full bg-base-content ${isHidden && 'hidden'}`}/>
 
-        <ul className="flex flex-col items-center gap-md grow-1 shrink-1">
-          {chats.map((chat, index) =>
-            <li key={chat.id} className="relative group">
-              <NavLink className={`link link-hover tooltip ${index % 2 == 0 ? 'tooltip-left' : 'tooltip-right'}`} data-tip="Open" to={`/chat/${chat.id}`}>{chat.name}</NavLink>
-              <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
-            </li>
-          )}
-        </ul>
-      </section>
+          <button onClick={create} className={`cursor-pointer tooltip tooltip-right ${isHidden && 'hidden'}`} data-tip="New">
+            <Plus />
+          </button>
+        </div>
+
+        <div className={`min-w-[8rem] ${isHidden && 'hidden'}`}>
+          <hr className="min-h-[1px] bg-base-content border-none" />
+        </div>
+
+        <section {...rest} className={`flex flex-col gap-sm ${isHidden && 'hidden'} ${rest.className}`}>
+          <h2 className="self-stretch text-lg text-center grow-0 shrink-0">Chats:</h2>
+
+          <ul className="flex flex-col items-center gap-md">
+            {chats.map(chat =>
+              <li key={chat.id} className="relative group">
+                <NavLink className="link link-hover" to={`/chat/${chat.id}`}>{chat.name}</NavLink>
+                <Delete click={() => remove(chat.id)} absolute className="opacity-0 group-hover:opacity-100" />
+              </li>
+            )}
+          </ul>
+        </section>
+      </div>
+
     </>
   );
 }

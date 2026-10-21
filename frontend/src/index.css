@@ -28,7 +28,7 @@ html, body, #root {
 }
 
 .text-heading {
-    @apply text-5xl font-bold;
+    @apply text-4xl font-bold;
 }
 
 .invalid-input {
