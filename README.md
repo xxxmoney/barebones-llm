@@ -21,10 +21,10 @@ BarebonesLLM provides a clean, native desktop experience with zero tracking and 
     - [TextGen](https://github.com/oobabooga/textgen)
 
 ## Setting up
-<video src="https://github.com/user-attachments/assets/c54c7274-be3a-4fd5-a753-06743c286ab7" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/4938460d-fd09-4904-9289-77df8fb13de1" autoplay loop muted playsinline width="100%"></video>
 
 ## Usage
-<video src="https://github.com/user-attachments/assets/238fd94d-1729-4bc6-9cae-573666fee494" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/5000e5da-b4cd-47d9-87e5-cbeab5436c4b" autoplay loop muted playsinline width="100%"></video>
 
 ## Developing locally
 - Runing with Docker
@@ -37,3 +37,5 @@ BarebonesLLM provides a clean, native desktop experience with zero tracking and 
 
 ## Tech stack
 - Python (FastAPI, pywebview, pyinstaller), React (TypeScript, Axios, Zustand, Immer, DaisyUI, TailwindCSS)
+
+
