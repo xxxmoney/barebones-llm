@@ -59,7 +59,8 @@ def submit_message(chat_id: UUID, message: MessageUpdateDto) -> List[MessageDto]
     chat = chat_repository.get_chat(chat_id)
 
     current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
-    user_message = {"content": CONTINUE_PROMPT if message.text == "" else message.text, "role": ROLE_USER}
+    text = CONTINUE_PROMPT if message.text == "" else message.text
+    user_message = {"content": text, "role": ROLE_USER}
     logger.debug("Submitting message %s for chat %s", json.dumps(user_message), chat_id)
 
     completion = llm_service.create_completion(CompletionRequestDto(messages=[*current_messages, user_message]))
