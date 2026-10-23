@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, UTC
 from typing import List
 from uuid import UUID, uuid4
@@ -59,6 +60,7 @@ def submit_message(chat_id: UUID, message: MessageUpdateDto) -> List[MessageDto]
 
     current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
     user_message = {"content": message.text, "role": ROLE_USER}
+    logger.debug("Submitting message %s for chat %s", json.dumps(user_message), chat_id)
 
     completion = llm_service.create_completion(CompletionRequestDto(messages=[*current_messages, user_message]))
 
