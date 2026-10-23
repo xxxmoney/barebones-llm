@@ -29,4 +29,5 @@ def update_configuration(configuration: ConfigurationModel) -> ConfigurationMode
 
 def delete_configuration() -> None:
     with Persistence() as persistence:
-        persistence.db.pop(configuration_key)
+        if configuration_key in persistence.db.keys():
+            persistence.db.pop(configuration_key)

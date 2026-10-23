@@ -1,8 +1,9 @@
+import json
 from datetime import datetime, UTC
 from typing import List
 from uuid import UUID, uuid4
 import logging
-from src.constants.llm_constants import ROLE_USER, ROLE_ASSISTANT
+from src.constants.llm_constants import ROLE_USER, ROLE_ASSISTANT, CONTINUE_PROMPT
 from src.dtos.chat.chat import ChatDto
 from src.dtos.chat.chat_update import ChatUpdateDto
 from src.dtos.chat.message import MessageDto
@@ -57,14 +58,16 @@ def delete_chat(chat_id: UUID) -> UUID:
 def submit_message(chat_id: UUID, message: MessageUpdateDto) -> List[MessageDto]:
     chat = chat_repository.get_chat(chat_id)
 
-    current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
-    user_message = {"content": message.text, "role": ROLE_USER}
+    text = CONTINUE_PROMPT if message.text == "" else message.text
+    current_messages = [{"content": text, "role": message.role} for message in chat.messages]
+    user_message = {"content": text, "role": ROLE_USER}
+    logger.debug("Submitting message %s for chat %s", json.dumps(user_message), chat_id)
 
     completion = llm_service.create_completion(CompletionRequestDto(messages=[*current_messages, user_message]))
 
     logger.debug("Inserting submitted messages for chat %s...", chat_id)
     messages = insert_messages(chat_id, [
-        MessageUpdateDto(text=message.text, role=ROLE_USER),
+        MessageUpdateDto(text=text, role=ROLE_USER),
         MessageUpdateDto(text=completion.text, role=ROLE_ASSISTANT),
     ])
     logger.debug("Inserted submitted messages for chat %s...", chat_id)

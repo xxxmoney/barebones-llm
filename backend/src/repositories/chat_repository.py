@@ -1,3 +1,4 @@
+import _pickle
 import uuid
 from uuid import UUID
 from typing import List, Callable
@@ -122,5 +123,11 @@ def delete_chat_messages(chat_id: UUID, message_ids: List[UUID]) -> List[UUID]:
     return deleted
 
 def _check_chats(persistence: Persistence) -> None:
-    if chats_key not in persistence.db.keys():
+    try:
+        if chats_key not in persistence.db.keys():
+            persistence.db[chats_key] = []
+        else:
+            _ = persistence.db[chats_key] # Force read to check for validity
+    except (_pickle.UnpicklingError, EOFError, KeyError):
         persistence.db[chats_key] = []
+        
