@@ -59,7 +59,7 @@ function ChatRoute() {
         />}
 
         {!id && <div className="flex-grow-1 flex flex-row justify-center pt-lg">
-          <button onClick={create} className="btn btn-primary">New Chat</button>
+          <button onClick={create} className="btn btn-primary">Create New Chat</button>
         </div>}
       </div>
     </>
