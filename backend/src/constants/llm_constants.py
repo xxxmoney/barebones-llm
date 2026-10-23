@@ -8,3 +8,5 @@ ROLE_USER = "user"
 ROLE_ASSISTANT = "assistant"
 
 TEST_PROMPT = "Strictly respond only with text 'OK'"
+
+CONTINUE_PROMPT = "Continue"
