@@ -58,8 +58,8 @@ def delete_chat(chat_id: UUID) -> UUID:
 def submit_message(chat_id: UUID, message: MessageUpdateDto) -> List[MessageDto]:
     chat = chat_repository.get_chat(chat_id)
 
-    current_messages = [{"content": message.text, "role": message.role} for message in chat.messages]
     text = CONTINUE_PROMPT if message.text == "" else message.text
+    current_messages = [{"content": text, "role": message.role} for message in chat.messages]
     user_message = {"content": text, "role": ROLE_USER}
     logger.debug("Submitting message %s for chat %s", json.dumps(user_message), chat_id)
 
@@ -67,7 +67,7 @@ def submit_message(chat_id: UUID, message: MessageUpdateDto) -> List[MessageDto]
 
     logger.debug("Inserting submitted messages for chat %s...", chat_id)
     messages = insert_messages(chat_id, [
-        MessageUpdateDto(text=message.text, role=ROLE_USER),
+        MessageUpdateDto(text=text, role=ROLE_USER),
         MessageUpdateDto(text=completion.text, role=ROLE_ASSISTANT),
     ])
     logger.debug("Inserted submitted messages for chat %s...", chat_id)
