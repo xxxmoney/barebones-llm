@@ -21,10 +21,10 @@ BarebonesLLM provides a clean, native desktop experience with zero tracking and 
     - [TextGen](https://github.com/oobabooga/textgen)
 
 ## Setting up
-<video src="https://github.com/user-attachments/assets/4938460d-fd09-4904-9289-77df8fb13de1" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/61245332/682827782-4938460d-fd09-4904-9289-77df8fb13de1.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20261029%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261029T140755Z&X-Amz-Expires=300&X-Amz-Signature=4677c70ceee7ef28918c3686f64a9b69db9b7841a734bcf4be9ee8adac868650&X-Amz-SignedHeaders=host&response-content-type=video%2Fmp4" autoplay loop muted playsinline width="100%"></video>
 
 ## Usage
-<video src="https://github.com/user-attachments/assets/5000e5da-b4cd-47d9-87e5-cbeab5436c4b" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/61245332/682827930-5000e5da-b4cd-47d9-87e5-cbeab5436c4b.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20261029%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261029T140613Z&X-Amz-Expires=300&X-Amz-Signature=a8913734e20139afc02c7dc2291af1d5111e8732424ba9608295c6ed35673d5f&X-Amz-SignedHeaders=host&response-content-type=video%2Fmp4" autoplay loop muted playsinline width="100%"></video>
 
 ## Developing locally
 - Runing with Docker
